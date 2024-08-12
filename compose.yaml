@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  mysql:
+    image: 'mysql:latest'
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DATABASE_ROOT_PASS}
+      MYSQL_DATABASE: database
+      MYSQL_USER: ${DATABASE_LOGIN}
+      MYSQL_PASSWORD: ${DATABASE_PASS}
+    ports:
+      - '3306:3306'
+  backend:
+    build: ./backend
+    ports:
+      - '8080:8080'
+      - '5005:5005'
+    volumes:
+      - ./backend:/backend
+      - /backend/.gradle
+      - /backend/.idea
+      - /backend/gradle
+      - /backend/build
+    working_dir: /backend
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/database
+      - SPRING_DATASOURCE_USERNAME=${DATABASE_LOGIN}
+      - SPRING_DATASOURCE_PASSWORD=${DATABASE_PASS}
