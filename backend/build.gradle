@@ -42,5 +42,5 @@ tasks.named('test') {
 }
 
 bootRun {
-	jvmArgs += '-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=*:5005'
+	jvmArgs += '-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=*:5005'
 }
