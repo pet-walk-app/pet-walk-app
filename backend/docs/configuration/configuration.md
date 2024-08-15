@@ -4,7 +4,7 @@
 * Java 21 (można pobrać zipa  i gdzieś rozpakować, np. https://jdk.java.net/java-se-ri/21)
 * Docker https://docs.docker.com/desktop/install/windows-install/
 * Git https://git-scm.com/downloads
-* Intellij (https://www.jetbrains.com/idea/download/?section=windows - wesja ultimate darmowa dla studentów po potwierdzeniu maila)
+* Intellij https://www.jetbrains.com/idea/download/?section=windows (wesja ultimate jest darmowa dla studentów po potwierdzeniu maila, ale jest też darmowa wersja community)
 
 ## Instalacja
 1. W pierwszej kolejności potrzebujemy stworzyć token autoryzacyjny, aby mieć dostęp do repozytorium lokalnie.
@@ -17,8 +17,10 @@
 1. Importujemy projekt do Intellij (cały projekt).
 2. Otwieramy **File** &rarr; **Project Structure** i wybieramy folder z pobraną javę 21.
 3. Otwieramy **File &rarr; Settings Build, Execution, Deployment &rarr; Gradle**, wybieramy javę 21.
-2. Importujemy folder backend jako moduł (**File** &rarr; **New** &rarr; **Module from existing sources**).\
+4. Importujemy folder backend jako moduł (**File** &rarr; **New** &rarr; **Module from existing sources**).\
 Wybieramy opcję **Import module from external model** i wybieramy **gradle**.
+5. W ustawieniach zmieniamy line separator na **Unix and macOS**:\
+![img_5.png](img_5.png)
 
 ## Uruchomienie aplikacji przez docker
 1. Upewniamy się że docker desktop jest uruchomiony.
@@ -39,7 +41,7 @@ Są dwie opcje odpalenia, albo przez komendę albo podpięcie konfiguracji w int
    ![img_3.png](img_3.png)\
    ![img_4.png](img_4.png)\
    Teraz możemy uruchomić dodaną konfigurację.
-4. Serwer jest uruchmiony na porcie 8080 (localhost:8080).
+4. Serwer jest uruchmiony na porcie 8080 (localhost:8080). Konfiguracja automatycznie supportuje hot-swap, zmiany w kodzie są aplikowane na serwerze automatycznie, bez potrzeby przeładowywania serwera.
 
 ## Debugowanie javy przy odpaleniu z dockera
 1. Odpalamy apkę przez dockera.
