@@ -41,7 +41,7 @@ Są dwie opcje odpalenia, albo przez komendę albo podpięcie konfiguracji w int
    ![img_3.png](img_3.png)\
    ![img_4.png](img_4.png)\
    Teraz możemy uruchomić dodaną konfigurację.
-4. Serwer jest uruchmiony na porcie 8080 (localhost:8080).
+4. Serwer jest uruchmiony na porcie 8080 (localhost:8080). Konfiguracja automatycznie supportuje hot-swap, zmiany w kodzie są aplikowane na serwerze automatycznie, bez potrzeby przeładowywania serwera.
 
 ## Debugowanie javy przy odpaleniu z dockera
 1. Odpalamy apkę przez dockera.
