@@ -16,38 +16,21 @@
 ## Konfiguracja IDE
 1. Importujemy projekt do Intellij (cały projekt).
 2. Otwieramy **File** &rarr; **Project Structure** i wybieramy folder z pobraną javę 21.
-3. Otwieramy **File &rarr; Settings Build, Execution, Deployment &rarr; Gradle**, wybieramy javę 21.
 4. Importujemy folder backend jako moduł (**File** &rarr; **New** &rarr; **Module from existing sources**).\
-Wybieramy opcję **Import module from external model** i wybieramy **gradle**.
+Wybieramy opcję **Import module from external model** i wybieramy **maven**.
 5. W ustawieniach zmieniamy line separator na **Unix and macOS**:\
 ![img_5.png](img_5.png)
 
 ## Uruchomienie aplikacji przez docker
 1. Upewniamy się że docker desktop jest uruchomiony.
-2. W głównym folderze tworzymy plik **.env** z danymi użytkownika do bazy danych - te dane są losowe na ich podstawie docker tworzy użytkowników, np.:
-```
-DATABASE_LOGIN=locallogin
-DATABASE_PASS=localpass
-DATABASE_ROOT_PASS=rootpass
-```
-2. Budujemy kontenery dockera:
-``docker-compose build``
-3. Po zbudowaniu możemy odpalić aplikację (odpalona jest aplikacja + serwer mysql).\
-Są dwie opcje odpalenia, albo przez komendę albo podpięcie konfiguracji w intellij'u:
-   1. W konsoli komenda ``docker-compose up``.
-   2. Poprzez konfigurację w intellij'u:\
-   ![img_1.png](img_1.png)\
-   ![img_2.png](img_2.png)
-   ![img_3.png](img_3.png)\
-   ![img_4.png](img_4.png)\
-   Teraz możemy uruchomić dodaną konfigurację.
-4. Serwer jest uruchmiony na porcie 8080 (localhost:8080). Konfiguracja automatycznie supportuje hot-swap, zmiany w kodzie są aplikowane na serwerze automatycznie, bez potrzeby przeładowywania serwera.
+2. Uruchamiamy docker:\
+``./start.sh`` - komenda uruchamia dockera (i buduje jeśli nie jest zbudowany).\
+W razię potrzeby przebudowania dockera: `docker-compose up --build`
+4. Serwer jest uruchmiony na porcie 8080 ([localhost:8080](http://localhost:8080)).\
+Konfiguracja automatycznie supportuje hot-swap, zmiany w kodzie są aplikowane na serwerze automatycznie, bez potrzeby przeładowywania serwera.
 
 ## Debugowanie javy przy odpaleniu z dockera
-1. Odpalamy apkę przez dockera.
-2. Dodajemy nową konfigurację "Remote JVM Debug".\
+1. Odpalamy apkę [przez dockera](#uruchomienie-aplikacji-przez-docker).
+2. Dodajemy nową konfigurację "Remote JVM Debug" - domyślna konfiguracja oraz port.\
    ![img.png](img.png)
 3. Uruchamiamy konfigurację.
-
-## Uruchomienie bez dockera
-Można uruchomić, ale wtedy trzeba sobie osobno odpalać bazę mysql i dodać dodatkowe zmienne **.env**. Polecam opcję wyżej, a jak nie to piszcie.

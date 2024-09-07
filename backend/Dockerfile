@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk
+FROM maven:3.9.9-eclipse-temurin-21-alpine
 
 WORKDIR /backend
 
@@ -7,8 +7,6 @@ COPY . /backend/
 EXPOSE 8080
 EXPOSE 5005
 
-RUN chmod +x ./gradlew
-RUN ./gradlew clean build --no-daemon
+RUN mvn clean package -DskipTests
 
-
-CMD ["sh", "-c", "./gradlew compileJava --continuous --parallel --build-cache --configuration-cache & ./gradlew bootRun"]
+CMD ["sh", "-c", "mvn spring-boot:run"]
