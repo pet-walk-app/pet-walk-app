@@ -1,0 +1,18 @@
+kotki-pieski:
+  jwt-secret: VERY_SECRET
+  expiration-time: 10
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:public
+    username: sa
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always

@@ -1,3 +1,7 @@
+kotki-pieski:
+  jwt-secret: ${JWT_SECRET}
+  expiration-time: ${TOKEN_EXPIRATION_TIME}
+
 server:
   port: 8080
 
@@ -8,11 +12,16 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        boot:
+          allow_jdbc_metadata_access: false
+    database-platform: org.hibernate.dialect.MySQLDialect
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${DATABASE_URL}
+    username: ${DATABASE_LOGIN}
+    password: ${DATABASE_PASS}
   security:
     user:
       name: abc
