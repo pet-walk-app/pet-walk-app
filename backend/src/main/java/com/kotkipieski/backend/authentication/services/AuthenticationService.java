@@ -4,7 +4,9 @@ package com.kotkipieski.backend.authentication.services;
 import com.kotkipieski.backend.authentication.dtos.AuthenticationRequest;
 import com.kotkipieski.backend.authentication.dtos.AuthenticationResponse;
 import com.kotkipieski.backend.authentication.dtos.RegistrationRequest;
+import com.kotkipieski.backend.authentication.exceptions.EmailTakenException;
 import com.kotkipieski.backend.authentication.exceptions.InvalidAuthenticationException;
+import com.kotkipieski.backend.authentication.mapper.RegistrationRequest2UserMapper;
 import com.kotkipieski.backend.user.entities.User;
 import com.kotkipieski.backend.user.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +33,13 @@ public class AuthenticationService {
   }
 
   public AuthenticationResponse register(RegistrationRequest request) {
-    return createAuthResponse(userService.createUser(request.getUser()));
+    User mappedUser = RegistrationRequest2UserMapper.INSTANCE.map(request, passwordEncoder);
+
+    if (userService.userExists(mappedUser.getEmail())) {
+      throw new EmailTakenException();
+    }
+
+    return createAuthResponse(userService.createUser(mappedUser));
   }
 
   private AuthenticationResponse createAuthResponse(User user) {
