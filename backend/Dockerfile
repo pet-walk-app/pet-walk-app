@@ -1,12 +1,15 @@
-FROM maven:3.9.9-eclipse-temurin-21-alpine
+FROM eclipse-temurin:21-alpine
+
+RUN apk add --no-cache watchexec
 
 WORKDIR /backend
 
-COPY . /backend/
+COPY --chmod=755 ./ /backend
 
 EXPOSE 8080
 EXPOSE 5005
 
-RUN mvn clean package -DskipTests
+RUN ./mvnw install -DskipTests
 
-CMD ["sh", "-c", "mvn spring-boot:run"]
+ENTRYPOINT ["sh", "-c"]
+CMD ["./mvnw spring-boot:run & watchexec --watch src/main --restart -- scripts/recompile.sh && wait"]

@@ -1,3 +1,9 @@
 .git/
 .idea/
 **/target/
+docs/
+start.sh
+projekt-inzynerski.iml
+.gitignore
+Dockerfile
+src/test/
