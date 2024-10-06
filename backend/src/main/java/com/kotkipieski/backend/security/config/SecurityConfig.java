@@ -1,7 +1,9 @@
 package com.kotkipieski.backend.security.config;
 
 import com.kotkipieski.backend.security.filters.AuthenticationFilter;
+import com.kotkipieski.backend.security.handlers.NotAuthenticatedEntryPoint;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +27,8 @@ public class SecurityConfig {
 
   private final AuthenticationFilter authFilter;
   private final UserDetailsService userDetailsService;
+  @Qualifier("notAuthenticatedEntryPoint")
+  private final NotAuthenticatedEntryPoint notAuthenticatedEntryPoint;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -39,7 +43,12 @@ public class SecurityConfig {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         )
         .authenticationProvider(authenticationProvider())
-        .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
+        .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+        .httpBasic(AbstractHttpConfigurer::disable)
+        .formLogin(AbstractHttpConfigurer::disable)
+        .logout(AbstractHttpConfigurer::disable)
+        .exceptionHandling(
+            customizer -> customizer.authenticationEntryPoint(notAuthenticatedEntryPoint));
 
     return http.build();
   }

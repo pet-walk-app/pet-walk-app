@@ -17,4 +17,6 @@ else
     echo
     echo -e "${RED}Maven compilation finished - FAILURE${NC}"
     echo
+    echo -e "${RED}Error output:${NC}"
+    ./mvnw compile
 fi

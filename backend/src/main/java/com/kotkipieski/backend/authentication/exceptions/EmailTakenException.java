@@ -1,6 +1,8 @@
 package com.kotkipieski.backend.authentication.exceptions;
 
-public class EmailTakenException extends RuntimeException {
+import com.kotkipieski.backend.common.exceptions.BaseServerException;
+
+public class EmailTakenException extends BaseServerException {
 
   public EmailTakenException() {
     super("Email is already taken");

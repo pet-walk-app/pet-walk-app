@@ -1,6 +1,8 @@
 package com.kotkipieski.backend.user.exceptions;
 
-public class EmailNotAvailableException extends RuntimeException {
+import com.kotkipieski.backend.common.exceptions.BaseServerException;
+
+public class EmailNotAvailableException extends BaseServerException {
 
   public EmailNotAvailableException(String email) {
     super("The email address " + email + " is already in use.");
