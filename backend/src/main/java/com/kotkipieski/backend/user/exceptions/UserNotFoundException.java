@@ -1,6 +1,8 @@
 package com.kotkipieski.backend.user.exceptions;
 
-public class UserNotFoundException extends RuntimeException {
+import com.kotkipieski.backend.common.exceptions.BaseServerException;
+
+public class UserNotFoundException extends BaseServerException {
 
   public UserNotFoundException() {
     super("User not found");

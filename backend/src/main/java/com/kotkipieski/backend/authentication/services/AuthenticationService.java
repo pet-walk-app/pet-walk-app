@@ -4,8 +4,8 @@ package com.kotkipieski.backend.authentication.services;
 import com.kotkipieski.backend.authentication.dtos.AuthenticationRequest;
 import com.kotkipieski.backend.authentication.dtos.AuthenticationResponse;
 import com.kotkipieski.backend.authentication.dtos.RegistrationRequest;
+import com.kotkipieski.backend.authentication.exceptions.BadCredentialsException;
 import com.kotkipieski.backend.authentication.exceptions.EmailTakenException;
-import com.kotkipieski.backend.authentication.exceptions.InvalidAuthenticationException;
 import com.kotkipieski.backend.authentication.mapper.RegistrationRequest2UserMapper;
 import com.kotkipieski.backend.user.entities.User;
 import com.kotkipieski.backend.user.services.UserService;
@@ -23,10 +23,10 @@ public class AuthenticationService {
 
   public AuthenticationResponse login(AuthenticationRequest request) {
     User user = userService.getUser(request.getEmail())
-        .orElseThrow(InvalidAuthenticationException::new);
+        .orElseThrow(BadCredentialsException::new);
 
     if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-      throw new InvalidAuthenticationException();
+      throw new BadCredentialsException();
     }
 
     return createAuthResponse(user);

@@ -3,9 +3,8 @@ package com.kotkipieski.backend.authentication.services;
 import com.kotkipieski.backend.user.entities.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,7 +35,7 @@ public class JwtService {
   }
 
   public String generateToken(User user) {
-    return generateToken(new HashMap<>(), user.getName());
+    return generateToken(new HashMap<>(), user.getEmail());
   }
 
   public boolean isTokenValid(String token, UserDetails userDetails) {
@@ -70,7 +69,7 @@ public class JwtService {
   }
 
   private SecretKey getSignInKey() {
-    byte[] bytes = Base64.getDecoder().decode(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+    byte[] bytes = Decoders.BASE64.decode(SECRET_KEY);
     return Keys.hmacShaKeyFor(bytes);
   }
 }

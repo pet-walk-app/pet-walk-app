@@ -12,4 +12,4 @@ EXPOSE 5005
 RUN ./mvnw install -DskipTests
 
 ENTRYPOINT ["sh", "-c"]
-CMD ["./mvnw spring-boot:run & watchexec --watch src/main --restart -- scripts/recompile.sh && wait"]
+CMD ["./mvnw spring-boot:run & watchexec --watch src/main --restart -- scripts/recompile.sh && wait  & watchexec --watch pom.xml -- ./mvnw install -DskipTests && wait"]
