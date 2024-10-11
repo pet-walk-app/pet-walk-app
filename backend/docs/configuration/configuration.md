@@ -1,3 +1,9 @@
+<style>
+r { color: Red }
+o { color: Orange }
+g { color: Green }
+</style>
+
 # Konfiguracja
 
 ## Wymagane oprogramowanie
@@ -34,7 +40,8 @@
    W razię potrzeby przebudowania dockera: `./start.sh --build`
 4. Serwer jest uruchmiony na porcie 8080 ([localhost:8080](http://localhost:8080)).\
    Konfiguracja automatycznie supportuje hot-swap, zmiany w kodzie są aplikowane na serwerze
-   automatycznie, bez potrzeby przeładowywania serwera.
+   automatycznie, bez potrzeby przeładowywania serwera. <r>Po zmianach w pom.xml, lub innych plikach
+   poza folderem src/ do przebudowania serwera należy użyć skryptu scripts/recompile.sh</r>
 
 ## Debugowanie aplikacji przy uruchomieniu z dockera
 
