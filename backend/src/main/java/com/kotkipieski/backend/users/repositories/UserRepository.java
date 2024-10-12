@@ -1,6 +1,6 @@
-package com.kotkipieski.backend.user.repositories;
+package com.kotkipieski.backend.users.repositories;
 
-import com.kotkipieski.backend.user.entities.User;
+import com.kotkipieski.backend.users.entities.User;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

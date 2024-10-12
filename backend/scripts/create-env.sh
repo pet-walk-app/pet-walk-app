@@ -1,4 +1,5 @@
 #!/bin/bash
+SCRIPT_DIR="$(command dirname -- "${0}")"
 
 generate_secure_value() {
   local length=$1
@@ -29,7 +30,7 @@ update_env_file() {
   fi
 }
 
-ENV_FILE="../.env"
+ENV_FILE="${SCRIPT_DIR}/../../.env"
 
 declare -A default_values=(
   ["DATABASE_LOGIN"]="$DEFAULT_DATABASE_LOGIN"
@@ -47,3 +48,5 @@ fi
 for key in "${!default_values[@]}"; do
   update_env_file "$key" "${default_values[$key]}" "$ENV_FILE"
 done
+
+echo ".env file check finished"

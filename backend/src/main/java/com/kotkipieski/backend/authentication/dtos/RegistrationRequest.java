@@ -1,6 +1,6 @@
 package com.kotkipieski.backend.authentication.dtos;
 
-import static com.kotkipieski.backend.user.entities.User.EMAIL_REGEX;
+import static com.kotkipieski.backend.users.entities.User.EMAIL_REGEX;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegistrationRequest {
-  
+
   @NotBlank(message = "Username cannot be empty")
   @Size(min = 5, max = 64, message = "User name must be of length 5-64")
   private String name;
