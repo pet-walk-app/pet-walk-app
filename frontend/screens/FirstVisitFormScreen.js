@@ -8,7 +8,7 @@ import DatePicker from "../components/DatePicker";
 
 export default function FirstVisitFormScreen() {
    const [username, setUsername] = useState('')
-   const [email, setEmail] = useState('')
+   const [phoneNumber, setPhoneNumber] = useState('')
    const [birthdate, setBirthdate] = useState(new Date(1990, 1, 1))
 
     return (
@@ -24,9 +24,9 @@ export default function FirstVisitFormScreen() {
                      placeholder={'Nazwa użytkownika'}>
                   </FormInput>
                   <FormInput 
-                     value={email}
-                     setValue={setEmail}
-                     placeholder={'Adres e-mail'}>
+                     value={phoneNumber}
+                     setValue={setPhoneNumber}
+                     placeholder={'Numer telefonu'}>
                   </FormInput>
                   <DatePicker
                      birthdate={birthdate}
