@@ -3,7 +3,7 @@ SCRIPT_DIR="$(command dirname -- "${0}")"
 
 generate_secure_value() {
   local length=$1
-  openssl rand -base64 $length | tr -d '\n'
+  openssl rand -base64 $length | tr -d '\r\n'
 }
 
 JWT_SECRET_LENGTH=256
@@ -20,12 +20,12 @@ update_env_file() {
   local value=$2
   local file=$3
 
-    if [ -s "$file" ] && [ "$(tail -c 1 "$file")" != "" ]; then
-      echo >> "$file"
-    fi
+  if [ -s "$file" ] && [ "$(tail -c 1 "$file")" != "" ]; then
+    printf "\n" >> "$file"
+  fi
 
   if ! grep -q "^$key=" "$file"; then
-    echo "$key=$value" >> "$file"
+    printf "%s=%s\n" "$key" "$value" >> "$file"
     echo "Added $key to $file"
   fi
 }
