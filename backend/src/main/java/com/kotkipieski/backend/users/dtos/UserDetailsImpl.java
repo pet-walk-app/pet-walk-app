@@ -1,6 +1,6 @@
-package com.kotkipieski.backend.user.dtos;
+package com.kotkipieski.backend.users.dtos;
 
-import com.kotkipieski.backend.user.entities.User;
+import com.kotkipieski.backend.users.entities.User;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;

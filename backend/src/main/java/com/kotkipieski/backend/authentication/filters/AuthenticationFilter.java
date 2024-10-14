@@ -1,6 +1,12 @@
-package com.kotkipieski.backend.security.filters;
+package com.kotkipieski.backend.authentication.filters;
 
+import com.kotkipieski.backend.authentication.exceptions.ExpiredTokenException;
+import com.kotkipieski.backend.authentication.exceptions.InvalidTokenException;
 import com.kotkipieski.backend.authentication.services.JwtService;
+import com.kotkipieski.backend.users.exceptions.UserNotFoundException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +18,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -26,7 +33,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(@NonNull HttpServletRequest request,
       @NonNull HttpServletResponse response,
-      @NonNull FilterChain filterChain) throws IOException, ServletException {
+      @NonNull FilterChain filterChain) throws IOException, ServletException
+  {
     String authHeader = request.getHeader("Authorization");
 
     if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -34,23 +42,33 @@ public class AuthenticationFilter extends OncePerRequestFilter {
       return;
     }
 
-    String token = authHeader.substring(7);
-    String userEmail = jwtService.extractEmail(token);
+    try {
+      String token = authHeader.substring(7);
+      String userEmail = jwtService.extractEmail(token);
 
-    if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+      if (userEmail == null || SecurityContextHolder.getContext().getAuthentication() != null) {
+        filterChain.doFilter(request, response);
+        return;
+      }
+
       UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
 
       if (jwtService.isTokenValid(token, userDetails)) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-            userDetails,
-            null,
-            userDetails.getAuthorities()
+            userDetails, null, userDetails.getAuthorities()
         );
         authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authToken);
       }
+    } catch (UnsupportedJwtException |
+             MalformedJwtException |
+             UserNotFoundException |
+             UsernameNotFoundException e) {
+      request.setAttribute("exception", new InvalidTokenException());
+    } catch (ExpiredJwtException e) {
+      request.setAttribute("exception", new ExpiredTokenException());
+    } finally {
+      filterChain.doFilter(request, response);
     }
-
-    filterChain.doFilter(request, response);
   }
 }

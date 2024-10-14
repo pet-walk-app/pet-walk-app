@@ -1,7 +1,7 @@
 package com.kotkipieski.backend.authentication.mapper;
 
 import com.kotkipieski.backend.authentication.dtos.RegistrationRequest;
-import com.kotkipieski.backend.user.entities.User;
+import com.kotkipieski.backend.users.entities.User;
 import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

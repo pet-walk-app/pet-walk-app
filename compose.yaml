@@ -26,6 +26,8 @@ services:
       - '5005:5005'
     volumes:
       - ./backend:/backend
+      - /backend/target
+      - /backend/docs
     working_dir: /backend
     env_file:
       - .env

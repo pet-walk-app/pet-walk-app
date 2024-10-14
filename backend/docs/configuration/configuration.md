@@ -40,8 +40,9 @@ g { color: Green }
    W razię potrzeby przebudowania dockera: `./start.sh --build`
 4. Serwer jest uruchmiony na porcie 8080 ([localhost:8080](http://localhost:8080)).\
    Konfiguracja automatycznie supportuje hot-swap, zmiany w kodzie są aplikowane na serwerze
-   automatycznie, bez potrzeby przeładowywania serwera. <r>Po zmianach w pom.xml, lub innych plikach
-   poza folderem src/ do przebudowania serwera należy użyć skryptu scripts/recompile.sh</r>
+   automatycznie, bez potrzeby przeładowywania serwera. <r>Po zmianach w pom.xml do przebudowania
+   serwera należy użyć skryptu `./scripts/recompile.sh` (po uruchomieniu dockera, w osobnym
+   terminalu).</r>
 
 ## Debugowanie aplikacji przy uruchomieniu z dockera
 
@@ -54,3 +55,8 @@ g { color: Green }
 
 1. Jest możliwe, ale trzeba postawić sobie ręcznie serwer mysql i ustawić na sztywno zmienne
    śrdowiskowe w **application.yml**.
+
+## WSL
+
+- Jeśli repozytorium mamy na wsl, aby uniknąć problemów z uprawnieniami IDE warto zrobić
+  `chmod -R 777` dla całego repozytorium.

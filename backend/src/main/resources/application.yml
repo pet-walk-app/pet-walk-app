@@ -5,6 +5,12 @@ kotki-pieski:
 server:
   port: 8080
 
+springdoc:
+  swagger-ui:
+    path: /api/v1/docs/index.html
+  api-docs:
+    path: /api/v1/docs/schema
+
 spring:
   application:
     name: Backend
