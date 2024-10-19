@@ -7,7 +7,7 @@ export default function HomeScreen({navigation}) {
             <Button 
                 title="Do testowania stron" 
                //  Nawigacja do wybranej strony
-                onPress={() => navigation.navigate('First Visit Form')} 
+                onPress={() => navigation.navigate('Caregiver Profile Form')} 
             />
 
         </View>
