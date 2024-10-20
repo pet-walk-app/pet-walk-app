@@ -1,32 +1,35 @@
-import { Pressable, Text, View } from 'react-native';
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-import { formStyles } from '../styles.js/formStyles';
-import { formatDate } from '../utils/commonUtils';
+import React, {useState} from 'react';
+import {Pressable, Text, View} from 'react-native';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import {formStyles} from '../styles.js/formStyles';
+import {formatDate} from '../utils/commonUtils';
 
-const DatePicker = ({ birthdate, setBirthdate }) => {
+const DatePicker = ({date, setDate, pastDate}) => {
+    const [isOpen, setIsOpen] = useState(false);
 
-  const chooseDate = () => {
-    DateTimePickerAndroid.open({
-      mode: 'date',
-      value: birthdate,
-      onChange: (event, selectedDate) => {
-        const currentDate = selectedDate || birthdate;
-        setBirthdate(currentDate);
-      },
-      minimumDate: new Date(1900, 1, 1),
-      maximumDate: new Date(2004, 1, 1),
-    });
-  };
+    const handleChange = (date) => {
+        setDate(date);
+        setIsOpen(false);
+    }
 
-  return (
-    <View>
-      <Pressable 
-         onPress={chooseDate}
-         style={formStyles.formInput}>
-        <Text style={formStyles.inputText}>{formatDate(birthdate, ' - ')}</Text>
-      </Pressable>
-    </View>
-  );
+    return (
+        <View>
+            <Pressable
+                onPress={() => setIsOpen(true)}
+                style={formStyles.formInput}>
+                <Text style={formStyles.inputText}>{formatDate(date, '.')}</Text>
+            </Pressable>
+
+            <DateTimePickerModal
+                isVisible={isOpen}
+                mode="date"
+                onConfirm={handleChange}
+                date={date}
+                maximumDate={pastDate && new Date()}
+                onCancel={() => setIsOpen(false)}
+            />
+        </View>
+    );
 };
 
 export default DatePicker;
