@@ -1,4 +1,4 @@
-package com.kotkipieski.backend.security.properties;
+package com.kotkipieski.backend.authentication.constants;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.kotkipieski.backend.user.entities;
+package com.kotkipieski.backend.users.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

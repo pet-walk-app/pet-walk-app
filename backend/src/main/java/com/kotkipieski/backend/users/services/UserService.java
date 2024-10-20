@@ -1,10 +1,10 @@
-package com.kotkipieski.backend.user.services;
+package com.kotkipieski.backend.users.services;
 
-import com.kotkipieski.backend.user.dtos.UserDetailsImpl;
-import com.kotkipieski.backend.user.entities.User;
-import com.kotkipieski.backend.user.exceptions.EmailNotAvailableException;
-import com.kotkipieski.backend.user.exceptions.UserNotFoundException;
-import com.kotkipieski.backend.user.repositories.UserRepository;
+import com.kotkipieski.backend.users.dtos.UserDetailsImpl;
+import com.kotkipieski.backend.users.entities.User;
+import com.kotkipieski.backend.users.exceptions.EmailNotAvailableException;
+import com.kotkipieski.backend.users.exceptions.UserNotFoundException;
+import com.kotkipieski.backend.users.repositories.UserRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

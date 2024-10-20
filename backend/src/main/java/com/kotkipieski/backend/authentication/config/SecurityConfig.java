@@ -1,7 +1,10 @@
-package com.kotkipieski.backend.security.config;
+package com.kotkipieski.backend.authentication.config;
 
-import com.kotkipieski.backend.security.filters.AuthenticationFilter;
-import com.kotkipieski.backend.security.handlers.NotAuthenticatedEntryPoint;
+import static com.kotkipieski.backend.authentication.constants.RequestMatchersConstants.API_DOCS_MATCHER;
+import static com.kotkipieski.backend.authentication.constants.RequestMatchersConstants.AUTH_MATCHER;
+
+import com.kotkipieski.backend.authentication.filters.AuthenticationFilter;
+import com.kotkipieski.backend.authentication.handlers.BadRequestHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +17,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
+import org.springframework.security.config.annotation.web.configurers.ExceptionHandlingConfigurer;
+import org.springframework.security.config.annotation.web.configurers.SessionManagementConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,28 +33,22 @@ public class SecurityConfig {
 
   private final AuthenticationFilter authFilter;
   private final UserDetailsService userDetailsService;
-  @Qualifier("notAuthenticatedEntryPoint")
-  private final NotAuthenticatedEntryPoint notAuthenticatedEntryPoint;
+
+  @Qualifier("badRequestHandler")
+  private final BadRequestHandler badRequestHandler;
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
+        .exceptionHandling(this::configureExceptionHandling)
         .csrf(AbstractHttpConfigurer::disable)
-        .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/v1/auth/**").permitAll()
-            .requestMatchers("/auth/user/**").hasAuthority("ROLE_VERIFIED_USER")
-            .anyRequest().authenticated()
-        )
-        .sessionManagement(sess -> sess
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        )
-        .authenticationProvider(authenticationProvider())
-        .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
         .httpBasic(AbstractHttpConfigurer::disable)
         .formLogin(AbstractHttpConfigurer::disable)
         .logout(AbstractHttpConfigurer::disable)
-        .exceptionHandling(
-            customizer -> customizer.authenticationEntryPoint(notAuthenticatedEntryPoint));
+        .authorizeHttpRequests(this::configureAuthorization)
+        .sessionManagement(this::configureSessionManagement)
+        .authenticationProvider(authenticationProvider())
+        .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class);
 
     return http.build();
   }
@@ -62,7 +62,29 @@ public class SecurityConfig {
 
   @Bean
   public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
-      throws Exception {
+      throws Exception
+  {
     return config.getAuthenticationManager();
+  }
+
+  public void configureAuthorization(
+      AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry auth)
+  {
+    auth
+        .requestMatchers(AUTH_MATCHER, API_DOCS_MATCHER).permitAll()
+//        .requestMatchers("/auth/user/**").hasAuthority("ROLE_VERIFIED_USER")
+        .anyRequest().authenticated();
+  }
+
+  public void configureSessionManagement(
+      SessionManagementConfigurer<HttpSecurity> sessionManagement)
+  {
+    sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+  }
+
+  private void configureExceptionHandling(ExceptionHandlingConfigurer<HttpSecurity> configurer) {
+    configurer
+        .authenticationEntryPoint(badRequestHandler)
+        .accessDeniedHandler(badRequestHandler);
   }
 }

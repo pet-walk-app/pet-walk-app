@@ -1,4 +1,4 @@
-package com.kotkipieski.backend.user.exceptions;
+package com.kotkipieski.backend.users.exceptions;
 
 import com.kotkipieski.backend.common.exceptions.BaseServerException;
 
