@@ -30,7 +30,7 @@ update_env_file() {
   fi
 }
 
-ENV_FILE="${SCRIPT_DIR}/../../.env"
+ENV_FILE="${SCRIPT_DIR}/../.env"
 
 declare -A default_values=(
   ["DATABASE_LOGIN"]="$DEFAULT_DATABASE_LOGIN"
