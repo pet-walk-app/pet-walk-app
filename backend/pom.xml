@@ -188,7 +188,7 @@
         <version>3.4.1</version>
         <executions>
           <execution>
-            <id>create-env</id>
+            <phase>install</phase>
             <goals>
               <goal>exec</goal>
             </goals>
