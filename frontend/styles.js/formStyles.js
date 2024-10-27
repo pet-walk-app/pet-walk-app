@@ -60,6 +60,22 @@ export const formStyles = StyleSheet.create({
       justifyContent: 'center',
    },
 
+   formBigInput: {
+      height: 60,
+      width: '100%',
+      borderColor: borderGrey,
+      borderStyle: 'solid',
+      borderWidth: 1.5,
+      borderRadius: 40,
+      fontSize: 15,
+      backgroundColor: white,
+      paddingVertical: 25,
+      paddingHorizontal: 25,
+      alignContent: 'center',
+      justifyContent: 'center',
+      textAlignVertical: "top"
+   },
+
    inputText: { 
       color: darkGrey
    },
@@ -81,6 +97,11 @@ export const formStyles = StyleSheet.create({
    buttonText: {
       fontSize: 15,
       fontWeight: 'bold'
+   },
+
+   image: {
+      width: 250,
+      height: 250,
    }
    
 })
