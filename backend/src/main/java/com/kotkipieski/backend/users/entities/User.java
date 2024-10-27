@@ -1,15 +1,19 @@
 package com.kotkipieski.backend.users.entities;
 
+import com.kotkipieski.backend.care.entities.Caregiver;
+import com.kotkipieski.backend.pets.entities.PetOwner;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +33,12 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @OneToOne
+  private Caregiver caregiver;
+
+  @OneToOne
+  private PetOwner petOwner;
+
   @Column(name = "username", nullable = false)
   @NotBlank(message = "Username cannot be empty")
   @Size(min = 5, max = 64, message = "User name must be of length 5-64")
@@ -43,4 +53,7 @@ public class User {
   @NotNull(message = "Password cannot be null")
   private String password;
 
+  private LocalDate dateOfBirth;
+
+  private String phone;
 }

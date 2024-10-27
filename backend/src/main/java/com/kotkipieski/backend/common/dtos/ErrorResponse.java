@@ -9,5 +9,5 @@ import lombok.Data;
 public class ErrorResponse {
 
   private String message;
-  private Map<String, String> details;
+  private Map<String, String> details; // 111
 }
