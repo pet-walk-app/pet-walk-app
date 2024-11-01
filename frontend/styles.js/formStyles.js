@@ -100,8 +100,16 @@ export const formStyles = StyleSheet.create({
    },
 
    image: {
+      borderRadius: 25,
       width: 250,
       height: 250,
+   },
+
+   imageSmall: {
+      borderRadius: 25,
+      margin: 15,
+      width: 125,
+      height: 150,
    }
    
 })

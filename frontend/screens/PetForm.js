@@ -7,24 +7,30 @@ import CustomButton from "../components/CustomButton";
 import { green, white } from "../consts/colors";
 
 export default function CaregiverProfileForm() {
-   const [city, setCity] = useState('')
+   const [petName, setPetName] = useState('')
+   const [breed, setBreed] = useState('')
    const [description, setDescription] = useState('')
 
     return (
         <View style={formStyles.container}>
             <View style={[formStyles.middleSection, {justifyContent: "none"}]}>
-               <Text style={formStyles.h1}>Uzupełnij swoje informacje {"\n"}żeby stworzyć profil opiekuna.</Text>
+               <Text style={formStyles.h1}>Uzupełnij informacje żeby stworzyć profil zwierzaka</Text>
                <View style={formStyles.formContainer}>
                   <FormInput
-                     value={city}
-                     setValue={setCity}
-                     placeholder={'Miasto'}>
+                     value={petName}
+                     setValue={setPetName}
+                     placeholder={'Imię psa'}>
+                  </FormInput>
+                  <FormInput
+                     value={breed}
+                     setValue={setBreed}
+                     placeholder={'Rasa'}>
                   </FormInput>
                   <FormBigInput 
                      value={description}
                      setValue={setDescription}
-                     placeholder={'Napisz kilka słów o sobie'}
-                     height={330}>
+                     placeholder={'Opis. Nie zapomnij o jego charakterze pupila i przyjmowanych lekach.'}
+                     height={270}>
                   </FormBigInput>
                </View>
 

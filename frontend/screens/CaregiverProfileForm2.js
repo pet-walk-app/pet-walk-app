@@ -1,15 +1,16 @@
-import { useState } from 'react';
-import { Pressable, Image, View, StyleSheet, Text } from 'react-native';
+import React, { useState } from 'react';
+import { Pressable, Image, View, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { formStyles } from "../styles.js/formStyles";
 import CustomButton from "../components/CustomButton";
 import { green, white } from "../consts/colors";
 
-export default function ImagePickerExample() {
-  const [image, setImage] = useState(null);
+export default function CaregiverProfileForm2() {
+  const img = require("../assets/grazynka.png");
+  const [images, setImages] = useState([null, null, null, null]);
+  const [hasPhoto, setHasPhoto] = useState([false, false, false, false]);
 
-  const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
+  const pickImage = async (index) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -17,36 +18,39 @@ export default function ImagePickerExample() {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+      const updatedImages = [...images];
+      updatedImages[index] = result.assets[0].uri;
+      setImages(updatedImages);
+
+      const updatedHasPhoto = [...hasPhoto];
+      updatedHasPhoto[index] = true;
+      setHasPhoto(updatedHasPhoto);
     }
   };
 
   return (
-  <View style={formStyles.container}>
-    <View style={[formStyles.middleSection, {justifyContent: "none"}]}>
-      <Text style={formStyles.h1}>Dodaj zdjęcie swojego {"\n"}profilu.</Text>
-      <View style={[formStyles.formContainer, {justifyContent: 'center', alignItems: 'center'}]}>
-          
-        {image && <Image source={{ uri: image }} style={[formStyles.image]} />}
-        <Pressable onPress={pickImage} style={[formStyles.button, {backgroundColor: green}]}>
-            <View>
-              <Text style={[formStyles.buttonText, {color: white} ]}>Wybierz zdjęcie</Text>
-            </View>
-        </Pressable>
-      
-        <CustomButton 
-          color={green} 
-          textColor={white}
-          action={""}
-          title={"Pomiń"}>
-      </CustomButton>
+    <View style={formStyles.container}>
+      <View style={[formStyles.middleSection, { justifyContent: "none" }]}>
+        <Text style={formStyles.h1}>Dodaj zdjęcia dla swojego profilu.</Text>
+        <View style={[formStyles.formContainer, {  }]}>
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+            {images.map((image, index) => (
+              <Pressable key={index} onPress={() => pickImage(index)}>
+              {image ? <Image key={index} source={{ uri: image }} style={[formStyles.imageSmall]} /> : 
+              (<Image source={img} style={[formStyles.imageSmall]}/>)}
+              </Pressable>
+            ))}
+          </View>
 
-
+          <CustomButton 
+            color={green} 
+            textColor={white}
+            action={""}
+            title={"Kontynuuj"} 
+          />
+        </View>
       </View>
     </View>
-  </View>
   );
 }
