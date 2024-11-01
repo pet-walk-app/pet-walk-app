@@ -1,6 +1,6 @@
 package com.kotkipieski.backend.authentication.services;
 
-import com.kotkipieski.backend.user.entities.User;
+import com.kotkipieski.backend.users.entities.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;

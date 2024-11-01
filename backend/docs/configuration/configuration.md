@@ -31,26 +31,12 @@ g { color: Green }
    ![img_5.png](img_5.png)
 4. Instalujemy plugin "MapStruct support":\
    ![img_6.png](img_6.png)
+5. Odpalamy konfigurację "Create env", w celu stworzenia pliku .env z danymi do bazy itp.:\
+![img_7.png](img_7.png)
 
-## Uruchomienie aplikacji przez docker
 
-1. Upewniamy się że docker desktop jest uruchomiony.
-2. Uruchamiamy docker:\
-   ``./start.sh`` - komenda uruchamia dockera (i buduje jeśli nie jest zbudowany).\
-   W razię potrzeby przebudowania dockera: `./start.sh --build`
-4. Serwer jest uruchmiony na porcie 8080 ([localhost:8080](http://localhost:8080)).\
-   Konfiguracja automatycznie supportuje hot-swap, zmiany w kodzie są aplikowane na serwerze
-   automatycznie, bez potrzeby przeładowywania serwera. <r>Po zmianach w pom.xml, lub innych plikach
-   poza folderem src/ do przebudowania serwera należy użyć skryptu scripts/recompile.sh</r>
+## Odpalanie
 
-## Debugowanie aplikacji przy uruchomieniu z dockera
-
-1. Odpalamy apkę [przez dockera](#uruchomienie-aplikacji-przez-docker).
-2. Dodajemy nową konfigurację "Remote JVM Debug" - domyślna konfiguracja oraz port.\
-   ![img.png](img.png)
-3. Uruchamiamy konfigurację.
-
-## Debugowanie/Uruchamianie aplikacji bez dockera (nie polecam)
-
-1. Jest możliwe, ale trzeba postawić sobie ręcznie serwer mysql i ustawić na sztywno zmienne
-   śrdowiskowe w **application.yml**.
+1. Po dodaniu env (przez konfigurację w punkcie wyżej, wystarczy odpalić drugą konfigurację:\
+![img_8.png](img_8.png)
+   

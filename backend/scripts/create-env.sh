@@ -1,8 +1,9 @@
 #!/bin/bash
+SCRIPT_DIR="$(command dirname -- "${0}")"
 
 generate_secure_value() {
   local length=$1
-  openssl rand -base64 $length | tr -d '\n'
+  openssl rand -base64 $length | tr -d '\r\n'
 }
 
 JWT_SECRET_LENGTH=256
@@ -19,17 +20,17 @@ update_env_file() {
   local value=$2
   local file=$3
 
-    if [ -s "$file" ] && [ "$(tail -c 1 "$file")" != "" ]; then
-      echo >> "$file"
-    fi
+  if [ -s "$file" ] && [ "$(tail -c 1 "$file")" != "" ]; then
+    printf "\n" >> "$file"
+  fi
 
   if ! grep -q "^$key=" "$file"; then
-    echo "$key=$value" >> "$file"
+    printf "%s=%s\n" "$key" "$value" >> "$file"
     echo "Added $key to $file"
   fi
 }
 
-ENV_FILE="../.env"
+ENV_FILE="${SCRIPT_DIR}/../.env"
 
 declare -A default_values=(
   ["DATABASE_LOGIN"]="$DEFAULT_DATABASE_LOGIN"
@@ -47,3 +48,5 @@ fi
 for key in "${!default_values[@]}"; do
   update_env_file "$key" "${default_values[$key]}" "$ENV_FILE"
 done
+
+echo ".env file check finished"
