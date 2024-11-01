@@ -14,7 +14,7 @@ const DatePicker = ({ birthdate, setBirthdate }) => {
         setBirthdate(currentDate);
       },
       minimumDate: new Date(1900, 1, 1),
-      maximumDate: new Date(2004, 1, 1),
+      maximumDate: new Date(),
     });
   };
 
