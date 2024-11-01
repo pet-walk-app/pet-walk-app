@@ -10,11 +10,11 @@ import { StyleSheet } from 'react-native';
 
 export const formStyles = StyleSheet.create({
    container: {
-      flex: 1
+      flex: 1,
    },
 
    topSection: {
-      flex: 2
+      flex: 1.5
       // grafika PetWalk
    },
 
@@ -22,7 +22,7 @@ export const formStyles = StyleSheet.create({
       flex: 6,
       padding: 40,
       alignContent: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       alignItems: 'center',
       backgroundColor: backgroundGrey
    },
@@ -39,8 +39,14 @@ export const formStyles = StyleSheet.create({
       lineHeight: 40,
    },
 
+   h3: {
+      fontSize: 19,
+      alignSelf: 'flex-start',
+      lineHeight: 30,
+   },
+
    formContainer: {
-      marginTop: 32,
+      marginTop: 20,
       marginBottom: 25,
       gap: 10,
       width: '100%'
@@ -63,24 +69,4 @@ export const formStyles = StyleSheet.create({
    inputText: { 
       color: darkGrey
    },
-
-   button: {
-      borderRadius: 40,
-      borderColor: borderGrey,
-      borderStyle: 'solid',
-      borderWidth: 1.5,
-      alignContent: 'center',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: 60,
-      width: '100%',
-      marginBottom: 5,
-      marginTop: 5
-   },
-
-   buttonText: {
-      fontSize: 15,
-      fontWeight: 'bold'
-   }
-   
 })
