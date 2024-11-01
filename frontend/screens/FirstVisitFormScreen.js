@@ -13,6 +13,8 @@ export default function FirstVisitFormScreen() {
     const [birthdate, setBirthdate] = useState(new Date(1990, 1, 1))
 
     return (
+        <View></View>
+        /*
         <View style={formStyles.container}>
          <StatusBar hidden></StatusBar>
          <View style={formStyles.topSection}></View>
@@ -92,7 +94,7 @@ export default function FirstVisitFormScreen() {
             </View>
 
             <View style={formStyles.bottomSection}></View>
-        </View>
+        </View>*/
 
     );
 }

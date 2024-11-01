@@ -6,6 +6,10 @@ import LoginScreen from '../screens/LoginScreen';
 import RegistrationScreen from '../screens/RegistrationScreen';
 import { white, green } from '../consts/colors';
 import FirstVisitProfileChoiceScreen from '../screens/FirstVisitProfileChoiceScreen';
+import CaregiverProfileForm from '../screens/CaregiverProfileForm';
+import CaregiverProfileForm2 from '../screens/CaregiverProfileForm2';
+import PetForm from '../screens/PetForm';
+import PetForm2 from '../screens/PetForm2';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +28,10 @@ export default function Navigation() {
                <Stack.Screen name = 'Registration Screen' component={RegistrationScreen}/>
                <Stack.Screen name = 'First Visit Form' component={FirstVisitFormScreen}/>
                <Stack.Screen name = 'First Visit Profile Choice' component={FirstVisitProfileChoiceScreen}/>
+               <Stack.Screen name = 'Caregiver Profile Form' component={CaregiverProfileForm}/>
+               <Stack.Screen name = 'Caregiver Profile Form 2' component={CaregiverProfileForm2}/>
+               <Stack.Screen name = 'Pet Form' component={PetForm}/>
+               <Stack.Screen name = 'Pet Form 2' component={PetForm2}/>
            </Stack.Navigator>
        </NavigationContainer>
    );

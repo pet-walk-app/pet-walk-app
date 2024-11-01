@@ -66,7 +66,55 @@ export const formStyles = StyleSheet.create({
       justifyContent: 'center',
    },
 
+   formBigInput: {
+      height: 60,
+      width: '100%',
+      borderColor: borderGrey,
+      borderStyle: 'solid',
+      borderWidth: 1.5,
+      borderRadius: 40,
+      fontSize: 15,
+      backgroundColor: white,
+      paddingVertical: 25,
+      paddingHorizontal: 25,
+      alignContent: 'center',
+      justifyContent: 'center',
+      textAlignVertical: "top"
+   },
+
    inputText: { 
       color: darkGrey
    },
+
+   button: {
+      borderRadius: 40,
+      borderColor: borderGrey,
+      borderStyle: 'solid',
+      borderWidth: 1.5,
+      alignContent: 'center',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: 60,
+      width: '100%',
+      marginBottom: 5,
+      marginTop: 5
+   },
+
+   buttonText: {
+      fontSize: 15,
+      fontWeight: 'bold'
+   },
+
+   image: {
+      borderRadius: 25,
+      width: 250,
+      height: 250,
+   },
+
+   imageSmall: {
+      borderRadius: 25,
+      margin: 15,
+      width: 125,
+      height: 150,
+   }
 })
