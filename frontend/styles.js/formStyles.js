@@ -1,5 +1,6 @@
 import {
    green,
+   lightGreen,
    white,
    backgroundGrey,
    darkGrey,
@@ -27,6 +28,15 @@ export const formStyles = StyleSheet.create({
       backgroundColor: backgroundGrey
    },
 
+   walkOfferMiddleSection: {
+      flex: 6,
+      padding: 10,
+      alignContent: 'center',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      backgroundColor: backgroundGrey
+   },
+
    bottomSection: {
       // tu będą przyciski
       flex: 0.5,
@@ -39,10 +49,24 @@ export const formStyles = StyleSheet.create({
       lineHeight: 40,
    },
 
+   h1Centered: {
+      fontSize: 25,
+      alignSelf: 'center',
+      lineHeight: 40,
+      fontWeight : "bold"
+   },
+
    h3: {
       fontSize: 19,
       alignSelf: 'flex-start',
       lineHeight: 30,
+   },
+
+   h3Centered: {
+      fontSize: 19,
+      alignSelf: 'center',
+      lineHeight: 40,
+      fontWeight : "bold"
    },
 
    formContainer: {
@@ -50,6 +74,32 @@ export const formStyles = StyleSheet.create({
       marginBottom: 25,
       gap: 10,
       width: '100%'
+   },
+
+   walkOffer: {
+      backgroundColor: lightGreen,
+      borderRadius: 40,
+      marginTop: 20,
+      marginBottom: 25,
+      gap: 10,
+      width: '100%',
+      padding: 20
+   },
+
+   walkOfferText: {
+      backgroundColor: white,
+      borderRadius: 40,
+      gap: 10,
+      width: '100%',
+      padding: 20
+   },
+
+   walkOfferImage: {
+      width: 90,
+      height: 90,
+      position: 'absolute',
+      top: 30,
+      left: 25,
    },
 
    formInput: {

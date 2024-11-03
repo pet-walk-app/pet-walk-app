@@ -10,6 +10,7 @@ import CaregiverProfileForm from '../screens/CaregiverProfileForm';
 import CaregiverProfileForm2 from '../screens/CaregiverProfileForm2';
 import PetForm from '../screens/PetForm';
 import PetForm2 from '../screens/PetForm2';
+import WalkOffer from '../screens/WalkOffer';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,7 @@ export default function Navigation() {
                <Stack.Screen name = 'Caregiver Profile Form 2' component={CaregiverProfileForm2}/>
                <Stack.Screen name = 'Pet Form' component={PetForm}/>
                <Stack.Screen name = 'Pet Form 2' component={PetForm2}/>
+               <Stack.Screen name = 'Walk Offer' component={WalkOffer}/>
            </Stack.Navigator>
        </NavigationContainer>
    );

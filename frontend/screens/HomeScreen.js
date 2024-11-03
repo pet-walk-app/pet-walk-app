@@ -42,6 +42,11 @@ export default function HomeScreen({navigation}) {
                //  Nawigacja do wybranej strony
                 onPress={() => navigation.navigate('Caregiver Profile Form 2')} 
             />
+            <Button 
+                title="Walk offer" 
+               //  Nawigacja do wybranej strony
+                onPress={() => navigation.navigate('Walk Offer')} 
+            />
         </View>
     );
 }
