@@ -29,6 +29,7 @@ export const formStyles = StyleSheet.create({
    },
 
    walkOfferMiddleSection: {
+      marginTop: 20,
       flex: 6,
       padding: 10,
       alignContent: 'center',
@@ -98,7 +99,7 @@ export const formStyles = StyleSheet.create({
       width: 90,
       height: 90,
       position: 'absolute',
-      top: 30,
+      top: 60,
       left: 25,
    },
 

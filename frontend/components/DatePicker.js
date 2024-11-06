@@ -7,6 +7,11 @@ import {formatDate} from '../utils/commonUtils';
 const DatePicker = ({date, setDate, pastDate}) => {
     const [isOpen, setIsOpen] = useState(false);
 
+    const handleChange = (date) => {
+        setDate(date);
+        setIsOpen(false);
+    }
+
     return (
         <View>
             <Pressable
