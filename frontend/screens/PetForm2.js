@@ -48,8 +48,9 @@ export default function PetForm2() {
       <View style={[formStyles.formContainer, {justifyContent: 'center', alignItems: 'center'}]}>
         <Pressable onPress={pickImage}>
           {hasPhoto ?
-          (image && <Image source={{ uri: image }} style={[formStyles.image]} />) :
-          (<Image source={img} style={[formStyles.image]}/>)}
+            (image && <Image source={{ uri: image }} style={[formStyles.image]} />) :
+            (<Image source={img} style={[formStyles.image]}/>)
+          }
         </Pressable>
         <CustomButton 
           color={green} 

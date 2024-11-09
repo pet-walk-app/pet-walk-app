@@ -9,15 +9,15 @@ export default function FormBigInput({
   height
 }) {
   return (
-      <TextInput 
-        style={formStyles.formBigInput}
-        placeholder={placeholder}
-        value={value}
-        onChangeText={(text) => setValue(text)}
-        height={height}
-        numberOfLines={20}
-        multiline={true}
-        placeholderTextColor={darkGrey}
-      />
+    <TextInput 
+      style={formStyles.formBigInput}
+      placeholder={placeholder}
+      value={value}
+      onChangeText={(text) => setValue(text)}
+      height={height}
+      numberOfLines={20}
+      multiline={true}
+      placeholderTextColor={darkGrey}
+    />
   );
 }

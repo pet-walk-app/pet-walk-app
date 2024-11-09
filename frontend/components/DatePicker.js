@@ -5,31 +5,31 @@ import {formStyles} from '../styles.js/formStyles';
 import {formatDate} from '../utils/commonUtils';
 
 const DatePicker = ({date, setDate, pastDate}) => {
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-    const handleChange = (date) => {
-        setDate(date);
-        setIsOpen(false);
-    }
+  const handleChange = (date) => {
+    setDate(date);
+    setIsOpen(false);
+  }
 
-    return (
-        <View>
-            <Pressable
-                onPress={() => setIsOpen(true)}
-                style={formStyles.formInput}>
-                <Text style={formStyles.inputText}>{formatDate(date, '.')}</Text>
-            </Pressable>
+  return (
+    <View>
+      <Pressable
+        onPress={() => setIsOpen(true)}
+        style={formStyles.formInput}>
+        <Text style={formStyles.inputText}>{formatDate(date, '.')}</Text>
+      </Pressable>
 
-            <DateTimePickerModal
-                isVisible={isOpen}
-                mode="date"
-                onConfirm={handleChange}
-                date={date}
-                maximumDate={pastDate && new Date()}
-                onCancel={() => setIsOpen(false)}
-            />
-        </View>
-    );
+      <DateTimePickerModal
+        isVisible={isOpen}
+        mode="date"
+        onConfirm={handleChange}
+        date={date}
+        maximumDate={pastDate && new Date()}
+        onCancel={() => setIsOpen(false)}
+      />
+    </View>
+  );
 };
 
 export default DatePicker;

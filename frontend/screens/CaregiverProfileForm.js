@@ -9,55 +9,55 @@ import CustomButton from "../components/CustomButton";
 
 
 export default function CaregiverProfileForm() {
-   // True if user uses this form for the first time and creating an account
-   // False if user already has an account and is editing it
-   const [editingProfile, setEditProfile] = useState(false)
+  // True if user uses this form for the first time and creating an account
+  // False if user already has an account and is editing it
+  const [editingProfile, setEditProfile] = useState(false)
 
-   const [formTitle, setFormTitle] = useState('')
-   const [city, setCity] = useState('')
-   const [description, setDescription] = useState('')
+  const [formTitle, setFormTitle] = useState('')
+  const [city, setCity] = useState('')
+  const [description, setDescription] = useState('')
 
-   useEffect(() => {
-      if (editingProfile) {
-        setFormTitle("Edytuj informacje profilu opiekuna");
-      } else {
-        setFormTitle("Uzupełnij swoje informacje żeby stworzyć profil opiekuna");
-      }
-    }, [editingProfile]);
+  useEffect(() => {
+    if (editingProfile) {
+      setFormTitle("Edytuj informacje profilu opiekuna");
+    } else {
+      setFormTitle("Uzupełnij swoje informacje żeby stworzyć profil opiekuna");
+    }
+  }, [editingProfile]);
 
 
-    return (
-      <KeyboardAvoidingView 
-           style={{ flex: 1 }} 
-           behavior="position"
-       >
-         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <View style={formStyles.container}>
-                  <View style={[formStyles.middleSection, {justifyContent: "none"}]}>
-                     <Text style={formStyles.h1}>{formTitle}</Text>
-                     <View style={formStyles.formContainer}>
-                        <FormInput
-                           value={city}
-                           setValue={setCity}
-                           placeholder={'Miasto'}>
-                        </FormInput>
-                        <FormBigInput 
-                           value={description}
-                           setValue={setDescription}
-                           placeholder={'Napisz kilka słów o sobie'}
-                           height={330}>
-                        </FormBigInput>
-                     </View>
+  return (
+    <KeyboardAvoidingView 
+      style={{ flex: 1 }} 
+      behavior="position"
+    >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={formStyles.container}>
+          <View style={[formStyles.middleSection, {justifyContent: "none"}]}>
+            <Text style={formStyles.h1}>{formTitle}</Text>
+            <View style={formStyles.formContainer}>
+              <FormInput
+                value={city}
+                setValue={setCity}
+                placeholder={'Miasto'}>
+              </FormInput>
+              <FormBigInput 
+                value={description}
+                setValue={setDescription}
+                placeholder={'Napisz kilka słów o sobie'}
+                height={330}>
+              </FormBigInput>
+            </View>
 
-                     <CustomButton 
-                        color={green} 
-                        textColor={white}
-                        action={""}
-                        title={'Kontynuuj'}>
-                     </CustomButton>
-                  </View>
-               </View>
-         </ScrollView>
-       </KeyboardAvoidingView>
-    );
+            <CustomButton 
+              color={green} 
+              textColor={white}
+              action={""}
+              title={'Kontynuuj'}>
+            </CustomButton>
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
 }

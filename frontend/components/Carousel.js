@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { carouselStyles } from '../styles.js/componentsStyles';
 
 const DATA = [
@@ -36,7 +36,6 @@ const Carousel = () => {
   }, []);
 
   return (
-   
     <View style={carouselStyles.container}>
 
       <View style={carouselStyles.leftContainer}>
@@ -49,8 +48,8 @@ const Carousel = () => {
             <TouchableOpacity key={index} onPress={() => handleIndexChange(index)}>
                <View
                   style={[
-                     carouselStyles.indicator,
-                     currentIndex === index && carouselStyles.activeIndicator,
+                    carouselStyles.indicator,
+                    currentIndex === index && carouselStyles.activeIndicator,
                   ]}>
                </View>
             </TouchableOpacity>

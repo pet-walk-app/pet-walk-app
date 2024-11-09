@@ -26,42 +26,42 @@ export default function CaregiverProfileForm() {
     }
   }, [editingProfile]);
 
-   return (
-       <KeyboardAvoidingView 
-           style={{ flex: 1 }} 
-           behavior="position"
-       >
-           <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-               <View style={formStyles.container}>
-                   <View style={[formStyles.middleSection, { justifyContent: "none" }]}>
-                       <Text style={formStyles.h1}>{formTitle}</Text>
-                       <View style={formStyles.formContainer}>
-                           <FormInput
-                               value={petName}
-                               setValue={setPetName}
-                               placeholder={'Imię psa'}
-                           />
-                           <FormInput
-                               value={breed}
-                               setValue={setBreed}
-                               placeholder={'Rasa'}
-                           />
-                           <FormBigInput
-                               value={description}
-                               setValue={setDescription}
-                               placeholder={'Opis. Nie zapomnij o charakterze pupila i przyjmowanych lekach.'}
-                               height={270}
-                           />
-                       </View>
-                       <CustomButton 
-                           color={green} 
-                           textColor={white}
-                           action={""}
-                           title={'Kontynuuj'}
-                       />
-                   </View>
-               </View>
-           </ScrollView>
-       </KeyboardAvoidingView>
-   );
+return (
+    <KeyboardAvoidingView 
+        style={{ flex: 1 }} 
+        behavior="position"
+    >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <View style={formStyles.container}>
+          <View style={[formStyles.middleSection, { justifyContent: "none" }]}>
+            <Text style={formStyles.h1}>{formTitle}</Text>
+            <View style={formStyles.formContainer}>
+              <FormInput
+                value={petName}
+                setValue={setPetName}
+                placeholder={'Imię psa'}
+              />
+              <FormInput
+                value={breed}
+                setValue={setBreed}
+                placeholder={'Rasa'}
+              />
+              <FormBigInput
+                value={description}
+                setValue={setDescription}
+                placeholder={'Opis. Nie zapomnij o charakterze pupila i przyjmowanych lekach.'}
+                height={270}
+              />
+            </View>
+            <CustomButton 
+              color={green} 
+              textColor={white}
+              action={""}
+              title={'Kontynuuj'}
+            />
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  );
 }

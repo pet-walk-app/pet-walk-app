@@ -6,5 +6,4 @@ const Separator = ({ height }) => {
   return <View style={[separatorStyles.separator, height={ height }]} />;
 };
 
-
 export default Separator;

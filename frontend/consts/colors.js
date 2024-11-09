@@ -9,12 +9,12 @@ const beige = '#EFE4B0'
 
 
 export {
-   green,
-   lightGreen,
-   white,
-   backgroundGrey,
-   darkGrey,
-   borderGrey,
-   red,
-   beige
+  green,
+  lightGreen,
+  white,
+  backgroundGrey,
+  darkGrey,
+  borderGrey,
+  red,
+  beige
 }

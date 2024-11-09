@@ -1,4 +1,4 @@
-import { Text, View, TextInput } from 'react-native';
+import { TextInput } from 'react-native';
 import { formStyles } from '../styles.js/formStyles';
 import { darkGrey } from '../consts/colors';
 
@@ -8,12 +8,12 @@ export default function FormInput({
   placeholder
 }) {
   return (
-      <TextInput 
-        style={formStyles.formInput}
-        placeholder={placeholder}
-        value={value}
-        onChangeText={(text) => setValue(text)}
-        placeholderTextColor={darkGrey}
-      />
+    <TextInput 
+      style={formStyles.formInput}
+      placeholder={placeholder}
+      value={value}
+      onChangeText={(text) => setValue(text)}
+      placeholderTextColor={darkGrey}
+    />
   );
 }
