@@ -1,5 +1,5 @@
 import { View, Text, KeyboardAvoidingView, ScrollView } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formStyles } from "../styles.js/formStyles";
 import { green, white } from "../consts/colors";
 
@@ -9,9 +9,22 @@ import CustomButton from "../components/CustomButton";
 
 
 export default function CaregiverProfileForm() {
-   const [petName, setPetName] = useState('');
-   const [breed, setBreed] = useState('');
-   const [description, setDescription] = useState('');
+  // True if user uses this form for the first time and creating an account
+  // False if user already has an account and is editing it
+  const [editingProfile, setEditProfile] = useState(false)
+
+  const [formTitle, setFormTitle] = useState('')
+  const [petName, setPetName] = useState('');
+  const [breed, setBreed] = useState('');
+  const [description, setDescription] = useState('');
+
+  useEffect(() => {
+    if (editingProfile) {
+      setFormTitle("Edytuj dane swojego zwierzaka");
+    } else {
+      setFormTitle("Uzupełnij informacje żeby stworzyć profil zwierzaka");
+    }
+  }, [editingProfile]);
 
    return (
        <KeyboardAvoidingView 
@@ -21,7 +34,7 @@ export default function CaregiverProfileForm() {
            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                <View style={formStyles.container}>
                    <View style={[formStyles.middleSection, { justifyContent: "none" }]}>
-                       <Text style={formStyles.h1}>Uzupełnij informacje żeby stworzyć profil zwierzaka</Text>
+                       <Text style={formStyles.h1}>{formTitle}</Text>
                        <View style={formStyles.formContainer}>
                            <FormInput
                                value={petName}
