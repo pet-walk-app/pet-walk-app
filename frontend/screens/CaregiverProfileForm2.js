@@ -1,14 +1,31 @@
-import React, { useState } from 'react';
-import { Pressable, Image, View, Text } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
+import { useState, useEffect } from 'react';
 import { formStyles } from "../styles.js/formStyles";
-import CustomButton from "../components/CustomButton";
 import { green, white } from "../consts/colors";
+import { Pressable, Image, View, Text } from 'react-native';
+
+import * as ImagePicker from 'expo-image-picker';
+import CustomButton from "../components/CustomButton";
+
 
 export default function CaregiverProfileForm2() {
+  // True if user uses this form for the first time and creating an account
+  // False if user already has an account and is editing it
+  const [editingProfile, setEditProfile] = useState(false)
+
   const img = require("../assets/grazynka.png");
+  const [formTitle, setFormTitle] = useState('')
   const [images, setImages] = useState([null, null, null, null]);
   const [hasPhoto, setHasPhoto] = useState([false, false, false, false]);
+
+
+  useEffect(() => {
+    if (editingProfile) {
+      setFormTitle("Edytuj zdjęcia swojego profilu");
+    } else {
+      setFormTitle("Dodaj zdjęcia swojego profilu");
+    }
+  }, [editingProfile]);
+
 
   const pickImage = async (index) => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -29,10 +46,11 @@ export default function CaregiverProfileForm2() {
     }
   };
 
+
   return (
     <View style={formStyles.container}>
       <View style={[formStyles.middleSection, { justifyContent: "none" }]}>
-        <Text style={formStyles.h1}>Dodaj zdjęcia dla swojego profilu.</Text>
+        <Text style={formStyles.h1}>{formTitle}</Text>
         <View style={[formStyles.formContainer, {  }]}>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around' }}>
             {images.map((image, index) => (
