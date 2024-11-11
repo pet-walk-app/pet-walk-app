@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { formStyles } from "../styles.js/formStyles";
+import { formStyles } from "../styles/formStyles";
 import { green, white } from "../consts/colors";
 import { Pressable, Image, View, Text } from 'react-native';
 
 import * as ImagePicker from 'expo-image-picker';
 import CustomButton from "../components/CustomButton";
+import NoStatusBarView from "../components/NoStatusBarView";
 
 
 export default function CaregiverProfileForm2() {
@@ -48,7 +49,7 @@ export default function CaregiverProfileForm2() {
 
 
   return (
-    <View style={formStyles.container}>
+    <NoStatusBarView>
       <View style={[formStyles.middleSection, { justifyContent: "none" }]}>
         <Text style={formStyles.h1}>{formTitle}</Text>
         <View style={[formStyles.formContainer, {  }]}>
@@ -69,6 +70,6 @@ export default function CaregiverProfileForm2() {
           />
         </View>
       </View>
-    </View>
+    </NoStatusBarView>
   );
 }

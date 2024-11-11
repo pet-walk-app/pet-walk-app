@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {Pressable, Text, View} from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import {formStyles} from '../styles.js/formStyles';
+import {formStyles} from '../styles/formStyles';
 import {formatDate} from '../utils/commonUtils';
 
-const DatePicker = ({date, setDate, pastDate}) => {
+const DatePicker = ({date, setDate, dateMax, dateMin}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleChange = (date) => {
@@ -13,10 +13,10 @@ const DatePicker = ({date, setDate, pastDate}) => {
   }
 
   return (
-    <View>
+    <View style={formStyles.formInput}>
       <Pressable
         onPress={() => setIsOpen(true)}
-        style={formStyles.formInput}>
+        >
         <Text style={formStyles.inputText}>{formatDate(date, '.')}</Text>
       </Pressable>
 
@@ -25,7 +25,8 @@ const DatePicker = ({date, setDate, pastDate}) => {
         mode="date"
         onConfirm={handleChange}
         date={date}
-        maximumDate={pastDate && new Date()}
+        maximumDate={dateMax || new Date()}
+        minimumDate={dateMin || new Date()}
         onCancel={() => setIsOpen(false)}
       />
     </View>

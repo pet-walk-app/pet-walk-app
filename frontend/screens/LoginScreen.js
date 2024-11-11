@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { View, Text, StatusBar } from "react-native";
-import { formStyles } from "../styles.js/formStyles";
-import { loginStyles } from "../styles.js/loginFirstVisitStyles";
+import { formStyles } from "../styles/formStyles";
+import { loginStyles } from "../styles/loginFirstVisitStyles";
 import { green, white } from "../consts/colors";
 
 import FormInput from "../components/FormInput";
 import CustomButton from "../components/CustomButton";
 import Carousel from "../components/Carousel";
+import NoStatusBarView from "../components/NoStatusBarView";
 
 
 export default function LoginScreen() {
@@ -14,7 +15,7 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('')
 
   return (
-    <View style={formStyles.container}>
+    <NoStatusBarView>
       <StatusBar hidden></StatusBar>
       <View style={formStyles.topSection}></View>
       <View style={formStyles.middleSection}>
@@ -51,6 +52,6 @@ export default function LoginScreen() {
       </View>
 
       <View style={formStyles.bottomSection}></View>
-    </View>
+    </NoStatusBarView>
   );
 }

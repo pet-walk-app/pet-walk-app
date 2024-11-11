@@ -1,8 +1,9 @@
 import { View, Text, Image } from "react-native";
-import { formStyles } from "../styles.js/formStyles";
+import { formStyles } from "../styles/formStyles";
 import { useState, useEffect } from "react";
 import { red, lightGreen, beige } from "../consts/colors";
 import CustomButton from "../components/CustomButton";
+import NoStatusBarView from "../components/NoStatusBarView";
 
 
 export default function CaregiverProfileForm() {
@@ -30,7 +31,7 @@ export default function CaregiverProfileForm() {
   }, [myOffer]);
 
   return (
-    <View style={formStyles.container}>
+    <NoStatusBarView>
       <View style={[formStyles.walkOfferMiddleSection, {justifyContent: "none"}]}>
         <Text style={formStyles.h1Centered}>{title}</Text>
         <View style={formStyles.walkOffer}>
@@ -93,6 +94,6 @@ export default function CaregiverProfileForm() {
         source={petDefaultPhoto}
         style={formStyles.walkOfferImage}
       />
-    </View>
+    </NoStatusBarView>
   );
 }

@@ -152,3 +152,96 @@ export const createProfileButtonStyles = StyleSheet.create({
     alignSelf: 'center'
   }
 });
+
+export const caregiverFoundStyles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: 160,
+    borderRadius: 40,
+    borderWidth: 4,
+    borderColor: darkGrey,
+    flexDirection: 'row',
+    marginVertical: 10,
+    backgroundColor: green, 
+    padding: 10,
+  },
+
+  leftSection: {
+    flex: 4,
+    alignContent: 'center',
+    justifyContent: 'center',
+    gap: 5,
+    padding: 10,
+  },
+
+  middleSection: {
+    flex: 6,
+    alignContent: 'flex-start',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    padding: 10,
+
+  },
+
+  buttonsContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    gap: 20,
+    marginLeft: 5
+  },
+
+  name: {
+    fontSize: 22,
+    color: white
+  },
+
+  price: {
+    fontSize: 18,
+    color: white 
+  },
+
+  button: {
+    borderRadius: 40,
+    backgroundColor: darkGrey,
+    padding: 2,
+    alignItems: 'center',
+    width: '80%',
+    alignSelf: 'center',
+
+  },
+
+  buttonText: {
+    fontSize: 16,
+    color: white
+  },
+
+  iconContainer: {
+    flex: 0.1,
+    justifyContent: 'center',
+    height: '100%',
+  },
+
+  image: {
+    width: 30,
+    height: 30,
+    alignSelf: 'center',
+    backgroundColor: white,
+    borderRadius: 40
+  },
+
+  profileImageContainer: {
+    alignSelf: 'center',
+    alignContent: 'center',
+    justifyContent: 'center',
+    backgroundColor: white,
+    borderRadius: 20,
+    padding: 10
+  },
+
+  profileImage: {
+    width: 60,
+    height: 80,
+    alignSelf: 'center',
+    borderRadius: 20,
+  }
+})

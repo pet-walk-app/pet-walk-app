@@ -1,5 +1,5 @@
 import { View, Pressable, Text, Image } from "react-native";
-import { customButtonStyles } from "../styles.js/componentsStyles";
+import { customButtonStyles } from "../styles/componentsStyles";
 
 export default function CustomButton({color, action, title, textColor, ownStyle={}}) {
     return (

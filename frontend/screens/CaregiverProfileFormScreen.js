@@ -1,11 +1,12 @@
 import { View, Text, KeyboardAvoidingView, ScrollView } from "react-native";
+import { formStyles } from "../styles/formStyles";
 import { useState, useEffect } from "react";
-import { formStyles } from "../styles.js/formStyles";
 import { green, white } from "../consts/colors";
 
 import FormBigInput from "../components/FormBigInput";
 import FormInput from "../components/FormInput";
 import CustomButton from "../components/CustomButton";
+import NoStatusBarView from "../components/NoStatusBarView";
 
 
 export default function CaregiverProfileForm() {
@@ -14,54 +15,50 @@ export default function CaregiverProfileForm() {
   const [editingProfile, setEditProfile] = useState(false)
 
   const [formTitle, setFormTitle] = useState('')
-  const [petName, setPetName] = useState('');
-  const [breed, setBreed] = useState('');
-  const [description, setDescription] = useState('');
+  const [city, setCity] = useState('')
+  const [description, setDescription] = useState('')
 
   useEffect(() => {
     if (editingProfile) {
-      setFormTitle("Edytuj dane swojego zwierzaka");
+      setFormTitle("Edytuj informacje profilu opiekuna");
     } else {
-      setFormTitle("Uzupełnij informacje żeby stworzyć profil zwierzaka");
+      setFormTitle("Uzupełnij swoje informacje żeby stworzyć profil opiekuna");
     }
   }, [editingProfile]);
 
-return (
-    <KeyboardAvoidingView 
-        style={{ flex: 1 }} 
-        behavior="position"
+
+  return (
+    <NoStatusBarView 
+      style={{ flex: 1 }} 
+      behavior="position"
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View style={formStyles.container}>
-          <View style={[formStyles.middleSection, { justifyContent: "none" }]}>
+          <View style={[formStyles.middleSection, {justifyContent: "none"}]}>
             <Text style={formStyles.h1}>{formTitle}</Text>
             <View style={formStyles.formContainer}>
               <FormInput
-                value={petName}
-                setValue={setPetName}
-                placeholder={'Imię psa'}
-              />
-              <FormInput
-                value={breed}
-                setValue={setBreed}
-                placeholder={'Rasa'}
-              />
-              <FormBigInput
+                value={city}
+                setValue={setCity}
+                placeholder={'Miasto'}>
+              </FormInput>
+              <FormBigInput 
                 value={description}
                 setValue={setDescription}
-                placeholder={'Opis. Nie zapomnij o charakterze pupila i przyjmowanych lekach.'}
-                height={270}
-              />
+                placeholder={'Napisz kilka słów o sobie'}
+                height={330}>
+              </FormBigInput>
             </View>
+
             <CustomButton 
               color={green} 
               textColor={white}
               action={""}
-              title={'Kontynuuj'}
-            />
+              title={'Kontynuuj'}>
+            </CustomButton>
           </View>
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </NoStatusBarView>
   );
 }

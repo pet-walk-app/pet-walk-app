@@ -1,15 +1,16 @@
 import { View, Text } from "react-native";
-import { formStyles } from "../styles.js/formStyles";
+import { formStyles } from "../styles/formStyles";
 import { StatusBar } from "expo-status-bar";
 import { green, white } from "../consts/colors";
 
 import CustomButton from "../components/CustomButton";
 import CreateProfileButton from "../components/CreateProfileButton";
+import NoStatusBarView from "../components/NoStatusBarView";
 
 
 export default function FirstVisitProfileChoiceScreen({navigation}) {
   return (
-    <View style={formStyles.container}>
+    <NoStatusBarView>
       <StatusBar hidden></StatusBar>
       <View style={formStyles.middleSection}>
         <Text style={formStyles.h3}>Aby korzystać z pełni aplikacji{"\n"}uzupełnij dodatkowe informacje.{"\n"}Możesz zrobić to później</Text>
@@ -34,6 +35,6 @@ export default function FirstVisitProfileChoiceScreen({navigation}) {
         </CustomButton>
       </View>
       <View style={formStyles.bottomSection}></View>
-    </View>
+    </NoStatusBarView>
   );
 }

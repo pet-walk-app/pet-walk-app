@@ -1,5 +1,5 @@
 import { View, Pressable, Text, Image } from "react-native";
-import { createProfileButtonStyles } from "../styles.js/componentsStyles";
+import { createProfileButtonStyles } from "../styles/componentsStyles";
 
 export default function CreateProfileButton({action, title, description, image}) {
   return (
@@ -15,9 +15,9 @@ export default function CreateProfileButton({action, title, description, image})
         <Text style={createProfileButtonStyles.descriptionText}>{description}</Text>
       </View>
 
-      <View style={createProfileButtonStyles.iconContainer}>
+      <Pressable style={createProfileButtonStyles.iconContainer}>
         <Image source={require('../assets/icons/plus-icon.png')} style={createProfileButtonStyles.image} />
-      </View>
+      </Pressable>
 
       </View>
     </Pressable>

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Pressable, Image, View, Text } from 'react-native';
-import { formStyles } from "../styles.js/formStyles";
+import { formStyles } from "../styles/formStyles";
 import { green, white } from "../consts/colors";
 
 import CustomButton from "../components/CustomButton";
+import NoStatusBarView from "../components/NoStatusBarView";
 import * as ImagePicker from 'expo-image-picker';
 
 
@@ -41,7 +42,7 @@ export default function PetForm2() {
 
 
   return (
-  <View style={formStyles.container}>
+  <NoStatusBarView>
     <View style={[formStyles.middleSection, {justifyContent: "none"}]}>
       <Text style={formStyles.h1}>{formTitle}</Text>
 
@@ -60,6 +61,6 @@ export default function PetForm2() {
         </CustomButton>
       </View>
     </View>
-  </View>
+  </NoStatusBarView>
   );
 }

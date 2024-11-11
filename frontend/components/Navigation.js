@@ -7,11 +7,14 @@ import FirstVisitFormScreen from '../screens/FirstVisitFormScreen';
 import LoginScreen from '../screens/LoginScreen';
 import RegistrationScreen from '../screens/RegistrationScreen';
 import FirstVisitProfileChoiceScreen from '../screens/FirstVisitProfileChoiceScreen';
-import CaregiverProfileForm from '../screens/CaregiverProfileForm';
-import CaregiverProfileForm2 from '../screens/CaregiverProfileForm2';
-import PetForm from '../screens/PetForm';
-import PetForm2 from '../screens/PetForm2';
-import WalkOffer from '../screens/WalkOffer';
+import CaregiverProfileFormScreen from '../screens/CaregiverProfileFormScreen';
+import CaregiverProfileForm2Screen from '../screens/CaregiverProfileForm2Screen';
+import PetFormScreen from '../screens/PetFormScreen';
+import PetForm2Screen from '../screens/PetForm2Screen';
+import WalkOfferScreen from '../screens/WalkOfferScreen';
+import CaregiversFoundScreen from '../screens/CaregiversFoundScreen';
+import AddOfferScreen from '../screens/AddOfferScreen';
+import OffersListScreen from '../screens/OffersListScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -31,11 +34,14 @@ export default function Navigation() {
         <Stack.Screen name = 'Registration Screen' component={RegistrationScreen}/>
         <Stack.Screen name = 'First Visit Form' component={FirstVisitFormScreen}/>
         <Stack.Screen name = 'First Visit Profile Choice' component={FirstVisitProfileChoiceScreen}/>
-        <Stack.Screen name = 'Caregiver Profile Form' component={CaregiverProfileForm}/>
-        <Stack.Screen name = 'Caregiver Profile Form 2' component={CaregiverProfileForm2}/>
-        <Stack.Screen name = 'Pet Form' component={PetForm}/>
-        <Stack.Screen name = 'Pet Form 2' component={PetForm2}/>
-        <Stack.Screen name = 'Walk Offer' component={WalkOffer}/>
+        <Stack.Screen name = 'Caregiver Profile Form' component={CaregiverProfileFormScreen}/>
+        <Stack.Screen name = 'Caregiver Profile Form 2' component={CaregiverProfileForm2Screen}/>
+        <Stack.Screen name = 'Pet Form' component={PetFormScreen}/>
+        <Stack.Screen name = 'Pet Form 2' component={PetForm2Screen}/>
+        <Stack.Screen name = 'Walk Offer' component={WalkOfferScreen}/>
+        <Stack.Screen name = 'Caregivers Found' component={CaregiversFoundScreen}/>
+        <Stack.Screen name = 'Add Offer' component={AddOfferScreen}/>
+        <Stack.Screen name = 'Offers List' component={OffersListScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

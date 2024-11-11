@@ -1,11 +1,12 @@
 import { View, Text } from "react-native";
 import { useState } from "react";
-import { formStyles } from "../styles.js/formStyles";
+import { formStyles } from "../styles/formStyles";
 import { green, white } from "../consts/colors";
 
 import FormInput from "../components/FormInput";
 import CustomButton from "../components/CustomButton";
 import DatePicker from "../components/DatePicker";
+import NoStatusBarView from "../components/NoStatusBarView";
 
 export default function FirstVisitFormScreen() {
   const [username, setUsername] = useState('')
@@ -13,7 +14,7 @@ export default function FirstVisitFormScreen() {
   const [birthdate, setBirthdate] = useState(new Date(1990, 1, 1))
 
   return (
-    <View style={formStyles.container}>
+    <NoStatusBarView>
       <View style={formStyles.topSection}></View>
       <View style={formStyles.middleSection}>
         <Text style={formStyles.h1}>To Twoja pierwsza wizyta w {"\n"}Pet Walk, uzupełnij swoje informacje</Text>
@@ -31,7 +32,8 @@ export default function FirstVisitFormScreen() {
           <DatePicker
             date={birthdate}
             setDate={setBirthdate}
-            pastDate={true}>
+            dateMin={new Date(1990, 1, 1)}
+            >
           </DatePicker>
         </View>
 
@@ -49,6 +51,6 @@ export default function FirstVisitFormScreen() {
         </CustomButton>
       </View>
       <View style={formStyles.bottomSection}></View>
-    </View>
+    </NoStatusBarView>
   );
 }

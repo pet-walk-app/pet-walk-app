@@ -1,10 +1,10 @@
 import { Button, View } from "react-native";
-import { StatusBar } from "expo-status-bar";
+
+import NoStatusBarView from "../components/NoStatusBarView";
 
 export default function HomeScreen({navigation}) {
   return (
-    <View>
-      <StatusBar hidden></StatusBar>
+    <NoStatusBarView>
       <Button 
         title="Pierwsza wizyta" 
         onPress={() => navigation.navigate('First Visit Form')} 
@@ -41,6 +41,18 @@ export default function HomeScreen({navigation}) {
         title="Walk offer" 
         onPress={() => navigation.navigate('Walk Offer')} 
       />
-    </View>
+      <Button 
+        title="Znalezieni opiekunowie" 
+        onPress={() => navigation.navigate('Caregivers Found')} 
+      />
+      <Button 
+        title="Dodawanie oferty" 
+        onPress={() => navigation.navigate('Add Offer')} 
+      />
+      <Button 
+        title="Lista ofert spacerów" 
+        onPress={() => navigation.navigate('Offers List')} 
+      />
+    </NoStatusBarView>
   );
 }

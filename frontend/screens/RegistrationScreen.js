@@ -1,11 +1,12 @@
 import { View, Text } from "react-native";
-import { formStyles } from "../styles.js/formStyles";
+import { formStyles } from "../styles/formStyles";
 import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { green, white } from "../consts/colors";
 
 import FormInput from "../components/FormInput";
 import CustomButton from "../components/CustomButton";
+import NoStatusBarView from "../components/NoStatusBarView";
 
 
 export default function RegistrationScreen() {
@@ -13,7 +14,7 @@ export default function RegistrationScreen() {
   const [password, setPassword] = useState('')
 
   return (
-    <View style={formStyles.container}>
+    <NoStatusBarView>
       <StatusBar hidden></StatusBar>
       <View style={formStyles.middleSection}>
         <Text style={formStyles.h1}>Załóż konto</Text>
@@ -38,6 +39,6 @@ export default function RegistrationScreen() {
         </CustomButton>
       </View>
       <View style={formStyles.bottomSection}></View>
-  </View>
+  </NoStatusBarView>
   );
 }
