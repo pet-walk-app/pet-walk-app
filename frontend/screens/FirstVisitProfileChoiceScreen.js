@@ -17,12 +17,14 @@ export default function FirstVisitProfileChoiceScreen({navigation}) {
 
         <CreateProfileButton 
           title={'Profil opiekuna'}
+          action={() => navigation.navigate('Caregiver Profile Form')}
           description={'Kliknij tutaj, aby uzupełnić profil opiekuna. Profil opiekuna pozwala na zgłaszanie swojej chęci opieki nad innymi zwierzętami.'}
           image={require('../assets/create-profile-button/user.png')}>
         </CreateProfileButton>
 
         <CreateProfileButton 
           title={'Profile zwierząt'}
+          action={() => navigation.navigate('Pet Form')}
           description={'Kliknij tutaj, aby uzupełnić profile zwierząt. Kiedy Twoje zwierzę będzie potrzebować opieki, jego profil pozwoli Ci na dodanie ogłoszenia.'}
           image={require('../assets/create-profile-button/dog.png')}>
         </CreateProfileButton>
@@ -30,7 +32,6 @@ export default function FirstVisitProfileChoiceScreen({navigation}) {
         <CustomButton 
           color={green} 
           textColor={white}
-          action={''}
           title={'Kontynuuj'}>
         </CustomButton>
       </View>

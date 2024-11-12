@@ -8,7 +8,7 @@ import CustomButton from "../components/CustomButton";
 import DatePicker from "../components/DatePicker";
 import NoStatusBarView from "../components/NoStatusBarView";
 
-export default function FirstVisitFormScreen() {
+export default function FirstVisitFormScreen({navigation}) {
   const [username, setUsername] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [birthdate, setBirthdate] = useState(new Date(1990, 1, 1))
@@ -40,13 +40,13 @@ export default function FirstVisitFormScreen() {
         <CustomButton 
           color={green} 
           textColor={white}
-          action={''}
+          action={() => navigation.navigate('First Visit Profile Choice')}
           title={'Kontynuuj'}>
         </CustomButton>
         <CustomButton 
           color={white} 
           textColor={green}
-          action={''}
+          action={() => navigation.navigate('Login Screen')}
           title={'Wyloguj się'}>
         </CustomButton>
       </View>

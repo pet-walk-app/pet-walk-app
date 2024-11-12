@@ -9,7 +9,7 @@ import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
 
 
-export default function CaregiverProfileForm() {
+export default function CaregiverProfileForm({navigation}) {
   // True if user uses this form for the first time and creating an account
   // False if user already has an account and is editing it
   const [editingProfile, setEditProfile] = useState(false)
@@ -57,7 +57,7 @@ return (
             <CustomButton 
               color={green} 
               textColor={white}
-              action={""}
+              action={() => navigation.navigate('Pet Form 2')}
               title={'Kontynuuj'}
             />
           </View>

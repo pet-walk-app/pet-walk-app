@@ -3,7 +3,8 @@ import { createProfileButtonStyles } from "../styles/componentsStyles";
 
 export default function CreateProfileButton({action, title, description, image}) {
   return (
-    <Pressable onPress={() => {action}}>
+    <Pressable 
+      onPress={action}>
       <View style={createProfileButtonStyles.container}>
 
       <View style={createProfileButtonStyles.iconContainer}>

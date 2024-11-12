@@ -10,7 +10,7 @@ import Carousel from "../components/Carousel";
 import NoStatusBarView from "../components/NoStatusBarView";
 
 
-export default function LoginScreen() {
+export default function LoginScreen({navigation}) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -40,13 +40,13 @@ export default function LoginScreen() {
         <CustomButton 
           color={green} 
           textColor={white}
-          action={''}
+          action={() => navigation.navigate('First Visit Form')}
           title={'Kontynuuj'}>
         </CustomButton>
         <CustomButton 
           color={white} 
           textColor={green}
-          action={''}
+          action={() => navigation.navigate('Registration Screen')}
           title={'Załóż konto'}>
         </CustomButton>
       </View>

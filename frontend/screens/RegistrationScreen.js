@@ -34,7 +34,7 @@ export default function RegistrationScreen() {
         <CustomButton 
           color={green} 
           textColor={white}
-          action={''}
+          action={() => navigation.navigate('Login Screen')}
           title={'Kontynuuj'}>
         </CustomButton>
       </View>
