@@ -15,6 +15,8 @@ import WalkOfferScreen from '../screens/WalkOfferScreen';
 import CaregiversFoundScreen from '../screens/CaregiversFoundScreen';
 import AddOfferScreen from '../screens/AddOfferScreen';
 import OffersListScreen from '../screens/OffersListScreen';
+import UserProfile from '../screens/UserProfileScreen';
+import PetProfile from '../screens/PetProfileScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -42,6 +44,8 @@ export default function Navigation() {
         <Stack.Screen name = 'Caregivers Found' component={CaregiversFoundScreen}/>
         <Stack.Screen name = 'Add Offer' component={AddOfferScreen}/>
         <Stack.Screen name = 'Offers List' component={OffersListScreen}/>
+        <Stack.Screen name = 'User Profile' component={UserProfile}/>
+        <Stack.Screen name = 'Pet Profile' component={PetProfile}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

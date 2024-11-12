@@ -16,6 +16,8 @@ export default function AddOfferScreen({navigation}) {
     const [zipCode, setZipCode] = useState('')
     const [city, setCity] = useState('')
     const [walkDate, setWalkDate] = useState(new Date())
+    const [walkTime, setWalkTime] = useState(new Date())
+    const [walkLength, setWalkLength] = useState('')
 
     return (
     <NoStatusBarView padding={40}>
@@ -61,17 +63,21 @@ export default function AddOfferScreen({navigation}) {
                 </View>
 
                 <View style={formStyles.formSection}>
-                    <Text style={formStyles.sectionHeader}>Data spaceru</Text>
+                    <Text style={formStyles.sectionHeader}>Dane spaceru</Text>
                     <DatePicker
                         date={walkDate}
                         setDate={setWalkDate}
                         dateMax = {getFutureDate(0, 2, 0)}>
                     </DatePicker>
                     <TimePicker
-                        time={walkDate}
-                        setTime={setWalkDate}>
+                        time={walkTime}
+                        setTime={setWalkTime}>
                     </TimePicker>
-                    
+                    <FormInput 
+                        value={walkLength}
+                        setValue={setWalkLength}
+                        placeholder={'Długość spaceru'}>
+                    </FormInput>
                 </View>
             </View> 
 

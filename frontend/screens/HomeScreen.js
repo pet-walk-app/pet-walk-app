@@ -53,6 +53,14 @@ export default function HomeScreen({navigation}) {
         title="Lista ofert spacerów" 
         onPress={() => navigation.navigate('Offers List')} 
       />
+      <Button 
+        title="Profil opiekuna" 
+        onPress={() => navigation.navigate('User Profile')} 
+      />
+      <Button 
+        title="Profil zwierzęcia" 
+        onPress={() => navigation.navigate('Pet Profile')} 
+      />
     </NoStatusBarView>
   );
 }
