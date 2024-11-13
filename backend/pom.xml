@@ -5,26 +5,38 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.springframework.boot</groupId>
-    <artifactId>spring-boot-starter-parent</artifactId>
-    <version>3.3.4</version>
+    <groupId>com.kotkipieski</groupId>
+    <artifactId>parent-pom</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <relativePath/>
   </parent>
 
-  <groupId>com.kotkipieski</groupId>
   <artifactId>backend</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Projekt inzynierski - backend</name>
-  <description>Projekt inżynierski - backend</description>
+  <name>Pet Love App Backend</name>
+  <description>Pet Love App Backend</description>
 
   <properties>
     <java.version>21</java.version>
     <org.mapstruct.version>1.6.0</org.mapstruct.version>
     <lombok.version>1.18.34</lombok.version>
-    <spring-boot.version>3.3.3</spring-boot.version>
+    <spring-boot.version>3.3.5</spring-boot.version>
     <jjwt.version>0.12.6</jjwt.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <main.basedir>${project.basedir}/..</main.basedir>
   </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${spring-boot.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
     <dependency>
@@ -107,6 +119,17 @@
     </dependency>
 
     <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.17.0</version>
+    </dependency>
+
+    <dependency>
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct-processor</artifactId>
       <version>${org.mapstruct.version}</version>
@@ -161,13 +184,11 @@
               <artifactId>lombok</artifactId>
               <version>${lombok.version}</version>
             </path>
-
             <path>
               <groupId>org.projectlombok</groupId>
               <artifactId>lombok-mapstruct-binding</artifactId>
               <version>0.2.0</version>
             </path>
-
             <path>
               <groupId>org.mapstruct</groupId>
               <artifactId>mapstruct-processor</artifactId>
@@ -175,9 +196,7 @@
             </path>
           </annotationProcessorPaths>
           <compilerArgs>
-            <compilerArg>
-              -Amapstruct.defaultComponentModel=spring
-            </compilerArg>
+            <compilerArg>-Amapstruct.defaultComponentModel=spring</compilerArg>
           </compilerArgs>
         </configuration>
       </plugin>
@@ -201,7 +220,26 @@
           </arguments>
         </configuration>
       </plugin>
+
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>2.43.0</version>
+        <configuration>
+          <java>
+            <includes>
+              <include>src/main/java/**/*.java</include>
+              <include>src/test/java/**/*.java</include>
+            </includes>
+            <eclipse>
+              <file>config/formatter.xml</file>
+            </eclipse>
+            <importOrder/>
+            <removeUnusedImports/>
+            <formatAnnotations/>
+          </java>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-
 </project>

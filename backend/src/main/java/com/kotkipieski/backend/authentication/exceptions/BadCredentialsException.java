@@ -1,11 +1,13 @@
 package com.kotkipieski.backend.authentication.exceptions;
 
-import com.kotkipieski.backend.common.exceptions.BaseServerException;
+import com.kotkipieski.backend.security.exceptions.BaseServerException;
 import org.springframework.http.HttpStatus;
 
-public class BadCredentialsException extends BaseServerException {
+public class BadCredentialsException extends BaseServerException
+{
 
-  public BadCredentialsException() {
+  public BadCredentialsException()
+  {
     super("Provided user credentials are not valid");
     setStatus(HttpStatus.UNAUTHORIZED);
   }

@@ -18,7 +18,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Table(name = "care_proposals")
-public class CareProposal {
+public class CareProposal
+{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

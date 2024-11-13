@@ -1,10 +1,12 @@
 package com.kotkipieski.backend.users.exceptions;
 
-import com.kotkipieski.backend.common.exceptions.BaseServerException;
+import com.kotkipieski.backend.security.exceptions.BaseServerException;
 
-public class UserNotFoundException extends BaseServerException {
+public class UserNotFoundException extends BaseServerException
+{
 
-  public UserNotFoundException() {
+  public UserNotFoundException()
+  {
     super("User not found");
   }
 }

@@ -1,15 +1,16 @@
 package com.kotkipieski.backend.care.entities;
 
+import com.kotkipieski.backend.images.entities.Image;
 import com.kotkipieski.backend.offers.entities.WalkOffer;
-import com.kotkipieski.backend.users.entities.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,23 +22,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "caregivers")
-public class Caregiver {
+public class Caregiver
+{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne(mappedBy = "caregiver")
-  private User user;
-
+  @NotEmpty
   private String city;
 
   @Lob
+  @NotEmpty
   private String description;
 
-  @OneToMany(mappedBy = "caregiver")
-  private List<CaregiverPhoto> photos;
+  @OneToMany(cascade = CascadeType.REMOVE)
+  @JoinColumn(name = "image_id", referencedColumnName = "id")
+  private List<Image> images;
 
   @OneToMany(mappedBy = "selectedCaregiver")
   private List<WalkOffer> acceptedOffers;

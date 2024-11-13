@@ -1,17 +1,20 @@
 package com.kotkipieski.backend.users.entities;
 
 import com.kotkipieski.backend.care.entities.Caregiver;
+import com.kotkipieski.backend.images.entities.Image;
 import com.kotkipieski.backend.pets.entities.PetOwner;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -24,8 +27,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "users")
-public class User {
+@Table(name = "app_user")
+public class User
+{
 
   public static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
 
@@ -33,27 +37,34 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne
+  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @JoinColumn(name = "caregiver_id", referencedColumnName = "id")
   private Caregiver caregiver;
 
-  @OneToOne
+  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @JoinColumn(name = "pet_owner_id", referencedColumnName = "id")
   private PetOwner petOwner;
 
   @Column(name = "username", nullable = false)
-  @NotBlank(message = "Username cannot be empty")
-  @Size(min = 5, max = 64, message = "User name must be of length 5-64")
+  @NotBlank
+  @Size(min = 5, max = 64)
   private String name;
 
   @Column(nullable = false, unique = true)
-  @NotBlank(message = "Email cannot be blank")
-  @Email(message = "Invalid email", regexp = EMAIL_REGEX)
+  @NotBlank
+  @Email(regexp = EMAIL_REGEX)
   private String email;
 
   @Column(nullable = false)
-  @NotNull(message = "Password cannot be null")
+  @NotBlank
+  @Size(min = 5, max = 64)
   private String password;
 
   private LocalDate dateOfBirth;
 
   private String phone;
+
+  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+  @JoinColumn(name = "image_id", referencedColumnName = "id")
+  private Image image;
 }

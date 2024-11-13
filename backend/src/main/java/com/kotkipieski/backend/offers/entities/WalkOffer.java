@@ -14,7 +14,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
@@ -28,8 +27,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "walk_offers")
-public class WalkOffer {
+public class WalkOffer
+{
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
