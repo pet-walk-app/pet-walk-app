@@ -2,17 +2,21 @@ import { TextInput } from 'react-native';
 import { formStyles } from '../styles/formStyles';
 import { darkGrey } from '../consts/colors';
 
-export default function FormInput({ 
+export default function FormBigInput({ 
   value, 
   setValue,
-  placeholder
+  placeholder,
+  height
 }) {
   return (
     <TextInput 
-      style={formStyles.formInput}
+      style={formStyles.formBigInput}
       placeholder={placeholder}
       value={value}
       onChangeText={(text) => setValue(text)}
+      height={height}
+      numberOfLines={20}
+      multiline={true}
       placeholderTextColor={darkGrey}
     />
   );

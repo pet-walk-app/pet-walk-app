@@ -1,0 +1,41 @@
+import { View, Text } from "react-native";
+import { formStyles } from "../styles/formStyles";
+import { StatusBar } from "expo-status-bar";
+import { green, white } from "../consts/colors";
+
+import CustomButton from "../components/CustomButton";
+import CreateProfileButton from "../components/CreateProfileButton";
+import NoStatusBarView from "../components/NoStatusBarView";
+
+
+export default function FirstVisitProfileChoiceScreen({navigation}) {
+  return (
+    <NoStatusBarView>
+      <StatusBar hidden></StatusBar>
+      <View style={formStyles.middleSection}>
+        <Text style={formStyles.h3}>Aby korzystać z pełni aplikacji{"\n"}uzupełnij dodatkowe informacje.{"\n"}Możesz zrobić to później</Text>
+
+        <CreateProfileButton 
+          title={'Profil opiekuna'}
+          action={() => navigation.navigate('Caregiver Profile Form')}
+          description={'Kliknij tutaj, aby uzupełnić profil opiekuna. Profil opiekuna pozwala na zgłaszanie swojej chęci opieki nad innymi zwierzętami.'}
+          image={require('../assets/create-profile-button/user.png')}>
+        </CreateProfileButton>
+
+        <CreateProfileButton 
+          title={'Profile zwierząt'}
+          action={() => navigation.navigate('Pet Form')}
+          description={'Kliknij tutaj, aby uzupełnić profile zwierząt. Kiedy Twoje zwierzę będzie potrzebować opieki, jego profil pozwoli Ci na dodanie ogłoszenia.'}
+          image={require('../assets/create-profile-button/dog.png')}>
+        </CreateProfileButton>
+
+        <CustomButton 
+          color={green} 
+          textColor={white}
+          title={'Kontynuuj'}>
+        </CustomButton>
+      </View>
+      <View style={formStyles.bottomSection}></View>
+    </NoStatusBarView>
+  );
+}
