@@ -38,7 +38,7 @@ export const walkOfferPreviewStyles = StyleSheet.create({
   },
 
   profileImage: {
-    width: 60,
+    width: 80,
     height: 80,
     alignSelf: 'center',
     borderRadius: 20,
@@ -135,5 +135,62 @@ export const offerListStyles = StyleSheet.create({
 
   filterButton: {
     backgroundColor: '#696969',
+  },
+});
+
+export const MyOfferPreviewStyles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: 180,
+    borderRadius: 40,
+    borderWidth: 4,
+    borderColor: darkGrey,
+    backgroundColor: green,
+    padding: 10,
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+
+  myOfferTitle: {
+    color: white,
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+
+  content: {
+    flexDirection: 'row',
+    width: '100%',
+    paddingHorizontal: 10,
+  },
+
+  leftSection: {
+    flex: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+  },
+
+  profileImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 20,
+  },
+
+  myOfferMiddleSection: {
+    flex: 6,
+    justifyContent: 'center',
+    paddingLeft: 10,
+  },
+
+  animalName: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: white,
+  },
+
+  text: {
+    fontSize: 14,
+    color: white,
   },
 });

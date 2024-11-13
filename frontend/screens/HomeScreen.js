@@ -61,6 +61,10 @@ export default function HomeScreen({navigation}) {
         title="Profil zwierzęcia" 
         onPress={() => navigation.navigate('Pet Profile')} 
       />
+      <Button 
+        title="Moje oferty" 
+        onPress={() => navigation.navigate('My Offers')} 
+      />
     </NoStatusBarView>
   );
 }
