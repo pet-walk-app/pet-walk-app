@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 @Hidden
 @RestController
 @RequestMapping("/api/v1/docs")
-public class SwaggerController {
+public class SwaggerController
+{
 
   @GetMapping
-  public void docs(HttpServletResponse response) throws IOException {
+  public void docs(HttpServletResponse response) throws IOException
+  {
     response.sendRedirect("/api/v1/docs/index.html");
   }
 }
