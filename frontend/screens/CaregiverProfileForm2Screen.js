@@ -13,7 +13,7 @@ export default function CaregiverProfileForm2() {
   // False if user already has an account and is editing it
   const [editingProfile, setEditProfile] = useState(false)
 
-  const img = require("../assets/grazynka.png");
+  const img = require("../assets/plus.png");
   const [formTitle, setFormTitle] = useState('')
   const [images, setImages] = useState([null, null, null, null]);
   const [hasPhoto, setHasPhoto] = useState([false, false, false, false]);

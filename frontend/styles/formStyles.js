@@ -184,6 +184,6 @@ export const formStyles = StyleSheet.create({
     borderRadius: 25,
     margin: 15,
     width: 125,
-    height: 150,
+    height: 125,
   }
 })

@@ -56,6 +56,12 @@ export default function PetForm2() {
         <CustomButton 
           color={green} 
           textColor={white}
+          action={pickImage}
+          title={"Dodaj zdjęcie"}>
+        </CustomButton>
+        <CustomButton 
+          color={green} 
+          textColor={white}
           action={""}
           title={"Kontynuuj"}>
         </CustomButton>
