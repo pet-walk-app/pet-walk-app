@@ -68,11 +68,7 @@ public class JwtService implements IJwtService
 
   private Claims extractAllClaims(String token)
   {
-    return Jwts.parser()
-        .verifyWith(getSignInKey())
-        .build()
-        .parseSignedClaims(token)
-        .getPayload();
+    return Jwts.parser().verifyWith(getSignInKey()).build().parseSignedClaims(token).getPayload();
   }
 
   private boolean isTokenExpired(String token)

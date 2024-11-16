@@ -48,15 +48,13 @@ public class UserService implements UserDetailsService, IUserService
   @Override
   public User getUserByEmail(String email) throws UserNotFoundException
   {
-    return userRepository.getUserByEmail(email)
-        .orElseThrow(UserNotFoundException::new);
+    return userRepository.getUserByEmail(email).orElseThrow(UserNotFoundException::new);
   }
 
   @Override
   public boolean userExistsByEmail(String email)
   {
-    return userRepository.getUserByEmail(email)
-        .isPresent();
+    return userRepository.getUserByEmail(email).isPresent();
   }
 
   @Override
@@ -96,8 +94,7 @@ public class UserService implements UserDetailsService, IUserService
   @Override
   public User getCurrentUser()
   {
-    var authentication = SecurityContextHolder.getContext()
-        .getAuthentication();
+    var authentication = SecurityContextHolder.getContext().getAuthentication();
 
     if (authentication == null || !authentication.isAuthenticated()) {
       throw new UserNotPresentInSessionException();

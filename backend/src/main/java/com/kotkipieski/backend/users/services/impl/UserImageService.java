@@ -29,8 +29,7 @@ public class UserImageService implements IUserImageService
   {
     User currentUser = userService.getCurrentUser();
     Image newImage = imageService.saveImage(imageFile);
-    Optional.ofNullable(currentUser.getImage())
-        .ifPresent(imageService::deleteImage);
+    Optional.ofNullable(currentUser.getImage()).ifPresent(imageService::deleteImage);
     currentUser.setImage(newImage);
     userService.updateUser(currentUser);
 

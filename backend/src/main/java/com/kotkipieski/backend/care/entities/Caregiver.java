@@ -40,7 +40,7 @@ public class Caregiver
   @OneToMany(cascade = CascadeType.REMOVE)
   @JoinColumn(name = "image_id", referencedColumnName = "id")
   private List<Image> images = new ArrayList<>();
-  
+
   @OneToMany(mappedBy = "selectedCaregiver")
   private List<WalkOffer> acceptedOffers = new ArrayList<>();
 

@@ -20,8 +20,7 @@ public class OpenApiConfig
   @Bean
   public OpenAPI customOpenAPI()
   {
-    return new OpenAPI().info(new Info().title("Pet Love App API")
-        .version("1.0"));
+    return new OpenAPI().info(new Info().title("Pet Love App API").version("1.0"));
   }
 
   @Bean

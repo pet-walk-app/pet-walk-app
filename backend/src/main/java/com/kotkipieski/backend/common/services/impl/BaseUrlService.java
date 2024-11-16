@@ -13,16 +13,13 @@ public class BaseUrlService implements IBaseUrlService
   @Override
   public String getServerUrl()
   {
-    return ServletUriComponentsBuilder.fromCurrentContextPath()
-        .build()
-        .toUriString();
+    return ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
   }
 
   @Override
   public String getUploadsUrl()
   {
-    return ServletUriComponentsBuilder.fromCurrentContextPath()
-        .build()
-        .toUriString() + UPLOADS_PATH;
+    return ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString()
+        + UPLOADS_PATH;
   }
 }

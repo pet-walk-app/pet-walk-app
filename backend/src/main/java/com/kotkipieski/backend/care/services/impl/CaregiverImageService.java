@@ -34,13 +34,10 @@ public class CaregiverImageService implements ICaregiverImageService
   {
     Caregiver currentCaregiver = caregiverService.getCurrentCaregiver();
 
-    List<Image> newImages = imageFiles.stream()
-        .map(imageService::saveImage)
-        .toList();
+    List<Image> newImages = imageFiles.stream().map(imageService::saveImage).toList();
 
-    currentCaregiver.getImages()
-        .addAll(newImages);
-    
+    currentCaregiver.getImages().addAll(newImages);
+
     caregiverService.save(currentCaregiver);
 
     return caregiverResponseMapper.toCaregiverResponse(currentCaregiver, imageService);
@@ -58,10 +55,7 @@ public class CaregiverImageService implements ICaregiverImageService
         .map(Caregiver::getImages)
         .orElseGet(Collections::emptyList);
 
-    Image image = images.stream()
-        .filter(im -> id.equals(im.getId()))
-        .findFirst()
-        .orElse(null);
+    Image image = images.stream().filter(im -> id.equals(im.getId())).findFirst().orElse(null);
 
     if (Objects.nonNull(image)) {
       imageService.deleteImage(image);

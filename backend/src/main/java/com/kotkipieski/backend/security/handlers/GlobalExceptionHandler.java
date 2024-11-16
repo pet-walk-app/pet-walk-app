@@ -65,19 +65,14 @@ public class GlobalExceptionHandler
         .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ErrorResponse.builder()
-            .message(INVALID_REQUEST_ARGUMENTS)
-            .details(details)
-            .build());
+        .body(ErrorResponse.builder().message(INVALID_REQUEST_ARGUMENTS).details(details).build());
   }
 
   @ExceptionHandler({HttpMessageNotReadableException.class})
   public ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException()
   {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ErrorResponse.builder()
-            .message(INVALID_REQUEST)
-            .build());
+        .body(ErrorResponse.builder().message(INVALID_REQUEST).build());
   }
 
   @ExceptionHandler({BaseServerException.class})
@@ -94,54 +89,42 @@ public class GlobalExceptionHandler
   public ResponseEntity<ErrorResponse> handleNoResourceFoundException()
   {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(ErrorResponse.builder()
-            .message(RESOURCE_NOT_FOUND)
-            .build());
+        .body(ErrorResponse.builder().message(RESOURCE_NOT_FOUND).build());
   }
 
   @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
   public ResponseEntity<ErrorResponse> handleMethodNotSupported()
   {
     return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED)
-        .body(ErrorResponse.builder()
-            .message(METHOD_NOT_ALLOWED)
-            .build());
+        .body(ErrorResponse.builder().message(METHOD_NOT_ALLOWED).build());
   }
 
   @ExceptionHandler({HttpMediaTypeNotSupportedException.class})
   public ResponseEntity<ErrorResponse> handleMediaTypeNotSupported()
   {
     return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-        .body(ErrorResponse.builder()
-            .message(UNSUPPORTED_MEDIA_TYPE)
-            .build());
+        .body(ErrorResponse.builder().message(UNSUPPORTED_MEDIA_TYPE).build());
   }
 
   @ExceptionHandler({ConstraintViolationException.class})
   public ResponseEntity<ErrorResponse> handleConstraintViolation()
   {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ErrorResponse.builder()
-            .message(CONSTRAINT_VIOLATION)
-            .build());
+        .body(ErrorResponse.builder().message(CONSTRAINT_VIOLATION).build());
   }
 
   @ExceptionHandler({NoHandlerFoundException.class})
   public ResponseEntity<ErrorResponse> handleNoHandlerFound()
   {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body(ErrorResponse.builder()
-            .message(RESOURCE_NOT_FOUND)
-            .build());
+        .body(ErrorResponse.builder().message(RESOURCE_NOT_FOUND).build());
   }
 
   @ExceptionHandler({DataIntegrityViolationException.class})
   public ResponseEntity<ErrorResponse> handleDataIntegrityViolation()
   {
     return ResponseEntity.status(HttpStatus.CONFLICT)
-        .body(ErrorResponse.builder()
-            .message(DATA_INTEGRITY_VIOLATION)
-            .build());
+        .body(ErrorResponse.builder().message(DATA_INTEGRITY_VIOLATION).build());
   }
 
   @ExceptionHandler({UnsupportedJwtException.class, MalformedJwtException.class,
@@ -149,27 +132,21 @@ public class GlobalExceptionHandler
   public ResponseEntity<ErrorResponse> handleInvalidTokenException()
   {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-        .body(ErrorResponse.builder()
-            .message(INVALID_TOKEN)
-            .build());
+        .body(ErrorResponse.builder().message(INVALID_TOKEN).build());
   }
 
   @ExceptionHandler({ExpiredJwtException.class})
   public ResponseEntity<ErrorResponse> handleExpiredTokenException()
   {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-        .body(ErrorResponse.builder()
-            .message(EXPIRED_TOKEN)
-            .build());
+        .body(ErrorResponse.builder().message(EXPIRED_TOKEN).build());
   }
 
   @ExceptionHandler({AuthenticationException.class, JwtException.class})
   public ResponseEntity<ErrorResponse> handleAuthenticationException()
   {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-        .body(ErrorResponse.builder()
-            .message(AUTHENTICATION_ERROR)
-            .build());
+        .body(ErrorResponse.builder().message(AUTHENTICATION_ERROR).build());
   }
 
   @ExceptionHandler({MaxUploadSizeExceededException.class})
@@ -177,9 +154,7 @@ public class GlobalExceptionHandler
       MaxUploadSizeExceededException exception)
   {
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ErrorResponse.builder()
-            .message(MAX_FILE_SIZE_EXCEEDED)
-            .build());
+        .body(ErrorResponse.builder().message(MAX_FILE_SIZE_EXCEEDED).build());
   }
 
   @ExceptionHandler({Exception.class})
@@ -187,9 +162,7 @@ public class GlobalExceptionHandler
   {
     log.warn("Unknown exception:", e);
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(ErrorResponse.builder()
-            .message(AN_UNKNOWN_ERROR_HAS_OCCURRED)
-            .build());
+        .body(ErrorResponse.builder().message(AN_UNKNOWN_ERROR_HAS_OCCURRED).build());
   }
 
   private Map.Entry<String, String> mapError(FieldError error)
