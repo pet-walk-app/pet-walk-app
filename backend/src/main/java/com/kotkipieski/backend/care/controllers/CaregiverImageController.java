@@ -2,6 +2,7 @@ package com.kotkipieski.backend.care.controllers;
 
 import com.kotkipieski.backend.care.dtos.CaregiverResponse;
 import com.kotkipieski.backend.care.services.ICaregiverImageService;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class CaregiverImageController
 
   @PostMapping
   public ResponseEntity<CaregiverResponse> saveImages(
-      @RequestParam("files") List<MultipartFile> files)
+      @RequestParam("files") @NotNull List<MultipartFile> files)
   {
     return ResponseEntity.ok(caregiverImageService.saveImages(files));
   }

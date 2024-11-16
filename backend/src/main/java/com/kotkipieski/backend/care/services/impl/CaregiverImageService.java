@@ -9,7 +9,7 @@ import com.kotkipieski.backend.images.entities.Image;
 import com.kotkipieski.backend.images.services.IImageService;
 import com.kotkipieski.backend.users.services.IUserService;
 import jakarta.transaction.Transactional;
-import java.util.ArrayList;
+import jakarta.validation.constraints.NotNull;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -30,21 +30,17 @@ public class CaregiverImageService implements ICaregiverImageService
   private final CaregiverResponseMapper caregiverResponseMapper;
 
   @Override
-  public CaregiverResponse saveImages(List<MultipartFile> imageFiles)
+  public CaregiverResponse saveImages(@NotNull List<MultipartFile> imageFiles)
   {
     Caregiver currentCaregiver = caregiverService.getCurrentCaregiver();
 
-    List<Image> newImages = Optional.ofNullable(imageFiles)
-        .orElseGet(Collections::emptyList)
-        .stream()
+    List<Image> newImages = imageFiles.stream()
         .map(imageService::saveImage)
         .toList();
 
-    List<Image> currentImages = new ArrayList<>(Optional.ofNullable(currentCaregiver.getImages())
-        .orElseGet(Collections::emptyList));
-
-    currentImages.addAll(newImages);
-    currentCaregiver.setImages(currentImages);
+    currentCaregiver.getImages()
+        .addAll(newImages);
+    
     caregiverService.save(currentCaregiver);
 
     return caregiverResponseMapper.toCaregiverResponse(currentCaregiver, imageService);

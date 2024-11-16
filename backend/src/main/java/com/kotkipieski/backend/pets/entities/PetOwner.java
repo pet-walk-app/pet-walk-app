@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,5 +25,5 @@ public class PetOwner
   private Long id;
 
   @OneToMany(mappedBy = "owner")
-  private List<Pet> pets;
+  private List<Pet> pets = new ArrayList<>();
 }
