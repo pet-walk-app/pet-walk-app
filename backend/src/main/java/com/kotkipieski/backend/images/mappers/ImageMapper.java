@@ -13,4 +13,9 @@ public interface ImageMapper
 
   @Mapping(target = "url", expression = "java(imageService.getFullImageUrl(image))")
   ImageResponse toImageResponse(Image image, @Context IImageService imageService);
+
+  default String toImageUrl(Image image, @Context IImageService imageService)
+  {
+    return imageService.getFullImageUrl(image);
+  }
 }

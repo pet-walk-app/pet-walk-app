@@ -13,8 +13,8 @@
 
   <artifactId>backend</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <name>Pet Love App Backend</name>
-  <description>Pet Love App Backend</description>
+  <name>Pet Walk App Backend</name>
+  <description>Pet Walk App Backend</description>
 
   <properties>
     <java.version>21</java.version>
@@ -115,7 +115,7 @@
     <dependency>
       <groupId>org.springdoc</groupId>
       <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-      <version>2.5.0</version>
+      <version>2.6.0</version>
     </dependency>
 
     <dependency>

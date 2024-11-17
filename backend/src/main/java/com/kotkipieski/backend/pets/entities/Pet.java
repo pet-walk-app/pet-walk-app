@@ -32,6 +32,7 @@ public class Pet
   private Long id;
 
   @ManyToOne
+  @JoinColumn(name = "owner_id")
   private PetOwner owner;
 
   @NotBlank

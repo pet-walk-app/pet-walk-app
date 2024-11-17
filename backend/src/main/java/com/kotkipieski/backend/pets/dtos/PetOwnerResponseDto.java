@@ -1,6 +1,6 @@
 package com.kotkipieski.backend.pets.dtos;
 
-import jakarta.validation.constraints.NotBlank;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,15 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PetSaveRequest
+public class PetOwnerResponseDto
 {
 
-  @NotBlank
-  private String name;
-
-  @NotBlank
-  private String breed;
-
-  @NotBlank
-  private String description;
+  private List<PetResponseDto> pets;
 }
