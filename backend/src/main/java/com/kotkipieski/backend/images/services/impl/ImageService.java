@@ -36,8 +36,7 @@ public class ImageService implements IImageService
 
   public static File getImageFile(String generatedImageName)
   {
-    return new File(Paths.get(UPLOADS_DIRECTORY, generatedImageName)
-        .toUri());
+    return new File(Paths.get(UPLOADS_DIRECTORY, generatedImageName).toUri());
   }
 
   @Transactional
@@ -56,9 +55,7 @@ public class ImageService implements IImageService
     String generatedImageName = generateSafeFileName(filename);
     saveFile(imageFile, generatedImageName);
 
-    return imageRepository.save(Image.builder()
-        .url(generatedImageName)
-        .build());
+    return imageRepository.save(Image.builder().url(generatedImageName).build());
   }
 
   @Override
@@ -116,8 +113,7 @@ public class ImageService implements IImageService
     if (Objects.isNull(fileName) || !fileName.contains(".")) {
       throw new InvalidFileExtensionException();
     }
-    String extension = fileName.substring(fileName.lastIndexOf(".") + 1)
-        .toLowerCase();
+    String extension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
     if (!ALLOWED_EXTENSIONS.contains(extension)) {
       throw new InvalidFileExtensionException();
     }

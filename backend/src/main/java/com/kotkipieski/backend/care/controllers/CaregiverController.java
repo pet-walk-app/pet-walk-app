@@ -20,7 +20,7 @@ public class CaregiverController
   private final ICaregiverService caregiverService;
 
   @PostMapping
-  public CaregiverResponse add(@Valid @RequestBody CaregiverSaveRequest caregiverSaveRequest)
+  public CaregiverResponse save(@Valid @RequestBody CaregiverSaveRequest caregiverSaveRequest)
   {
     return caregiverService.add(caregiverSaveRequest);
   }

@@ -50,9 +50,7 @@ public class BadRequestHandler implements AuthenticationEntryPoint, AccessDenied
     response.setContentType("application/json");
     response.setCharacterEncoding("UTF-8");
     response.setStatus(statusCode);
-    out.write(gson.toJson(ErrorResponse.builder()
-        .message(errorMessage)
-        .build()));
+    out.write(gson.toJson(ErrorResponse.builder().message(errorMessage).build()));
     out.flush();
   }
 }

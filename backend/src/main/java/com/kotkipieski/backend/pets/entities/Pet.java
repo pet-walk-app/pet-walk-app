@@ -11,6 +11,8 @@ import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,11 +32,17 @@ public class Pet
   private Long id;
 
   @ManyToOne
+  @JoinColumn(name = "owner_id")
   private PetOwner owner;
+
+  @NotBlank
   private String name;
+
+  @NotBlank
   private String breed;
 
   @Lob
+  @NotBlank
   private String description;
 
   @OneToOne
@@ -42,5 +50,5 @@ public class Pet
   private Image image;
 
   @ManyToMany(mappedBy = "pets")
-  private List<WalkOffer> walkOffers;
+  private List<WalkOffer> walkOffers = new ArrayList<>();
 }

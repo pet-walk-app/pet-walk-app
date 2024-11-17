@@ -35,8 +35,7 @@ public class AuthenticationFilter extends OncePerRequestFilter
       @NonNull HttpServletResponse response,
       @NonNull FilterChain filterChain) throws IOException, ServletException
   {
-    Authentication authentication = SecurityContextHolder.getContext()
-        .getAuthentication();
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
     if (authentication != null) {
       filterChain.doFilter(request, response);
@@ -78,8 +77,7 @@ public class AuthenticationFilter extends OncePerRequestFilter
       UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
           userDetails, null, userDetails.getAuthorities());
       authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-      SecurityContextHolder.getContext()
-          .setAuthentication(authToken);
+      SecurityContextHolder.getContext().setAuthentication(authToken);
     }
   }
 }

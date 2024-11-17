@@ -15,8 +15,7 @@ public class DateMapper
   public String getDateISO(Date date)
   {
     ZoneId zoneId = ZoneId.of(DEFAULT_TIME_ZONE);
-    ZonedDateTime zonedDateTime = ZonedDateTime.from(date.toInstant()
-        .atZone(zoneId));
+    ZonedDateTime zonedDateTime = ZonedDateTime.from(date.toInstant().atZone(zoneId));
 
     return zonedDateTime.format(DateTimeFormatter.ISO_INSTANT);
   }

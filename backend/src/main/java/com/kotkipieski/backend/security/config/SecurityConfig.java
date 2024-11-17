@@ -76,8 +76,7 @@ public class SecurityConfig
 
   private void configureExceptionHandling(ExceptionHandlingConfigurer<HttpSecurity> configurer)
   {
-    configurer.authenticationEntryPoint(badRequestHandler)
-        .accessDeniedHandler(badRequestHandler);
+    configurer.authenticationEntryPoint(badRequestHandler).accessDeniedHandler(badRequestHandler);
   }
 
   @Bean
