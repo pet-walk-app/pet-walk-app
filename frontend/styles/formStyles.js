@@ -70,6 +70,11 @@ export const formStyles = StyleSheet.create({
     fontWeight : "bold"
   },
 
+  errorText: {
+    color: 'red',
+    marginLeft: 10
+  },
+
   formContainer: {
     marginTop: 20,
     marginBottom: 25,
