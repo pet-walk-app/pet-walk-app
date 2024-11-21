@@ -21,8 +21,10 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -107,10 +109,18 @@ public class GlobalExceptionHandler
   }
 
   @ExceptionHandler({ConstraintViolationException.class})
-  public ResponseEntity<ErrorResponse> handleConstraintViolation()
+  public ResponseEntity<ErrorResponse> handleConstraintViolation(ConstraintViolationException error)
   {
+    Map<String, String> details = Optional.ofNullable(error)
+        .map(ConstraintViolationException::getConstraintViolations)
+        .orElseGet(Collections::emptySet)
+        .stream()
+        .collect(Collectors.toMap(
+            constraintViolation -> constraintViolation.getPropertyPath().toString(),
+            ConstraintViolation::getMessage));
+
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ErrorResponse.builder().message(CONSTRAINT_VIOLATION).build());
+        .body(ErrorResponse.builder().message(CONSTRAINT_VIOLATION).details(details).build());
   }
 
   @ExceptionHandler({NoHandlerFoundException.class})
@@ -167,7 +177,7 @@ public class GlobalExceptionHandler
 
   private Map.Entry<String, String> mapError(FieldError error)
   {
-    return Map.entry(error.getField(), Optional.ofNullable(error.getDefaultMessage())
-        .orElse(INVALID_VALUE));
+    return Map.entry(error.getField(),
+        Optional.ofNullable(error.getDefaultMessage()).orElse(INVALID_VALUE));
   }
 }

@@ -28,13 +28,13 @@ public class OpenApiConfig
   {
     ResolvedSchema errResSchema = ModelConverters.getInstance()
         .resolveAsResolvedSchema(new AnnotatedType(ErrorResponse.class));
-    Content content = new Content().addMediaType("application/json",
-        new MediaType().schema(errResSchema.schema));
+    Content content = new Content().addMediaType("application/json", new MediaType().schema(
+        errResSchema.schema));
     return openApi -> openApi.getPaths()
         .values()
         .forEach(pathItem -> pathItem.readOperations()
             .forEach(operation -> operation.getResponses()
-                .addApiResponse("400",
-                    new ApiResponse().description("Error 400-500").content(content))));
+                .addApiResponse("400", new ApiResponse().description("Error 400-500")
+                    .content(content))));
   }
 }
