@@ -24,4 +24,3 @@ public interface IPetService
 
   PetResponseDto getPetById(Long petId);
 }
-

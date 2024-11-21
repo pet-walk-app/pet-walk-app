@@ -45,9 +45,7 @@ public class User
   @JoinColumn(name = "pet_owner_id", referencedColumnName = "id")
   private PetOwner petOwner;
 
-  @Column(name = "username", nullable = false)
-  @NotBlank
-  @Size(min = 5, max = 64)
+  @Column(name = "username")
   private String name;
 
   @Column(nullable = false, unique = true)
