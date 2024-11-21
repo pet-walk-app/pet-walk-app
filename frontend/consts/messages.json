@@ -1,0 +1,29 @@
+{
+    "validation": {
+      "email": {
+        "required": "E-mail jest wymagany",
+        "pattern": "Niepoprawny format e-mail"
+      },
+      "password": {
+        "required": "Hasło jest wymagane",
+        "minLength": "Hasło musi zawierać co najmniej X znaków"
+      }
+    },
+
+    "error": {
+        
+    },
+
+    "info": {
+      "loginSuccess": "Zalogowano pomyślnie!",
+      "logoutSuccess": "Wylogowano pomyślnie!",
+      "formSubmitSuccess": "Formularz został pomyślnie wysłany."
+    },
+    "buttons": {
+      "submit": "Wyślij",
+      "cancel": "Anuluj",
+      "continue": "Kontynuuj",
+      "register": "Załóż konto"
+    }
+  }
+  
