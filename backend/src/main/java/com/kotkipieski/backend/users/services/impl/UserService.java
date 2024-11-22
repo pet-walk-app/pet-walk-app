@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,6 +30,7 @@ public class UserService implements UserDetailsService, IUserService
   private final UserResponseMapper userResponseMapper;
   private final UserUpdateRequestMapper userUpdateRequestMapper;
   private final IImageService imageService;
+  private final PasswordEncoder passwordEncoder;
 
   /**
    * By default, spring uses username for authentication. We want authentication to be done via
@@ -78,9 +80,9 @@ public class UserService implements UserDetailsService, IUserService
   public UserResponse updateUser(UserUpdateRequest userUpdateRequest)
   {
     User currentUser = getCurrentUser();
-    User updatedUser = userUpdateRequestMapper.toUser(currentUser, userUpdateRequest);
+    userUpdateRequestMapper.updateUserFromDto(userUpdateRequest, currentUser, passwordEncoder);
 
-    userRepository.save(updatedUser);
+    userRepository.save(currentUser);
     return userResponseMapper.toUserDetails(currentUser, imageService);
   }
 

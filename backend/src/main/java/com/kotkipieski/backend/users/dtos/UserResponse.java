@@ -23,4 +23,5 @@ public class UserResponse
   private String imageUrl;
   private CaregiverResponse caregiver;
   private PetOwnerResponseDto petOwner;
+  private boolean isFirstVisit;
 }

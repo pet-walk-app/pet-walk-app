@@ -14,6 +14,7 @@ public interface RegistrationRequest2UserMapper
 
   @Mapping(target = "password", source = "password", qualifiedByName = "mapPassword")
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "isFirstVisit", constant = "true")
   User map(RegistrationRequest request, @Context PasswordEncoder passwordEncoder);
 
   @Named("mapPassword")

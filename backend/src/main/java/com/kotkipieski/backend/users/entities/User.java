@@ -65,4 +65,7 @@ public class User
   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
   @JoinColumn(name = "image_id", referencedColumnName = "id")
   private Image image;
+
+  @Column(columnDefinition = "boolean default true")
+  private Boolean isFirstVisit;
 }

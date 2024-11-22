@@ -2,27 +2,28 @@ package com.kotkipieski.backend.users.mappers;
 
 import com.kotkipieski.backend.users.dtos.UserUpdateRequest;
 import com.kotkipieski.backend.users.entities.User;
-import java.util.Optional;
-import lombok.RequiredArgsConstructor;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Context;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Named;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
-@Component
-@RequiredArgsConstructor
-public class UserUpdateRequestMapper
+@Mapper
+public interface UserUpdateRequestMapper
 {
 
-  private PasswordEncoder passwordEncoder;
+  @Mapping(target = "password", source = "password", qualifiedByName = "mapPassword")
+  @Mapping(target = "isFirstVisit", constant = "false")
+  @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+  void updateUserFromDto(UserUpdateRequest userResponseMapper, @MappingTarget User user,
+      @Context PasswordEncoder passwordEncoder);
 
-  public User toUser(User currentUser, UserUpdateRequest userResponseMapper)
+  @Named("mapPassword")
+  default String mapPassword(String password, @Context PasswordEncoder passwordEncoder)
   {
-    currentUser.setName(userResponseMapper.getName());
-    currentUser.setEmail(userResponseMapper.getEmail());
-    currentUser.setDateOfBirth(userResponseMapper.getDateOfBirth());
-    currentUser.setPhone(userResponseMapper.getPhone());
-    Optional.ofNullable(userResponseMapper.getPassword())
-        .ifPresent(password -> currentUser.setPassword(passwordEncoder.encode(password)));
-
-    return currentUser;
+    return passwordEncoder.encode(password);
   }
 }

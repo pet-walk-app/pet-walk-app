@@ -22,7 +22,6 @@ public class UserUpdateRequest
   @Size(min = 5, max = 64)
   private String name;
 
-  @NotBlank
   @Email(regexp = EMAIL_REGEX)
   private String email;
 
