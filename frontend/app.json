@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -18,13 +19,13 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.anonymous.PetWalk"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
-  },
-  "plugins": [
+    },
+    "plugins": [
       [
         "expo-image-picker",
         {
@@ -32,4 +33,5 @@
         }
       ]
     ]
+  }
 }
