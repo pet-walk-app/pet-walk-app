@@ -16,4 +16,6 @@ public class ErrorConstants
   public static final String EXPIRED_TOKEN = "Expired token";
   public static final String AUTHENTICATION_ERROR = "Authentication error";
   public static final String MAX_FILE_SIZE_EXCEEDED = "Max file size exceeded";
+  public static final String MESSAGE_NOT_READABLE = "The request contains data in an incorrect "
+      + "format";
 }

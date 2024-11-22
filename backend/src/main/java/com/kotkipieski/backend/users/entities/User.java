@@ -1,5 +1,6 @@
 package com.kotkipieski.backend.users.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.kotkipieski.backend.care.entities.Caregiver;
 import com.kotkipieski.backend.images.entities.Image;
 import com.kotkipieski.backend.pets.entities.PetOwner;
@@ -58,6 +59,7 @@ public class User
   @Size(min = 5, max = 64)
   private String password;
 
+  @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate dateOfBirth;
 
   private String phone;
