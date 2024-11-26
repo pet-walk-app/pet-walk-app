@@ -2,9 +2,9 @@ package com.kotkipieski.backend.users.services.impl;
 
 import com.kotkipieski.backend.images.entities.Image;
 import com.kotkipieski.backend.images.services.IImageService;
-import com.kotkipieski.backend.users.dtos.UserResponse;
+import com.kotkipieski.backend.users.dtos.CurrentUserProfileDto;
 import com.kotkipieski.backend.users.entities.User;
-import com.kotkipieski.backend.users.mappers.UserResponseMapper;
+import com.kotkipieski.backend.users.mappers.CurrentUserProfileDtoMapper;
 import com.kotkipieski.backend.users.services.IUserImageService;
 import com.kotkipieski.backend.users.services.IUserService;
 import jakarta.transaction.Transactional;
@@ -22,10 +22,10 @@ public class UserImageService implements IUserImageService
 
   private final IImageService imageService;
   private final IUserService userService;
-  private final UserResponseMapper userDataMapper;
+  private final CurrentUserProfileDtoMapper userDataMapper;
 
   @Override
-  public UserResponse saveImage(MultipartFile imageFile)
+  public CurrentUserProfileDto saveImage(MultipartFile imageFile)
   {
     User currentUser = userService.getCurrentUser();
     Image newImage = imageService.saveImage(imageFile);
@@ -33,7 +33,7 @@ public class UserImageService implements IUserImageService
     currentUser.setImage(newImage);
     userService.updateUser(currentUser);
 
-    return userDataMapper.toUserDetails(currentUser, imageService);
+    return userDataMapper.toCurrentUserProfile(currentUser, imageService);
   }
 
   @Override

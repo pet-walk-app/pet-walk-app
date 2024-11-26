@@ -1,6 +1,6 @@
 package com.kotkipieski.backend.users.controllers;
 
-import com.kotkipieski.backend.users.dtos.UserResponse;
+import com.kotkipieski.backend.users.dtos.CurrentUserProfileDto;
 import com.kotkipieski.backend.users.services.IUserImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +20,7 @@ public class UserImageController
   private final IUserImageService userImageService;
 
   @PostMapping
-  public ResponseEntity<UserResponse> saveImage(@RequestParam("file") MultipartFile file)
+  public ResponseEntity<CurrentUserProfileDto> saveImage(@RequestParam("file") MultipartFile file)
   {
     return ResponseEntity.ok(userImageService.saveImage(file));
   }

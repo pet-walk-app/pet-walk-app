@@ -10,13 +10,11 @@ import org.mapstruct.MappingTarget;
 public interface PetSaveRequestDtoMapper
 {
 
-  @Mapping(target = "walkOffers", ignore = true)
   @Mapping(target = "owner", ignore = true)
   @Mapping(target = "image", ignore = true)
   @Mapping(target = "id", ignore = true)
   Pet toPet(PetSaveRequestDto petSaveRequestDto);
 
-  @Mapping(target = "walkOffers", ignore = true)
   @Mapping(target = "owner", ignore = true)
   @Mapping(target = "image", ignore = true)
   @Mapping(target = "id", ignore = true)

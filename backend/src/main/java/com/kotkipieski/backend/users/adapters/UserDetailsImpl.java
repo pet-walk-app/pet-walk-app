@@ -1,12 +1,20 @@
 package com.kotkipieski.backend.users.adapters;
 
+import com.kotkipieski.backend.users.entities.User;
 import java.util.Collection;
 import java.util.List;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public record UserDetailsImpl(String email) implements UserDetails
+@Data
+@RequiredArgsConstructor
+public class UserDetailsImpl implements UserDetails
 {
+
+  private final String email;
+  private User cachedUser;
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities()
@@ -21,12 +29,12 @@ public record UserDetailsImpl(String email) implements UserDetails
   }
 
   /**
-   * By default, spring uses username for authentication. We want the authentication to be done
-   * via email, so we treat username as email.
+   * By default, spring uses username for authentication. We want the authentication to be done via
+   * email, so we treat username as email.
    */
   @Override
   public String getUsername()
   {
-    return email();
+    return getEmail();
   }
 }

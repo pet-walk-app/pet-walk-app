@@ -6,6 +6,7 @@ import com.kotkipieski.backend.pets.dtos.PetSaveRequestDto;
 import com.kotkipieski.backend.pets.entities.Pet;
 import com.kotkipieski.backend.pets.entities.PetOwner;
 import com.kotkipieski.backend.pets.exceptions.PetNotFoundException;
+import com.kotkipieski.backend.pets.exceptions.PetOwnerNotCreatedException;
 import com.kotkipieski.backend.pets.mappers.PetResponseDtoMapper;
 import com.kotkipieski.backend.pets.mappers.PetSaveRequestDtoMapper;
 import com.kotkipieski.backend.pets.repositories.PetOwnerRepository;
@@ -38,13 +39,24 @@ public class PetService implements IPetService
   public PetResponseDto getPetById(Long petId)
   {
     PetOwner currentPetOwner = getOrCreateCreatePetOwner();
-    Pet pet = getPetById(petId, currentPetOwner.getPets());
+    Pet pet = getUserPetById(petId, currentPetOwner.getPets());
 
     return petResponseDtoMapper.toDto(pet, imageService);
   }
 
   @Override
-  public List<PetResponseDto> getAllPets()
+  public List<Pet> getPetByIds(List<Long> petIds)
+  {
+    PetOwner currentPetOwner = getOrCreateCreatePetOwner();
+    return Optional.ofNullable(petIds)
+        .orElseGet(List::of)
+        .stream()
+        .map(petId -> getUserPetById(petId, currentPetOwner.getPets()))
+        .toList();
+  }
+
+  @Override
+  public List<PetResponseDto> getUserPets()
   {
     PetOwner currentPetOwner = getOrCreateCreatePetOwner();
 
@@ -72,7 +84,7 @@ public class PetService implements IPetService
       MultipartFile image)
   {
     PetOwner currentPetOwner = getOrCreateCreatePetOwner();
-    Pet petToUpdate = getPetById(petId, currentPetOwner.getPets());
+    Pet petToUpdate = getUserPetById(petId, currentPetOwner.getPets());
     petSaveRequestDtoMapper.updatePetFromDto(petSaveRequestDto, petToUpdate);
 
     return updateImageIfPresentAndSave(image, petToUpdate);
@@ -83,7 +95,7 @@ public class PetService implements IPetService
   {
     PetOwner currentPetOwner = getOrCreateCreatePetOwner();
     List<Pet> currentUserPets = currentPetOwner.getPets();
-    Pet petToDelete = getPetById(petId, currentUserPets);
+    Pet petToDelete = getUserPetById(petId, currentUserPets);
 
     currentUserPets.remove(petToDelete);
     petOwnerRepository.save(currentPetOwner);
@@ -94,7 +106,7 @@ public class PetService implements IPetService
   {
     PetOwner currentPetOwner = getOrCreateCreatePetOwner();
     List<Pet> currentUserPets = currentPetOwner.getPets();
-    Pet pet = getPetById(petId, currentUserPets);
+    Pet pet = getUserPetById(petId, currentUserPets);
 
     imageService.deleteImage(pet.getImage());
     pet.setImage(null);
@@ -107,9 +119,17 @@ public class PetService implements IPetService
   {
     PetOwner currentPetOwner = getOrCreateCreatePetOwner();
     List<Pet> currentUserPets = currentPetOwner.getPets();
-    Pet petToUpdate = getPetById(petId, currentUserPets);
+    Pet petToUpdate = getUserPetById(petId, currentUserPets);
 
     return updateImageIfPresentAndSave(image, petToUpdate);
+  }
+
+  @Override
+  public PetOwner getCurrentPetOwner()
+  {
+    User currentUser = userService.getCurrentUser();
+    return Optional.ofNullable(currentUser.getPetOwner())
+        .orElseThrow(PetOwnerNotCreatedException::new);
   }
 
   private PetResponseDto updateImageIfPresentAndSave(MultipartFile image, Pet petToUpdate)
@@ -124,7 +144,7 @@ public class PetService implements IPetService
     return petResponseDtoMapper.toDto(upatedPet, imageService);
   }
 
-  private static Pet getPetById(Long petId, List<Pet> currentUserPets)
+  private static Pet getUserPetById(Long petId, List<Pet> currentUserPets)
   {
     return currentUserPets.stream()
         .filter(pet -> pet.getId().equals(petId))

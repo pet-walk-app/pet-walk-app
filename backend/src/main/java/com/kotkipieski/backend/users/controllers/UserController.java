@@ -2,7 +2,7 @@ package com.kotkipieski.backend.users.controllers;
 
 import static org.springframework.http.ResponseEntity.ok;
 
-import com.kotkipieski.backend.users.dtos.UserResponse;
+import com.kotkipieski.backend.users.dtos.CurrentUserProfileDto;
 import com.kotkipieski.backend.users.dtos.UserUpdateRequest;
 import com.kotkipieski.backend.users.services.IUserService;
 import jakarta.validation.Valid;
@@ -22,14 +22,14 @@ public class UserController
 
   private final IUserService userService;
 
-  @GetMapping
-  public ResponseEntity<UserResponse> getUser()
+  @GetMapping("/profile")
+  public ResponseEntity<CurrentUserProfileDto> getCurrentUserProfile()
   {
-    return ok(userService.getCurrentUserData());
+    return ok(userService.getCurrentUserProfile());
   }
 
-  @PostMapping
-  public ResponseEntity<UserResponse> updateUser(
+  @PostMapping("/profile")
+  public ResponseEntity<CurrentUserProfileDto> updateCurrentUserProfile(
       @Valid @RequestBody UserUpdateRequest userUpdateRequest)
   {
     return ok(userService.updateUser(userUpdateRequest));

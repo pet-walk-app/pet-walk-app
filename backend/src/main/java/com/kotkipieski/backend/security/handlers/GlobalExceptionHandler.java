@@ -126,9 +126,8 @@ public class GlobalExceptionHandler
         .map(ConstraintViolationException::getConstraintViolations)
         .orElseGet(Collections::emptySet)
         .stream()
-        .collect(Collectors.toMap(
-            constraintViolation -> constraintViolation.getPropertyPath().toString(),
-            ConstraintViolation::getMessage));
+        .collect(Collectors.toMap(constraintViolation -> constraintViolation.getPropertyPath()
+            .toString(), ConstraintViolation::getMessage));
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .body(ErrorResponse.builder().message(CONSTRAINT_VIOLATION).details(details).build());
@@ -195,7 +194,7 @@ public class GlobalExceptionHandler
 
   private Map.Entry<String, String> mapError(FieldError error)
   {
-    return Map.entry(error.getField(),
-        Optional.ofNullable(error.getDefaultMessage()).orElse(INVALID_VALUE));
+    return Map.entry(error.getField(), Optional.ofNullable(error.getDefaultMessage())
+        .orElse(INVALID_VALUE));
   }
 }

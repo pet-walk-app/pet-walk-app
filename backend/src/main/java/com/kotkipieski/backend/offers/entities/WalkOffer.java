@@ -11,11 +11,16 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,28 +46,41 @@ public class WalkOffer
   private Caregiver selectedCaregiver;
 
   @ManyToMany
+  @NotEmpty
   private List<Pet> pets;
 
+  @NotNull
   private LocalDate walkDate;
 
-  private Double walkLength;
+  @NotBlank
+  @Lob
+  private String description;
 
+  @NotNull
+  private Long walkLength;
+
+  @NotNull
   @Column(precision = 19, scale = 2)
   private BigDecimal price;
 
-  private String streetName;
+  @NotBlank
+  private String address;
 
-  private Long houseNumber;
-
-  private Long apartmentNumber;
-
+  @NotBlank
   private String zipCode;
 
+  @NotBlank
   private String city;
 
   @Enumerated(EnumType.ORDINAL)
+  @NotNull
   private WalkOfferStatus status;
 
   @OneToMany(mappedBy = "walkOffer")
   private List<CareProposal> careProposals;
+
+  @NotNull
+  private LocalDateTime createdAt;
+
+  private LocalDateTime updatedAt;
 }

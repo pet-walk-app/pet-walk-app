@@ -18,7 +18,7 @@ public interface UserUpdateRequestMapper
   @Mapping(target = "password", source = "password", qualifiedByName = "mapPassword")
   @Mapping(target = "isFirstVisit", constant = "false")
   @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-  void updateUserFromDto(UserUpdateRequest userResponseMapper, @MappingTarget User user,
+  void updateUserFromDto(UserUpdateRequest userUpdateRequest, @MappingTarget User user,
       @Context PasswordEncoder passwordEncoder);
 
   @Named("mapPassword")

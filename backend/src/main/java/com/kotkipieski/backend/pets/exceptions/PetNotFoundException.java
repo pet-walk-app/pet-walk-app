@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 public class PetNotFoundException extends BaseServerException
 {
 
-  private static final String message = "Pet was not found or you are not the owner";
+  private static final String message = "Pet was not found";
 
   public PetNotFoundException()
   {

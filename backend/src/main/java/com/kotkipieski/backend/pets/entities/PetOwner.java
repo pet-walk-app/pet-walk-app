@@ -1,5 +1,6 @@
 package com.kotkipieski.backend.pets.entities;
 
+import com.kotkipieski.backend.offers.entities.WalkOffer;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -30,4 +31,7 @@ public class PetOwner
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "owner_id")
   private List<Pet> pets = new ArrayList<>();
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "petOwner")
+  private List<WalkOffer> walkOffers = new ArrayList<>();
 }

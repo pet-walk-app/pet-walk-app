@@ -1,6 +1,7 @@
 package com.kotkipieski.backend.users.services;
 
-import com.kotkipieski.backend.users.dtos.UserResponse;
+import com.kotkipieski.backend.users.dtos.CurrentUserProfileDto;
+import com.kotkipieski.backend.users.dtos.UserProfileDto;
 import com.kotkipieski.backend.users.dtos.UserUpdateRequest;
 import com.kotkipieski.backend.users.entities.User;
 import com.kotkipieski.backend.users.exceptions.UserNotFoundException;
@@ -16,9 +17,11 @@ public interface IUserService
 
   void updateUser(User user);
 
-  UserResponse updateUser(UserUpdateRequest userUpdateRequest);
+  CurrentUserProfileDto updateUser(UserUpdateRequest userUpdateRequest);
 
-  UserResponse getCurrentUserData();
+  CurrentUserProfileDto getCurrentUserProfile();
 
   User getCurrentUser();
+
+  UserProfileDto getUserProfileByUserId(Long id);
 }

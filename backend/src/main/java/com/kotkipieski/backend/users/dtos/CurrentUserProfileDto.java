@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserResponse
+public class CurrentUserProfileDto
 {
 
   private Long id;
@@ -22,7 +22,7 @@ public class UserResponse
 
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate dateOfBirth;
-  
+
   private String phone;
   private String imageUrl;
   private CaregiverResponse caregiver;

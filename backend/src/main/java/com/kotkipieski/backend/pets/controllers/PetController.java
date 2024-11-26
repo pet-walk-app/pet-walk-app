@@ -20,16 +20,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/pet")
+@RequestMapping("/api/v1/pets")
 public class PetController
 {
 
   private final IPetService petService;
 
   @GetMapping
-  public ResponseEntity<List<PetResponseDto>> getAllPets()
+  public ResponseEntity<List<PetResponseDto>> getUserPets()
   {
-    return ResponseEntity.ok(petService.getAllPets());
+    return ResponseEntity.ok(petService.getUserPets());
   }
 
   @GetMapping("/{id}")
