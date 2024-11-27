@@ -4,6 +4,7 @@ import WalkOfferPreview from '../components/WalkOfferPreview';
 import NoStatusBarView from '../components/NoStatusBarView';
 import OfferListFilter from '../components/OfferListFilter';
 import { useState } from 'react';
+import BottomMenu from '../components/BottomMenu';
 
 export default function OffersListScreen({ navigation }) {
   const [distanceFilter, setDistanceFilter] = useState('all');
@@ -11,7 +12,7 @@ export default function OffersListScreen({ navigation }) {
 
   return (
     
-    <NoStatusBarView padding={20}>
+    <NoStatusBarView>
       <OfferListFilter
         distanceFilter={distanceFilter}
         setDistanceFilter={setDistanceFilter}
@@ -19,7 +20,7 @@ export default function OffersListScreen({ navigation }) {
         setPriceFilter={setPriceFilter}
       />
 
-      <ScrollView>
+      <ScrollView style={padding=20}>
         <WalkOfferPreview 
           animalName="Burek" 
           breed="Owczarek Niemiecki" 
@@ -49,6 +50,8 @@ export default function OffersListScreen({ navigation }) {
           price="100" 
         />
       </ScrollView>
+      <BottomMenu navigation={navigation}></BottomMenu>
     </NoStatusBarView>
+
   );
 }
