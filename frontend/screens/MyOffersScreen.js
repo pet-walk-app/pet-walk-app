@@ -4,15 +4,16 @@ import NoStatusBarView from '../components/NoStatusBarView';
 
 import { ScrollView, View, Text } from 'react-native';
 import { formStyles } from "../styles/formStyles";
+import BottomMenu from '../components/BottomMenu';
 
 export default function MyOffersScreen({ navigation }) {
 
   return (  
-    <NoStatusBarView padding={20}>
+    <NoStatusBarView>
       <Text style={formStyles.h1}>
         Wszystkie oferty
       </Text>
-      <ScrollView>
+      <ScrollView style={padding=20}>
         <MyOfferPreview 
           myOffer={true}
           animalName="Burek" 
@@ -47,6 +48,7 @@ export default function MyOffersScreen({ navigation }) {
         />
 
       </ScrollView>
+      <BottomMenu navigation={navigation}></BottomMenu>
     </NoStatusBarView>
   );
 }

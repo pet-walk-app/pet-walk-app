@@ -10,9 +10,8 @@ export default function FormInput({
   secureTextEntry=false
 }) {
   return (
-    <View>
+    <View style={formStyles.formInput}>
       <TextInput 
-        style={formStyles.formInput}
         placeholder={placeholder}
         value={value}
         onChangeText={(text) => setValue(text)}
