@@ -1,7 +1,9 @@
-import { View, Text, KeyboardAvoidingView, ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { formStyles } from "../styles/formStyles";
 import { useState, useEffect } from "react";
 import { green, white } from "../consts/colors";
+import { useForm, Controller } from "react-hook-form";
+import { saveCaregiver } from "../services/authorizationApi";
 
 import FormBigInput from "../components/FormBigInput";
 import FormInput from "../components/FormInput";
@@ -15,8 +17,17 @@ export default function CaregiverProfileForm({navigation}) {
   const [editingProfile, setEditProfile] = useState(false)
 
   const [formTitle, setFormTitle] = useState('')
-  const [city, setCity] = useState('')
-  const [description, setDescription] = useState('')
+  const { control, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = async (data) => {
+    try {
+      await saveCaregiver(data)
+      //Alert.alert("Success", "Created profile!");
+      navigation.navigate('Caregiver Profile Form 2');
+    } catch (error) {
+      Alert.alert("Błąd tworzenia profilu", error.message || "Wystąpił błąd podczas tworzenia profilu.")
+    }
+  };
 
   useEffect(() => {
     if (editingProfile) {
@@ -37,23 +48,37 @@ export default function CaregiverProfileForm({navigation}) {
           <View style={[formStyles.middleSection, {justifyContent: "none"}]}>
             <Text style={formStyles.h1}>{formTitle}</Text>
             <View style={formStyles.formContainer}>
-              <FormInput
-                value={city}
-                setValue={setCity}
-                placeholder={'Miasto'}>
-              </FormInput>
-              <FormBigInput 
-                value={description}
-                setValue={setDescription}
-                placeholder={'Napisz kilka słów o sobie'}
-                height={330}>
-              </FormBigInput>
+              <Controller
+                control={control}
+                name="city"
+                rules={{ required: "Miasto jest wymagane" }}
+                render={({ field: { onChange, value } }) => (
+                  <FormInput
+                    value={value}
+                    setValue={onChange}
+                    placeholder={'Miasto'}
+                    errorMessage={errors.city?.message}/>
+                )}
+              />
+              <Controller
+                control={control}
+                name="description"
+                rules={{ required: "Opis jest wymagany" }}
+                render={({ field: { onChange, value } }) => (
+                  <FormBigInput 
+                    value={value}
+                    setValue={onChange}
+                    placeholder={'Napisz kilka słów o sobie'}
+                    errorMessage={errors.description?.message}
+                    height={330}/>
+                )}
+              />
             </View>
 
             <CustomButton 
               color={green} 
               textColor={white}
-              action={() => navigation.navigate('Caregiver Profile Form 2')}
+              action={handleSubmit(onSubmit)}
               title={'Kontynuuj'}>
             </CustomButton>
           </View>

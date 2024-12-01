@@ -1,6 +1,7 @@
 import { View, Text } from "react-native";
-import { useState } from "react";
 import { formStyles } from "../styles/formStyles";
+import { useForm, Controller } from "react-hook-form";
+import { createProfile } from "../services/authorizationApi";
 import { green, white } from "../consts/colors";
 
 import FormInput from "../components/FormInput";
@@ -9,9 +10,21 @@ import DatePicker from "../components/DatePicker";
 import NoStatusBarView from "../components/NoStatusBarView";
 
 export default function FirstVisitFormScreen({navigation}) {
-  const [username, setUsername] = useState('')
-  const [phoneNumber, setPhoneNumber] = useState('')
-  const [birthdate, setBirthdate] = useState(new Date(1990, 1, 1))
+  const { control, handleSubmit, formState: { errors } } = useForm({
+    defaultValues: {
+      dateOfBirth: new Date(1990, 1, 1),
+    },
+  });
+
+  const onSubmit = async (data) => {
+    try {
+      await createProfile(data)
+      //Alert.alert("Success", "Created profile!");
+      navigation.navigate('First Visit Profile Choice')
+    } catch (error) {
+      Alert.alert("Błąd tworzenia profilu", error.message || "Wystąpił błąd podczas tworzenia profilu.")
+    }
+  };
 
   return (
     <NoStatusBarView>
@@ -19,28 +32,61 @@ export default function FirstVisitFormScreen({navigation}) {
       <View style={formStyles.middleSection}>
         <Text style={formStyles.h1}>To Twoja pierwsza wizyta w {"\n"}Pet Walk, uzupełnij swoje informacje</Text>
         <View style={formStyles.formContainer}>
-          <FormInput 
-            value={username}
-            setValue={setUsername}
-            placeholder={'Nazwa użytkownika'}>
-          </FormInput>
-          <FormInput 
-            value={phoneNumber}
-            setValue={setPhoneNumber}
-            placeholder={'Numer telefonu'}>
-          </FormInput>
-          <DatePicker
-            date={birthdate}
-            setDate={setBirthdate}
-            dateMin={new Date(1990, 1, 1)}
-            >
-          </DatePicker>
+          <Controller
+            control={control}
+            name="name"
+            rules={{ 
+              required: "Imie jest wymagane",
+              pattern: {
+                value: /^(?!.*\d).+$/,
+                message: "Imie nie może zawierać cyfr"
+              }
+            }}
+            render={({ field: { onChange, value } }) => (
+              <FormInput 
+                value={value}
+                setValue={onChange}
+                placeholder={'Nazwa użytkownika'}
+                errorMessage={errors.name?.message}/>
+            )}
+          />
+
+          <Controller
+            control={control}
+            name="phone"
+            rules={{ 
+              required: "Numer telefonu jest wymagany",
+              pattern: {
+                value: /^\d+$/,
+                message: "Numer musi zawierać wyłącznie cyfry"
+              }
+            }}
+            render={({ field: { onChange, value } }) => (
+              <FormInput 
+                value={value}
+                setValue={onChange}
+                placeholder={'Numer telefonu'}
+                errorMessage={errors.phone?.message}/>
+            )}
+          />
+          <Controller
+            control={control}
+            name="dateOfBirth"
+            rules={{ required: "Data jest wymagana" }}
+            render={({ field: { onChange, value } }) => (
+              <DatePicker
+                date={value}
+                setDate={onChange}
+                dateMin={new Date(1990, 1, 1)}
+                errorMessage={errors.dateOfBirth?.message}/>
+            )}
+          />
         </View>
 
         <CustomButton 
           color={green} 
           textColor={white}
-          action={() => navigation.navigate('First Visit Profile Choice')}
+          action={handleSubmit(onSubmit)}
           title={'Kontynuuj'}>
         </CustomButton>
         <CustomButton 

@@ -4,7 +4,13 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import {formStyles} from '../styles/formStyles';
 import {formatDate} from '../utils/commonUtils';
 
-const DatePicker = ({date, setDate, dateMax, dateMin}) => {
+const DatePicker = ({
+  date, 
+  setDate, 
+  dateMax, 
+  dateMin, 
+  errorMessage
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleChange = (date) => {
@@ -13,22 +19,26 @@ const DatePicker = ({date, setDate, dateMax, dateMin}) => {
   }
 
   return (
-    <View style={formStyles.formInput}>
-      <Pressable
-        onPress={() => setIsOpen(true)}
-        >
-        <Text style={formStyles.inputText}>{formatDate(date, '.')}</Text>
-      </Pressable>
+    <View>
+      <View style={formStyles.formInput}>
+        <Pressable
+          onPress={() => setIsOpen(true)}
+          >
+          <Text style={formStyles.inputText}>{formatDate(date, '.')}</Text>
+        </Pressable>
 
-      <DateTimePickerModal
-        isVisible={isOpen}
-        mode="date"
-        onConfirm={handleChange}
-        date={date}
-        maximumDate={dateMax || new Date()}
-        minimumDate={dateMin || new Date()}
-        onCancel={() => setIsOpen(false)}
-      />
+        <DateTimePickerModal
+          isVisible={isOpen}
+          mode="date"
+          onConfirm={handleChange}
+          date={date}
+          maximumDate={dateMax || new Date()}
+          minimumDate={dateMin || new Date()}
+          onCancel={() => setIsOpen(false)}
+        />
+        
+      </View>
+      {errorMessage && <Text style={formStyles.errorText}>{errorMessage}</Text>}
     </View>
   );
 };

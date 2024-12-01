@@ -1,7 +1,9 @@
-import { View, Text, KeyboardAvoidingView, ScrollView } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { useState, useEffect } from "react";
 import { formStyles } from "../styles/formStyles";
 import { green, white } from "../consts/colors";
+import { useForm, Controller } from "react-hook-form";
+import { savePet } from "../services/authorizationApi";
 
 import FormBigInput from "../components/FormBigInput";
 import FormInput from "../components/FormInput";
@@ -18,6 +20,17 @@ export default function CaregiverProfileForm({navigation}) {
   const [petName, setPetName] = useState('');
   const [breed, setBreed] = useState('');
   const [description, setDescription] = useState('');
+  const { control, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = async (data) => {
+    try {
+      await savePet(data)
+      Alert.alert("Success", "Created profile!");
+      navigation.navigate('Pet Form 2');
+    } catch (error) {
+      Alert.alert("Błąd tworzenia profilu", error.message || "Wystąpił błąd podczas tworzenia profilu.")
+    }
+  };
 
   useEffect(() => {
     if (editingProfile) {
@@ -37,27 +50,48 @@ return (
           <View style={[formStyles.middleSection, { justifyContent: "none" }]}>
             <Text style={formStyles.h1}>{formTitle}</Text>
             <View style={formStyles.formContainer}>
-              <FormInput
-                value={petName}
-                setValue={setPetName}
-                placeholder={'Imię psa'}
+              <Controller
+                control={control}
+                name="name"
+                rules={{ required: "Imię jest wymagane" }}
+                render={({ field: { onChange, value } }) => (
+                  <FormInput
+                    value={value}
+                    setValue={onChange}
+                    placeholder={'Imię psa'}
+                    errorMessage={errors.name?.message}/>
+                )}
               />
-              <FormInput
-                value={breed}
-                setValue={setBreed}
-                placeholder={'Rasa'}
+              <Controller
+                control={control}
+                name="breed"
+                rules={{ required: "Rasa jest wymagana" }}
+                render={({ field: { onChange, value } }) => (
+                <FormInput
+                  value={value}
+                  setValue={onChange}
+                  placeholder={'Rasa'}
+                  errorMessage={errors.breed?.message}/>
+                )}
               />
-              <FormBigInput
-                value={description}
-                setValue={setDescription}
-                placeholder={'Opis. Nie zapomnij o charakterze pupila i przyjmowanych lekach.'}
-                height={270}
+              <Controller
+                control={control}
+                name="description"
+                rules={{ required: "Opis jest wymagany" }}
+                render={({ field: { onChange, value } }) => (
+                <FormBigInput
+                  value={value}
+                  setValue={onChange}
+                  placeholder={'Opis. Nie zapomnij o charakterze pupila i przyjmowanych lekach.'}
+                  height={270}
+                  errorMessage={errors.description?.message}/>
+                )}
               />
             </View>
             <CustomButton 
               color={green} 
               textColor={white}
-              action={() => navigation.navigate('Pet Form 2')}
+              action={handleSubmit(onSubmit)}
               title={'Kontynuuj'}
             />
           </View>

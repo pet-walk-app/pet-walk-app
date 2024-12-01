@@ -11,6 +11,13 @@ const fetchData = async (apiUrl, method, body = null, authorize = false) => {
 
 	await addAuthorizationHeader(headers, authorize)
 
+	console.log("Request Details:", {
+		url: apiUrl,
+		method: method,
+		headers: headers,
+		body: body ? JSON.stringify(body) : null,
+	})
+
 	const response = await fetch(apiUrl, {
 		method: method,
 		headers: headers,
