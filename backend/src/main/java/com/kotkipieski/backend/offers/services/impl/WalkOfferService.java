@@ -4,7 +4,6 @@ import com.kotkipieski.backend.offers.dtos.WalkOfferCreatorViewDto;
 import com.kotkipieski.backend.offers.dtos.WalkOfferSearchViewDto;
 import com.kotkipieski.backend.offers.entities.WalkOffer;
 import com.kotkipieski.backend.offers.entities.WalkOfferStatus;
-import com.kotkipieski.backend.offers.exceptions.InvalidSortFieldException;
 import com.kotkipieski.backend.offers.exceptions.OfferNotFoundException;
 import com.kotkipieski.backend.offers.mappers.CreateWalkOfferRequestMapper;
 import com.kotkipieski.backend.offers.mappers.UpdateWalkOfferRequestMapper;
@@ -12,6 +11,7 @@ import com.kotkipieski.backend.offers.mappers.WalkOfferCreatorDtoMapper;
 import com.kotkipieski.backend.offers.mappers.WalkOfferSearchViewDtoMapper;
 import com.kotkipieski.backend.offers.repositories.WalkOfferRepository;
 import com.kotkipieski.backend.offers.requests.CreateWalkOfferRequest;
+import com.kotkipieski.backend.offers.requests.SearchWalkOfferSortByType;
 import com.kotkipieski.backend.offers.requests.SearchWalkOffersRequest;
 import com.kotkipieski.backend.offers.requests.UpdateWalkOfferRequest;
 import com.kotkipieski.backend.offers.services.IWalkOfferService;
@@ -20,7 +20,6 @@ import com.kotkipieski.backend.pets.services.IPetService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -107,24 +106,23 @@ public class WalkOfferService implements IWalkOfferService
   }
 
   @Override
-  public Page<WalkOfferSearchViewDto> searchWalkOffers(SearchWalkOffersRequest searchRequest,
-      int page, int size, String sortBy, String sortDirection)
+  public Page<WalkOfferSearchViewDto> searchWalkOffers(SearchWalkOffersRequest searchRequest)
   {
-    List<String> allowedSortFields = List.of("price", "walk_length", "walk_date");
-    if (Objects.nonNull(sortBy) && !allowedSortFields.contains(sortBy)) {
-      throw new InvalidSortFieldException("price, walk_length, walk_date");
-    }
+    Sort sort = Optional.ofNullable(searchRequest.getSortBy())
+        .map(SearchWalkOfferSortByType::getValue)
+        .map(sortField -> Sort.by(Sort.Direction.fromString(searchRequest.getSortDirection()),
+            sortField))
+        .orElseGet(Sort::unsorted);
 
-    Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
-    Pageable pageable = PageRequest.of(page, size, sort);
+    Pageable pageable = PageRequest.of(searchRequest.getPage(), searchRequest.getPageSize(), sort);
     Page<WalkOffer> walkOffers = walkOfferRepository.findByLocationWithinRadiusAndFilters(
         searchRequest.getLongitude(), searchRequest.getLatitude(), searchRequest.getRadius(),
-        searchRequest.getPriceFrom(), searchRequest.getPriceTo(), searchRequest
-            .getWalkDateStartLimit(), searchRequest.getWalkDateEndLimit(), searchRequest
-                .getMinTime(), searchRequest.getMaxTime(), pageable);
+        searchRequest.getPriceFrom(), searchRequest.getPriceTo(),
+        searchRequest.getWalkDateStartLimit(), searchRequest.getWalkDateEndLimit(),
+        searchRequest.getMinTime(), searchRequest.getMaxTime(), pageable);
 
-    return walkOffers.map(walkOffer -> walkOfferSearchViewDtoMapper.toDto(walkOffer,
-        searchRequest));
+    return walkOffers.map(
+        walkOffer -> walkOfferSearchViewDtoMapper.toDto(walkOffer, searchRequest));
   }
 
   private static WalkOffer getWalkOffer(Long id, PetOwner petOwner)

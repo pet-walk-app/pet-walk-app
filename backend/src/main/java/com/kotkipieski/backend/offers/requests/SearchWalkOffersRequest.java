@@ -1,6 +1,6 @@
 package com.kotkipieski.backend.offers.requests;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -15,14 +15,14 @@ import lombok.NoArgsConstructor;
 public class SearchWalkOffersRequest
 {
 
-  @NotBlank
-  private double longitude;
+  @NotNull
+  private Double longitude;
 
-  @NotBlank
-  private double latitude;
+  @NotNull
+  private Double latitude;
 
-  @NotBlank
-  private double radius;
+  @NotNull
+  private Double radius;
 
   private BigDecimal priceFrom;
 
@@ -35,4 +35,14 @@ public class SearchWalkOffersRequest
   private Double minTime;
 
   private Double maxTime;
+
+  @NotNull
+  Integer page;
+
+  @NotNull
+  Integer pageSize;
+
+  SearchWalkOfferSortByType sortBy;
+
+  String sortDirection;
 }

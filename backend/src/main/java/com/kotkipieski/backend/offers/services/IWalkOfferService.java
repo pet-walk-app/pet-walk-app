@@ -23,6 +23,5 @@ public interface IWalkOfferService
 
   WalkOfferCreatorViewDto deleteUserWalkOffer(Long id);
 
-  Page<WalkOfferSearchViewDto> searchWalkOffers(SearchWalkOffersRequest request, int page, int size,
-      String sortBy, String sortDirection);
+  Page<WalkOfferSearchViewDto> searchWalkOffers(SearchWalkOffersRequest request);
 }
