@@ -33,7 +33,7 @@ public class UserImageService implements IUserImageService
     currentUser.setImage(newImage);
     userService.updateUser(currentUser);
 
-    return userDataMapper.toCurrentUserProfile(currentUser, imageService);
+    return userDataMapper.toCurrentUserProfile(currentUser);
   }
 
   @Override

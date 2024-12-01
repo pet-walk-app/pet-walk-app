@@ -2,23 +2,26 @@ package com.kotkipieski.backend.authentication.mapper;
 
 import com.kotkipieski.backend.authentication.dtos.RegistrationRequest;
 import com.kotkipieski.backend.users.entities.User;
-import org.mapstruct.Context;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Mapper
-public interface RegistrationRequest2UserMapper
+public abstract class RegistrationRequest2UserMapper
 {
+
+  @Autowired
+  protected PasswordEncoder passwordEncoder;
 
   @Mapping(target = "password", source = "password", qualifiedByName = "mapPassword")
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "isFirstVisit", constant = "true")
-  User map(RegistrationRequest request, @Context PasswordEncoder passwordEncoder);
+  public abstract User map(RegistrationRequest request);
 
   @Named("mapPassword")
-  default String mapPassword(String password, @Context PasswordEncoder passwordEncoder)
+  public String mapPassword(String password)
   {
     return passwordEncoder.encode(password);
   }

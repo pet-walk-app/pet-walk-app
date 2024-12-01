@@ -26,6 +26,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 @Entity
 @Data
@@ -68,6 +69,10 @@ public class WalkOffer
 
   @NotBlank
   private String zipCode;
+
+  @Column(columnDefinition = "POINT")
+  @NotNull
+  private Point zipCodeLocation;
 
   @NotBlank
   private String city;

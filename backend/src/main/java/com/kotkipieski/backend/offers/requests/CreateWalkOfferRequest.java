@@ -1,5 +1,6 @@
 package com.kotkipieski.backend.offers.requests;
 
+import com.kotkipieski.backend.common.connectors.zippopotamus.validators.ValidZipCode;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -36,7 +37,7 @@ public class CreateWalkOfferRequest
   @NotBlank
   private String address;
 
-  @NotBlank
+  @ValidZipCode
   private String zipCode;
 
   @NotBlank

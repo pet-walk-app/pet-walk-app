@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ShortUserDataDto
+public class UserOfferSearchDto
 {
 
   private Long id;

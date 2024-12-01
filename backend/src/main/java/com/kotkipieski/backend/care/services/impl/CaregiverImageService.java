@@ -40,7 +40,7 @@ public class CaregiverImageService implements ICaregiverImageService
 
     caregiverService.save(currentCaregiver);
 
-    return caregiverResponseMapper.toCaregiverResponse(currentCaregiver, imageService);
+    return caregiverResponseMapper.toCaregiverResponse(currentCaregiver);
   }
 
   @Override

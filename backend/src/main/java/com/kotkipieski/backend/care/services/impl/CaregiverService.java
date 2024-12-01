@@ -40,7 +40,7 @@ public class CaregiverService implements ICaregiverService
     currentUser.setCaregiver(caregiver);
     userService.updateUser(currentUser);
 
-    return caregiverResponseMapper.toCaregiverResponse(caregiver, imageService);
+    return caregiverResponseMapper.toCaregiverResponse(caregiver);
   }
 
   @Override

@@ -1,7 +1,7 @@
 package com.kotkipieski.backend.offers.controllers;
 
-import com.kotkipieski.backend.offers.requests.CreateWalkOfferRequest;
 import com.kotkipieski.backend.offers.dtos.WalkOfferCreatorViewDto;
+import com.kotkipieski.backend.offers.requests.CreateWalkOfferRequest;
 import com.kotkipieski.backend.offers.requests.UpdateWalkOfferRequest;
 import com.kotkipieski.backend.offers.services.IWalkOfferService;
 import jakarta.validation.Valid;

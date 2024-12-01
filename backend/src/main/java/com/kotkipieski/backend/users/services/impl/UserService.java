@@ -92,14 +92,14 @@ public class UserService implements UserDetailsService, IUserService
     userUpdateRequestMapper.updateUserFromDto(userUpdateRequest, currentUser, passwordEncoder);
 
     userRepository.save(currentUser);
-    return currentUserProfileDtoMapper.toCurrentUserProfile(currentUser, imageService);
+    return currentUserProfileDtoMapper.toCurrentUserProfile(currentUser);
   }
 
   @Override
   public CurrentUserProfileDto getCurrentUserProfile()
   {
     User currentUser = getCurrentUser();
-    return currentUserProfileDtoMapper.toCurrentUserProfile(currentUser, imageService);
+    return currentUserProfileDtoMapper.toCurrentUserProfile(currentUser);
   }
 
   @Override
@@ -107,7 +107,7 @@ public class UserService implements UserDetailsService, IUserService
   {
     User user = userRepository.getUserById(id).orElseThrow(UserNotFoundException::new);
 
-    return userProfileDtoMapper.toUserProfile(user, imageService);
+    return userProfileDtoMapper.toUserProfile(user);
   }
 
   @Override

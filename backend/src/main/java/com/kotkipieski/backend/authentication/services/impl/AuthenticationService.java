@@ -47,7 +47,7 @@ public class AuthenticationService implements IAuthenticationService
   @Override
   public AuthenticationResponse register(RegistrationRequest request)
   {
-    User mappedUser = registrationRequest2UserMapper.map(request, passwordEncoder);
+    User mappedUser = registrationRequest2UserMapper.map(request);
     if (userService.userExistsByEmail(mappedUser.getEmail())) {
       throw new EmailTakenException();
     }

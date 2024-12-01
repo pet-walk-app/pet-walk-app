@@ -41,7 +41,7 @@ public class PetService implements IPetService
     PetOwner currentPetOwner = getOrCreateCreatePetOwner();
     Pet pet = getUserPetById(petId, currentPetOwner.getPets());
 
-    return petResponseDtoMapper.toDto(pet, imageService);
+    return petResponseDtoMapper.toDto(pet);
   }
 
   @Override
@@ -60,10 +60,7 @@ public class PetService implements IPetService
   {
     PetOwner currentPetOwner = getOrCreateCreatePetOwner();
 
-    return currentPetOwner.getPets()
-        .stream()
-        .map(pet -> petResponseDtoMapper.toDto(pet, imageService))
-        .toList();
+    return currentPetOwner.getPets().stream().map(petResponseDtoMapper::toDto).toList();
   }
 
   @Override
@@ -76,7 +73,7 @@ public class PetService implements IPetService
     currentPetOwner.getPets().add(pet);
     petOwnerRepository.save(currentPetOwner);
 
-    return petResponseDtoMapper.toDto(pet, imageService);
+    return petResponseDtoMapper.toDto(pet);
   }
 
   @Override
@@ -111,7 +108,7 @@ public class PetService implements IPetService
     imageService.deleteImage(pet.getImage());
     pet.setImage(null);
 
-    return petResponseDtoMapper.toDto(petRepository.save(pet), imageService);
+    return petResponseDtoMapper.toDto(petRepository.save(pet));
   }
 
   @Override
@@ -141,7 +138,7 @@ public class PetService implements IPetService
     });
 
     Pet upatedPet = petRepository.save(petToUpdate);
-    return petResponseDtoMapper.toDto(upatedPet, imageService);
+    return petResponseDtoMapper.toDto(upatedPet);
   }
 
   private static Pet getUserPetById(Long petId, List<Pet> currentUserPets)

@@ -3,7 +3,7 @@ kotki-pieski:
   expiration-time: ${TOKEN_EXPIRATION_TIME}
 
 server:
-  port: 8080
+  port: 8081
 
 springdoc:
   swagger-ui:
