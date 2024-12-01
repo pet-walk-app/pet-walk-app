@@ -65,6 +65,10 @@ export default function HomeScreen({navigation}) {
         title="Moje oferty" 
         onPress={() => navigation.navigate('My Offers')} 
       />
+      <Button 
+        title="Edycja użytkownika" 
+        onPress={() => navigation.navigate('Edit User')} 
+      />
     </NoStatusBarView>
   );
 }

@@ -8,7 +8,13 @@ export const profileStyles = StyleSheet.create({
     },
 
     headerSection: {
-        marginBottom: 8
+        marginBottom: 8,
+    },
+
+    mainHeader: {
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-between'
     },
 
     h1: {
@@ -70,6 +76,7 @@ export const profileStyles = StyleSheet.create({
         padding: 5,
         borderRadius: 40,
         width: '30%',
+        height: 35,
         alignContent: 'center',
         justifyContent: 'center',
         alignItems: 'center',

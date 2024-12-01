@@ -8,6 +8,7 @@ import { useForm, Controller } from "react-hook-form";
 import FormInput from "../components/FormInput";
 import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
+import { fetchUserData } from "../services/userApi";
 
 import { loginUser } from "../services/authorizationApi";
 
@@ -22,7 +23,8 @@ export default function LoginScreen({navigation}) {
       await loginUser(data)
       setIsLogged(true);
       Alert.alert("Success", "Login successful!");
-      navigation.navigate('First Visit Form');
+      fetchUserData();
+      navigation.navigate('First Visit');
     } catch (error) {
       Alert.alert("Błąd logowania", error.message || "Wystąpił błąd podczas logowania.")
       setIsLogged(false);

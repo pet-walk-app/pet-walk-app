@@ -6,9 +6,14 @@ export default function UserProfile({navigation}) {
   return (
     <NoStatusBarView padding={40} extraStyle={profileStyles.container}>
 
-      <View style={profileStyles.headerSection}>
-        <Text style={profileStyles.h1}>Anna Kowalska</Text>
+      <View style={profileStyles.mainHeader}>
+          <Text style={profileStyles.h1}>Anna Kowalska</Text>
+          <Pressable style={profileStyles.button}
+            onPress={() => {navigation.navigate('Edit User')}}>
+            <Text style={profileStyles.buttonText}>Edytuj</Text>
+          </Pressable>
       </View>
+
       
       <View style={profileStyles.infoSection}>
         <View style={profileStyles.profileImageContainer}>

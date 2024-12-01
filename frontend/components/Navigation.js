@@ -18,6 +18,7 @@ import OffersListScreen from '../screens/OffersListScreen';
 import UserProfile from '../screens/UserProfileScreen';
 import PetProfile from '../screens/PetProfileScreen';
 import MyOffersScreen from '../screens/MyOffersScreen';
+import EditUserScreen from '../screens/EditUserScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -48,6 +49,7 @@ export default function Navigation() {
         <Stack.Screen name = 'User Profile' component={UserProfile}/>
         <Stack.Screen name = 'Pet Profile' component={PetProfile}/>
         <Stack.Screen name = 'My Offers' component={MyOffersScreen}/>
+        <Stack.Screen name = 'Edit User' component={EditUserScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

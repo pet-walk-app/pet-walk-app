@@ -8,6 +8,10 @@ const apiUrls = {
         pet: `${baseApi}/api/v1/pets`,
         createProfile: `${baseApi}/api/v1/user/profile`,
     },
+
+    user: {
+        profile: `${baseApi}/api/v1/user/profile`
+    }
 };
 
 export default apiUrls;
