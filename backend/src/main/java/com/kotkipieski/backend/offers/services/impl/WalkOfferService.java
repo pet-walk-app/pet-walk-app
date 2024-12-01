@@ -119,12 +119,12 @@ public class WalkOfferService implements IWalkOfferService
     Pageable pageable = PageRequest.of(page, size, sort);
     Page<WalkOffer> walkOffers = walkOfferRepository.findByLocationWithinRadiusAndFilters(
         searchRequest.getLongitude(), searchRequest.getLatitude(), searchRequest.getRadius(),
-        searchRequest.getPriceFrom(), searchRequest.getPriceTo(),
-        searchRequest.getWalkDateStartLimit(), searchRequest.getWalkDateEndLimit(),
-        searchRequest.getMinTime(), searchRequest.getMaxTime(), pageable);
+        searchRequest.getPriceFrom(), searchRequest.getPriceTo(), searchRequest
+            .getWalkDateStartLimit(), searchRequest.getWalkDateEndLimit(), searchRequest
+                .getMinTime(), searchRequest.getMaxTime(), pageable);
 
-    return walkOffers.map(
-        walkOffer -> walkOfferSearchViewDtoMapper.toDto(walkOffer, searchRequest));
+    return walkOffers.map(walkOffer -> walkOfferSearchViewDtoMapper.toDto(walkOffer,
+        searchRequest));
   }
 
   private static WalkOffer getWalkOffer(Long id, PetOwner petOwner)

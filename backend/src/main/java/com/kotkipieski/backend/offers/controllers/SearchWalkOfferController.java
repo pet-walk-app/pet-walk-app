@@ -25,7 +25,7 @@ public class SearchWalkOfferController
       @RequestBody SearchWalkOffersRequest searchRequest, @RequestParam int page,
       @RequestParam int size, @RequestParam String sortBy, @RequestParam String sortDirection)
   {
-    return ResponseEntity.ok(
-        walkOfferService.searchWalkOffers(searchRequest, page, size, sortBy, sortDirection));
+    return ResponseEntity.ok(walkOfferService.searchWalkOffers(searchRequest, page, size, sortBy,
+        sortDirection));
   }
 }
