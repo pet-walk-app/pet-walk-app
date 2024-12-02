@@ -1,6 +1,7 @@
-kotki-pieski:
+pet-walk-app:
   jwt-secret: ${JWT_SECRET}
   expiration-time: ${TOKEN_EXPIRATION_TIME}
+  google-maps-api-key: ${GOOGLE_MAPS_API_KEY}
 
 server:
   port: 8080

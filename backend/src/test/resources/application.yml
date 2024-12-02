@@ -1,4 +1,4 @@
-kotki-pieski:
+pet-walk-app:
   jwt-secret: VERY_SECRET
   expiration-time: 10
 
