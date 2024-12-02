@@ -15,14 +15,11 @@ import lombok.NoArgsConstructor;
 public class SearchWalkOffersRequest
 {
 
-  @NotNull
-  private Double longitude;
+  @NotNull private Double longitude;
 
-  @NotNull
-  private Double latitude;
+  @NotNull private Double latitude;
 
-  @NotNull
-  private Double radius;
+  @NotNull private Double radius;
 
   private BigDecimal priceFrom;
 
@@ -36,11 +33,9 @@ public class SearchWalkOffersRequest
 
   private Double maxTime;
 
-  @NotNull
-  Integer page;
+  @NotNull Integer page;
 
-  @NotNull
-  Integer pageSize;
+  @NotNull Integer pageSize;
 
   SearchWalkOfferSortByType sortBy;
 

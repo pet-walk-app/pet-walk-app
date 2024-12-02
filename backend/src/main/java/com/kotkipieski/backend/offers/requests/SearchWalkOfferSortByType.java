@@ -5,9 +5,11 @@ import lombok.Getter;
 @Getter
 public enum SearchWalkOfferSortByType
 {
+
   PRICE("price"),
   WALK_LENGTH("walk_length"),
-  WALK_DATE("walk_date");
+  WALK_DATE("walk_date"),
+  DISTANCE("distance");
 
   private final String value;
 
