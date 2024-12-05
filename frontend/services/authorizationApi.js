@@ -51,7 +51,7 @@ export const registerUser = async (credentials) => {
 
 export const saveCaregiver = async (data) => {
     try {
-        const response = await postData(apiUrls.auth.caregiver, data, true);
+        const response = await postData(apiUrls.caregiver.create, data, true);
 
         return response;
     } catch (error) {
@@ -63,7 +63,7 @@ export const saveCaregiver = async (data) => {
 //This part doesn't work :(
 export const savePet = async (data) => {
     try {
-        const response = await postData(apiUrls.auth.pet, data, true);
+        const response = await postData(apiUrls.pet.create, data, true);
 
         return response;
     } catch (error) {
@@ -74,7 +74,7 @@ export const savePet = async (data) => {
 
 export const createProfile = async (data) => {
     try {
-        const response = await postData(apiUrls.auth.createProfile, data, true);
+        const response = await postData(apiUrls.user.profile, data, true);
 
         return response;
     } catch (error) {

@@ -57,8 +57,8 @@ export default function FirstVisitFormScreen({navigation}) {
             rules={{ 
               required: "Numer telefonu jest wymagany",
               pattern: {
-                value: /^\d+$/,
-                message: "Numer musi zawierać wyłącznie cyfry"
+                value: /^\d{9}$/,
+                message: "Numer musi składać się z 9 cyfr",
               }
             }}
             render={({ field: { onChange, value } }) => (
