@@ -14,9 +14,9 @@ export default function MyOffersScreen({ navigation }) {
   const offers = [
     { myOffer: true, animalName: "Burek", date: "13.11.2024", found: "12" },
     { myOffer: true, animalName: "Alex", date: "11.11.2024", found: "2" },
-    { myOffer: false, animalName: "Alex", date: "11.11.2024", status: OfferStatusEnum.ACCEPTED },
-    { myOffer: false, animalName: "Alex", date: "11.11.2024", status: OfferStatusEnum.DECLINED },
-    { myOffer: false, animalName: "Alex", date: "11.11.2024", status: OfferStatusEnum.WAITING },
+    { myOffer: false, animalName: "Cezar", date: "11.11.2024", status: OfferStatusEnum.ACCEPTED },
+    { myOffer: false, animalName: "Vigo", date: "11.11.2024", status: OfferStatusEnum.DECLINED },
+    { myOffer: false, animalName: "Ozzi", date: "11.11.2024", status: OfferStatusEnum.WAITING },
   ];
 
   const filteredOffers = offers.filter(offer => {
