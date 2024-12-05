@@ -36,10 +36,10 @@ export default function FirstVisitFormScreen({navigation}) {
             control={control}
             name="name"
             rules={{ 
-              required: "Imie jest wymagane",
+              required: "Nazwa jest wymagana",
               pattern: {
                 value: /^(?!.*\d).+$/,
-                message: "Imie nie może zawierać cyfr"
+                message: "Nazwa nie może zawierać cyfr"
               }
             }}
             render={({ field: { onChange, value } }) => (

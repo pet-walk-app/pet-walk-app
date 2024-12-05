@@ -24,7 +24,7 @@ export default function LoginScreen({navigation}) {
       setIsLogged(true);
       Alert.alert("Success", "Login successful!");
       fetchUserData();
-      navigation.navigate('First Visit');
+      navigation.navigate('First Visit Form');
     } catch (error) {
       Alert.alert("Błąd logowania", error.message || "Wystąpił błąd podczas logowania.")
       setIsLogged(false);
