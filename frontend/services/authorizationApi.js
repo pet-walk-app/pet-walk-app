@@ -9,8 +9,6 @@ export const loginUser = async (credentials) => {
         
         if (token) {
             await AsyncStorage.setItem('jwt_token', token)
-            await AsyncStorage.setItem('email', credentials.email)
-            await AsyncStorage.setItem('password', credentials.password)
         } else {
             throw new Error("Server didn't return JWT token.")
         }
@@ -26,8 +24,6 @@ export const loginUser = async (credentials) => {
 export const logoutUser = async () => {
     try {
         await AsyncStorage.removeItem('jwt_token')
-        await AsyncStorage.removeItem('email')
-        await AsyncStorage.removeItem('password')
         console.log('Login successfull')
     } catch (error) {
         console.error('Error while trying to logout', error.message)
@@ -55,7 +51,7 @@ export const registerUser = async (credentials) => {
 
 export const saveCaregiver = async (data) => {
     try {
-        const response = await postData(apiUrls.auth.caregiver, data, true);
+        const response = await postData(apiUrls.caregiver.create, data, true);
 
         return response;
     } catch (error) {
@@ -67,7 +63,7 @@ export const saveCaregiver = async (data) => {
 //This part doesn't work :(
 export const savePet = async (data) => {
     try {
-        const response = await postData(apiUrls.auth.pet, data, true);
+        const response = await postData(apiUrls.pet.create, data, true);
 
         return response;
     } catch (error) {
@@ -77,14 +73,8 @@ export const savePet = async (data) => {
 };
 
 export const createProfile = async (data) => {
-    const updatedData = {
-        ...data,
-        email: await AsyncStorage.getItem("email"),
-        password: await AsyncStorage.getItem("password")
-    };
-
     try {
-        const response = await postData(apiUrls.auth.createProfile, updatedData, true);
+        const response = await postData(apiUrls.user.profile, data, true);
 
         return response;
     } catch (error) {

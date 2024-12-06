@@ -4,13 +4,18 @@ const apiUrls = {
     auth: {
         login: `${baseApi}/api/v1/auth/login`,
         register: `${baseApi}/api/v1/auth/register`,
-        caregiver: `${baseApi}/api/v1/caregiver`,
-        pet: `${baseApi}/api/v1/pets`,
-        createProfile: `${baseApi}/api/v1/user/profile`,
     },
 
     user: {
         profile: `${baseApi}/api/v1/user/profile`
+    },
+
+    pet: {
+        create: `${baseApi}/api/v1/pets`,
+    },
+
+    caregiver: {
+        create: `${baseApi}/api/v1/caregiver`,
     }
 };
 

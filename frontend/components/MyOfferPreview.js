@@ -1,34 +1,24 @@
-import React from 'react';
-import { View, Text, Image } from 'react-native';
-import { MyOfferPreviewStyles } from '../styles/offerListStyles';
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { View, Text, Image } from "react-native";
+import { MyOfferPreviewStyles } from "../styles/offerListStyles";
 
 const OfferStatusEnum = {
-  ACCEPTED: 'accepted',
-  DECLINED: 'declined',
-  WAITING: 'waiting',
+  ACCEPTED: "accepted",
+  DECLINED: "declined",
+  WAITING: "waiting",
 };
 
 const MyOfferPreview = ({ myOffer, animalName, date, found, status }) => {
-  const [isMyOffer, setMyOffer] = useState(myOffer)
-  const [offerStatus, setOfferStatus] = useState(status);
-
-  const [title, setTitle] = useState("")
-  const [bottomLine, setBottomLine] = useState("")
+  const [title, setTitle] = useState("");
+  const [bottomLine, setBottomLine] = useState("");
 
   useEffect(() => {
-    if (isMyOffer) {
+    if (myOffer) {
       setTitle("Moja oferta");
+      setBottomLine(`Znaleziono chętnych: ${found}`);
     } else {
       setTitle("Oferta");
-    }
-  }, [isMyOffer]);
-
-  useEffect(() => {
-    if (isMyOffer) {
-      setBottomLine("Znaleziono chętnych: " + found);
-    } else {
-      switch (offerStatus) {
+      switch (status) {
         case OfferStatusEnum.ACCEPTED:
           setBottomLine("Status: zaakceptowano");
           break;
@@ -42,14 +32,17 @@ const MyOfferPreview = ({ myOffer, animalName, date, found, status }) => {
           setBottomLine("Status: nieznany");
       }
     }
-  }, [isMyOffer, offerStatus]);
+  }, [myOffer, status, found]);
 
   return (
     <View style={MyOfferPreviewStyles.container}>
       <Text style={MyOfferPreviewStyles.myOfferTitle}>{title}</Text>
       <View style={MyOfferPreviewStyles.content}>
         <View style={MyOfferPreviewStyles.leftSection}>
-          <Image source={require('../assets/default_dog_picture.png')} style={MyOfferPreviewStyles.profileImage} />
+          <Image
+            source={require("../assets/default_dog_picture.png")}
+            style={MyOfferPreviewStyles.profileImage}
+          />
         </View>
         <View style={MyOfferPreviewStyles.myOfferMiddleSection}>
           <Text style={MyOfferPreviewStyles.animalName}>{animalName}</Text>
