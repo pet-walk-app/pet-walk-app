@@ -2,9 +2,9 @@ package com.petwalkapp.backend.offers.services;
 
 import com.petwalkapp.backend.common.dtos.PageDto;
 import com.petwalkapp.backend.common.requests.SortDirectionType;
-import com.petwalkapp.backend.offers.dtos.WalkOfferPendingViewDto;
-import com.petwalkapp.backend.offers.dtos.WalkOfferCreatorViewDto;
 import com.petwalkapp.backend.offers.dtos.WalkOfferAcceptedViewDto;
+import com.petwalkapp.backend.offers.dtos.WalkOfferCreatorViewDto;
+import com.petwalkapp.backend.offers.dtos.WalkOfferPendingViewDto;
 import com.petwalkapp.backend.offers.dtos.WalkOfferSearchViewDto;
 import com.petwalkapp.backend.offers.requests.CreateWalkOfferRequest;
 import com.petwalkapp.backend.offers.requests.SearchWalkOfferSortByType;

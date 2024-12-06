@@ -24,8 +24,7 @@ public interface WalkOfferAcceptedViewDtoMapper
   PageDto<WalkOfferAcceptedViewDto> toPageDto(Page<WalkOffer> walkOffers,
       @Context Caregiver currentCaregiver);
 
-  @Mapping(target = "alreadyApplied",
-      expression = "java(CaregiverUtils.didCaregiverAppliedForOffer(walkOffer, currentCaregiver))")
+  @Mapping(target = "alreadyApplied", expression = "java(CaregiverUtils.didCaregiverAppliedForOffer(walkOffer, currentCaregiver))")
   @Mapping(target = "offerCreator", source = "walkOffer.petOwner.user")
   WalkOfferAcceptedViewDto toDto(WalkOffer walkOffer, @Context Caregiver currentCaregiver);
 }

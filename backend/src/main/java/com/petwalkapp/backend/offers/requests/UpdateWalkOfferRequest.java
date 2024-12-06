@@ -23,18 +23,15 @@ public class UpdateWalkOfferRequest
   @NotEmpty
   private List<Long> petIds;
 
-  @NotNull
-  @NotPastDate
+  @NotNull @NotPastDate
   private LocalDate walkDate;
 
   @NotBlank
   private String description;
 
-  @NotNull
-  private Long walkLength;
+  @NotNull private Long walkLength;
 
-  @NotNull
-  private BigDecimal price;
+  @NotNull private BigDecimal price;
 
   @NotBlank
   private String address;

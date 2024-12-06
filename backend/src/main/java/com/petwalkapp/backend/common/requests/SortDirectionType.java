@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum SortDirectionType
 {
 
-  ASC("asc"), DESC("desc");
+  ASC("asc"),
+  DESC("desc");
 
   private final String value;
 

@@ -14,8 +14,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.data.domain.Page;
 
-@Mapper(uses = {UserOfferSearchDtoMapper.class, PetResponseDtoMapper.class},
-    imports = {CaregiverUtils.class})
+@Mapper(uses = {UserOfferSearchDtoMapper.class, PetResponseDtoMapper.class}, imports = {
+    CaregiverUtils.class})
 public interface WalkOfferPendingViewDtoMapper
 {
 
@@ -23,8 +23,7 @@ public interface WalkOfferPendingViewDtoMapper
   PageDto<WalkOfferPendingViewDto> toPageDto(Page<WalkOffer> walkOffers,
       @Context Caregiver currentCaregiver);
 
-  @Mapping(target = "alreadyApplied",
-      expression = "java(CaregiverUtils.didCaregiverAppliedForOffer(walkOffer, currentCaregiver))")
+  @Mapping(target = "alreadyApplied", expression = "java(CaregiverUtils.didCaregiverAppliedForOffer(walkOffer, currentCaregiver))")
   @Mapping(target = "offerCreator", source = "walkOffer.petOwner.user")
   WalkOfferPendingViewDto toDto(WalkOffer walkOffer, @Context Caregiver currentCaregiver);
 }

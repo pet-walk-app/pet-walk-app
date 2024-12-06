@@ -2,24 +2,24 @@ package com.petwalkapp.backend.offers.services.impl;
 
 import com.petwalkapp.backend.care.CaregiverUtils;
 import com.petwalkapp.backend.care.entities.Caregiver;
-import com.petwalkapp.backend.offers.dtos.WalkOfferAcceptedViewDto;
-import com.petwalkapp.backend.offers.entities.WalkOfferApplication;
 import com.petwalkapp.backend.care.services.impl.CaregiverService;
 import com.petwalkapp.backend.common.dtos.PageDto;
 import com.petwalkapp.backend.common.requests.SortDirectionType;
 import com.petwalkapp.backend.common.utils.PageUtils;
+import com.petwalkapp.backend.offers.dtos.WalkOfferAcceptedViewDto;
 import com.petwalkapp.backend.offers.dtos.WalkOfferCreatorViewDto;
 import com.petwalkapp.backend.offers.dtos.WalkOfferPendingViewDto;
 import com.petwalkapp.backend.offers.dtos.WalkOfferSearchViewDto;
 import com.petwalkapp.backend.offers.entities.WalkOffer;
+import com.petwalkapp.backend.offers.entities.WalkOfferApplication;
 import com.petwalkapp.backend.offers.entities.WalkOfferStatus;
 import com.petwalkapp.backend.offers.exceptions.AlreadyAppliedException;
 import com.petwalkapp.backend.offers.exceptions.ApplicationNotFound;
 import com.petwalkapp.backend.offers.exceptions.OfferNotFoundException;
 import com.petwalkapp.backend.offers.mappers.CreateWalkOfferRequestMapper;
 import com.petwalkapp.backend.offers.mappers.UpdateWalkOfferRequestMapper;
-import com.petwalkapp.backend.offers.mappers.WalkOfferCreatorViewDtoMapper;
 import com.petwalkapp.backend.offers.mappers.WalkOfferAcceptedViewDtoMapper;
+import com.petwalkapp.backend.offers.mappers.WalkOfferCreatorViewDtoMapper;
 import com.petwalkapp.backend.offers.mappers.WalkOfferPendingViewDtoMapper;
 import com.petwalkapp.backend.offers.mappers.WalkOfferSearchViewDtoMapper;
 import com.petwalkapp.backend.offers.repositories.WalkOfferRepository;
@@ -219,11 +219,12 @@ public class WalkOfferService implements IWalkOfferService
       throw new NotAllowedException();
     }
 
-    walkOffer.getWalkOfferApplications().add(WalkOfferApplication.builder()
-        .caregiver(caregiver)
-        .walkOffer(walkOffer)
-        .applicationDate(LocalDateTime.now())
-        .build());
+    walkOffer.getWalkOfferApplications()
+        .add(WalkOfferApplication.builder()
+            .caregiver(caregiver)
+            .walkOffer(walkOffer)
+            .applicationDate(LocalDateTime.now())
+            .build());
 
     walkOfferRepository.save(walkOffer);
   }
