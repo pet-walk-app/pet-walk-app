@@ -32,7 +32,7 @@ public class CaregiverImageService implements ICaregiverImageService
   @Override
   public CaregiverResponse saveImages(@NotNull List<MultipartFile> imageFiles)
   {
-    Caregiver currentCaregiver = caregiverService.getCurrentCaregiver();
+    Caregiver currentCaregiver = caregiverService.getCurrentCaregiverOrThrow();
 
     List<Image> newImages = imageFiles.stream().map(imageService::saveImage).toList();
 
@@ -50,7 +50,7 @@ public class CaregiverImageService implements ICaregiverImageService
       return;
     }
 
-    Caregiver currentCaregiver = caregiverService.getCurrentCaregiver();
+    Caregiver currentCaregiver = caregiverService.getCurrentCaregiverOrThrow();
     List<Image> images = Optional.of(currentCaregiver)
         .map(Caregiver::getImages)
         .orElseGet(Collections::emptyList);

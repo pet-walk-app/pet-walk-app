@@ -1,11 +1,11 @@
 package com.petwalkapp.backend.offers.controllers;
 
+import com.petwalkapp.backend.common.dtos.PageDto;
 import com.petwalkapp.backend.offers.dtos.WalkOfferCreatorViewDto;
 import com.petwalkapp.backend.offers.requests.CreateWalkOfferRequest;
 import com.petwalkapp.backend.offers.requests.UpdateWalkOfferRequest;
 import com.petwalkapp.backend.offers.services.IWalkOfferService;
 import jakarta.validation.Valid;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -33,9 +34,11 @@ public class UserWalkOfferController
   }
 
   @GetMapping
-  public ResponseEntity<List<WalkOfferCreatorViewDto>> getUserWalkOffers()
+  public ResponseEntity<PageDto<WalkOfferCreatorViewDto>> getUserWalkOffers(
+      @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+      @RequestParam(name = "page_size", required = false, defaultValue = "10") Integer pageSize)
   {
-    return ResponseEntity.ok(walkOfferService.getUserWalkOffers());
+    return ResponseEntity.ok(walkOfferService.getUserWalkOffers(page, pageSize));
   }
 
   @GetMapping("/{id}")
@@ -52,8 +55,15 @@ public class UserWalkOfferController
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<WalkOfferCreatorViewDto> updateUserWalkOffer(@PathVariable("id") Long id)
+  public ResponseEntity<WalkOfferCreatorViewDto> deleteWalkOffer(@PathVariable("id") Long id)
   {
     return ResponseEntity.ok(walkOfferService.deleteUserWalkOffer(id));
+  }
+
+  @GetMapping("/accept/{id}")
+  public ResponseEntity<WalkOfferCreatorViewDto> acceptApplication(@PathVariable("id") Long offerId,
+      @RequestParam("applicationId") Long applicationId)
+  {
+    return ResponseEntity.ok(walkOfferService.acceptApplication(offerId, applicationId));
   }
 }

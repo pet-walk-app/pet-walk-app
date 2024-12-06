@@ -27,7 +27,7 @@ public class Pet
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(optional = false)
   @JoinColumn(name = "owner_id")
   private PetOwner owner;
 

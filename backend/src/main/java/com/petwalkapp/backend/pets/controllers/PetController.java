@@ -35,7 +35,7 @@ public class PetController
   @GetMapping("/{id}")
   public ResponseEntity<PetResponseDto> getPetById(@PathVariable("id") Long petId)
   {
-    return ResponseEntity.ok(petService.getPetById(petId));
+    return ResponseEntity.ok(petService.getUserPetById(petId));
   }
 
   @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})

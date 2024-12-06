@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 public class PetOwnerNotCreatedException extends BaseServerException
 {
 
-  private static final String message = "You need to create a pet owner first";
+  private static final String message = "You need to create a pet owner profile first";
 
   public PetOwnerNotCreatedException()
   {

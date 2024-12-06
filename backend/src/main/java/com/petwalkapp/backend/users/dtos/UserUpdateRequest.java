@@ -32,5 +32,6 @@ public class UserUpdateRequest
   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
   private LocalDate dateOfBirth;
 
+  @NotBlank
   private String phone;
 }

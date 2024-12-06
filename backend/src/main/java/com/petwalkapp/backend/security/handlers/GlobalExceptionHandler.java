@@ -43,6 +43,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
@@ -126,8 +128,9 @@ public class GlobalExceptionHandler
         .map(ConstraintViolationException::getConstraintViolations)
         .orElseGet(Collections::emptySet)
         .stream()
-        .collect(Collectors.toMap(constraintViolation -> constraintViolation.getPropertyPath()
-            .toString(), ConstraintViolation::getMessage));
+        .collect(Collectors.toMap(
+            constraintViolation -> constraintViolation.getPropertyPath().toString(),
+            ConstraintViolation::getMessage));
 
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .body(ErrorResponse.builder().message(CONSTRAINT_VIOLATION).details(details).build());
@@ -184,6 +187,14 @@ public class GlobalExceptionHandler
         .body(ErrorResponse.builder().message(MAX_FILE_SIZE_EXCEEDED).build());
   }
 
+  @ExceptionHandler({MissingServletRequestPartException.class, MultipartException.class})
+  public ResponseEntity<ErrorResponse> handleMissingServletRequestPartException(Exception exception)
+  {
+    log.warn("MissingServletRequestPartException: ", exception);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(ErrorResponse.builder().message(INVALID_REQUEST_ARGUMENTS).build());
+  }
+
   @ExceptionHandler({Exception.class})
   public ResponseEntity<ErrorResponse> handleUnknownException(Exception exception)
   {
@@ -194,7 +205,7 @@ public class GlobalExceptionHandler
 
   private Map.Entry<String, String> mapError(FieldError error)
   {
-    return Map.entry(error.getField(), Optional.ofNullable(error.getDefaultMessage())
-        .orElse(INVALID_VALUE));
+    return Map.entry(error.getField(),
+        Optional.ofNullable(error.getDefaultMessage()).orElse(INVALID_VALUE));
   }
 }

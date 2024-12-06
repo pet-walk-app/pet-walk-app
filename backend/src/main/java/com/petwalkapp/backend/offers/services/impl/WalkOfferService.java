@@ -1,16 +1,27 @@
 package com.petwalkapp.backend.offers.services.impl;
 
+import com.petwalkapp.backend.care.CaregiverUtils;
+import com.petwalkapp.backend.care.entities.Caregiver;
+import com.petwalkapp.backend.offers.dtos.WalkOfferAcceptedViewDto;
+import com.petwalkapp.backend.offers.entities.WalkOfferApplication;
+import com.petwalkapp.backend.care.services.impl.CaregiverService;
 import com.petwalkapp.backend.common.dtos.PageDto;
+import com.petwalkapp.backend.common.requests.SortDirectionType;
+import com.petwalkapp.backend.common.utils.PageUtils;
 import com.petwalkapp.backend.offers.dtos.WalkOfferCreatorViewDto;
+import com.petwalkapp.backend.offers.dtos.WalkOfferPendingViewDto;
 import com.petwalkapp.backend.offers.dtos.WalkOfferSearchViewDto;
 import com.petwalkapp.backend.offers.entities.WalkOffer;
 import com.petwalkapp.backend.offers.entities.WalkOfferStatus;
+import com.petwalkapp.backend.offers.exceptions.AlreadyAppliedException;
+import com.petwalkapp.backend.offers.exceptions.ApplicationNotFound;
 import com.petwalkapp.backend.offers.exceptions.OfferNotFoundException;
 import com.petwalkapp.backend.offers.mappers.CreateWalkOfferRequestMapper;
 import com.petwalkapp.backend.offers.mappers.UpdateWalkOfferRequestMapper;
-import com.petwalkapp.backend.offers.mappers.WalkOfferCreatorDtoMapper;
+import com.petwalkapp.backend.offers.mappers.WalkOfferCreatorViewDtoMapper;
+import com.petwalkapp.backend.offers.mappers.WalkOfferAcceptedViewDtoMapper;
+import com.petwalkapp.backend.offers.mappers.WalkOfferPendingViewDtoMapper;
 import com.petwalkapp.backend.offers.mappers.WalkOfferSearchViewDtoMapper;
-import com.petwalkapp.backend.offers.mappers.WalkOfferSearchViewPageMapper;
 import com.petwalkapp.backend.offers.repositories.WalkOfferRepository;
 import com.petwalkapp.backend.offers.requests.CreateWalkOfferRequest;
 import com.petwalkapp.backend.offers.requests.SearchWalkOfferSortByType;
@@ -19,10 +30,13 @@ import com.petwalkapp.backend.offers.requests.UpdateWalkOfferRequest;
 import com.petwalkapp.backend.offers.services.IWalkOfferService;
 import com.petwalkapp.backend.pets.entities.PetOwner;
 import com.petwalkapp.backend.pets.services.IPetService;
+import com.petwalkapp.backend.security.exceptions.NotAllowedException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import java.time.LocalDate;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -40,10 +54,12 @@ public class WalkOfferService implements IWalkOfferService
   private final WalkOfferRepository walkOfferRepository;
   private final CreateWalkOfferRequestMapper createWalkOfferRequestMapper;
   private final UpdateWalkOfferRequestMapper updateWalkOfferRequestMapper;
-  private final WalkOfferCreatorDtoMapper walkOfferCreatorDtoMapper;
+  private final WalkOfferCreatorViewDtoMapper walkOfferCreatorViewDtoMapper;
+  private final WalkOfferPendingViewDtoMapper walkOfferPendingViewDtoMapper;
   private final WalkOfferSearchViewDtoMapper walkOfferSearchViewDtoMapper;
-  private final WalkOfferSearchViewPageMapper walkOfferSearchViewPageMapper;
+  private final WalkOfferAcceptedViewDtoMapper walkOfferAcceptedViewDtoMapper;
   private final IPetService petService;
+  private final CaregiverService caregiverService;
 
   @Override
   public WalkOfferCreatorViewDto createWalkOffer(CreateWalkOfferRequest createWalkOfferRequest)
@@ -51,96 +67,227 @@ public class WalkOfferService implements IWalkOfferService
     WalkOffer walkOffer = createWalkOfferRequestMapper.toWalkOffer(createWalkOfferRequest);
 
     walkOffer = walkOfferRepository.save(walkOffer);
-    return walkOfferCreatorDtoMapper.toDto(walkOffer);
+    return walkOfferCreatorViewDtoMapper.toDto(walkOffer);
   }
 
   @Override
-  public List<WalkOfferCreatorViewDto> getUserWalkOffers()
+  public PageDto<WalkOfferCreatorViewDto> getUserWalkOffers(Integer page, Integer pageSize)
   {
-    PetOwner petOwner = petService.getCurrentPetOwner();
+    PetOwner petOwner = petService.getCurrentPetOwnerOrThrow();
+    Pageable pageable = getDefaultPageable(page, pageSize);
 
-    return Optional.of(petOwner)
-        .map(PetOwner::getWalkOffers)
-        .orElseGet(List::of)
-        .stream()
-        .map(walkOfferCreatorDtoMapper::toDto)
-        .toList();
+    return walkOfferCreatorViewDtoMapper.toPageDto(
+        walkOfferRepository.findWalkOfferByPetOwner(petOwner, pageable));
   }
 
   @Override
   public WalkOfferCreatorViewDto getUserWalkOffer(Long id)
   {
-    PetOwner petOwner = petService.getCurrentPetOwner();
+    WalkOffer walkOffer = getWalkOfferCreatedByUser(id, petService.getCurrentPetOwnerOrThrow());
 
-    return Optional.of(petOwner)
-        .map(PetOwner::getWalkOffers)
-        .orElseGet(List::of)
-        .stream()
-        .filter(walkOffer -> walkOffer.getId().equals(id))
-        .map(walkOfferCreatorDtoMapper::toDto)
-        .findFirst()
-        .orElseThrow(OfferNotFoundException::new);
+    return walkOfferCreatorViewDtoMapper.toDto(walkOffer);
   }
 
   @Override
   public WalkOfferCreatorViewDto updateUserWalkOffer(Long id,
       @Valid UpdateWalkOfferRequest updateWalkOfferRequest)
   {
-    PetOwner petOwner = petService.getCurrentPetOwner();
+    PetOwner petOwner = petService.getCurrentPetOwnerOrThrow();
 
-    WalkOffer walkOffer = getWalkOffer(id, petOwner);
+    WalkOffer walkOffer = getWalkOfferCreatedByUser(id, petOwner);
+
+    if (walkOffer.getStatus() != WalkOfferStatus.OPEN) {
+      throw new NotAllowedException();
+    }
 
     updateWalkOfferRequestMapper.updateWalkOfferFromDto(updateWalkOfferRequest, walkOffer,
         petService);
 
     walkOffer = walkOfferRepository.save(walkOffer);
 
-    return walkOfferCreatorDtoMapper.toDto(walkOffer);
+    return walkOfferCreatorViewDtoMapper.toDto(walkOffer);
   }
 
   @Override
   public WalkOfferCreatorViewDto deleteUserWalkOffer(Long id)
   {
-    PetOwner petOwner = petService.getCurrentPetOwner();
-    WalkOffer walkOffer = getWalkOffer(id, petOwner);
+    PetOwner petOwner = petService.getCurrentPetOwnerOrThrow();
+    WalkOffer walkOffer = getWalkOfferCreatedByUser(id, petOwner);
     walkOffer.setStatus(WalkOfferStatus.CANCELLED);
 
     walkOffer = walkOfferRepository.save(walkOffer);
-    return walkOfferCreatorDtoMapper.toDto(walkOffer);
+    return walkOfferCreatorViewDtoMapper.toDto(walkOffer);
   }
 
   @Override
-  public PageDto<WalkOfferSearchViewDto> searchWalkOffers(SearchWalkOffersRequest searchRequest)
+  public PageDto<WalkOfferSearchViewDto> searchWalkOffers(SearchWalkOffersRequest searchRequest,
+      Integer page, Integer pageSize, SearchWalkOfferSortByType sortBy,
+      SortDirectionType sortDirection)
   {
-    Sort sort = Optional.ofNullable(searchRequest.getSortBy())
-        .map(SearchWalkOfferSortByType::getValue)
-        .map(sortField -> Sort.by(Sort.Direction.fromString(searchRequest.getSortDirection()
-            .getValue()), sortField))
-        .orElseGet(Sort::unsorted);
+    Sort sort = Optional.ofNullable(sortBy)
+        .map(SearchWalkOfferSortByType::getField)
+        .map(sortField -> Sort.by(Sort.Direction.fromString(sortDirection.getValue()), sortField))
+        .orElseGet(
+            () -> Sort.by(Sort.Direction.DESC, SearchWalkOfferSortByType.CREATION_TIME.getField()));
 
-    LocalDate walkDateStartLimit = Optional.ofNullable(searchRequest.getWalkDateStartLimit())
+    LocalDate walkDateFrom = Optional.ofNullable(searchRequest.getWalkDateFrom())
         .filter(localDate -> !localDate.isBefore(LocalDate.now()))
         .orElse(LocalDate.now());
 
-    Pageable pageable = PageRequest.of(searchRequest.getPage(), searchRequest.getPageSize(), sort);
+    Pageable pageable = PageRequest.of(page, pageSize, sort);
     Page<WalkOffer> walkOffers = walkOfferRepository.findByLocationWithinRadiusAndFilters(
         searchRequest.getLongitude(), searchRequest.getLatitude(), searchRequest.getRadius(),
-        searchRequest.getPriceFrom(), searchRequest.getPriceTo(), walkDateStartLimit, searchRequest
-            .getWalkDateEndLimit(), searchRequest.getMinTime(), searchRequest.getMaxTime(),
+        searchRequest.getPriceFrom(), searchRequest.getPriceTo(), walkDateFrom,
+        searchRequest.getWalkDateTo(), searchRequest.getMinTime(), searchRequest.getMaxTime(),
         pageable);
 
-    return walkOfferSearchViewPageMapper.toPageDto(walkOffers.map(
-        walkOffer -> walkOfferSearchViewDtoMapper.toDto(walkOffer, searchRequest)));
+    Caregiver currentCaregiver = caregiverService.getCurrentCaregiver();
+    return walkOfferSearchViewDtoMapper.toPageDto(walkOffers, searchRequest,
+        currentCaregiver);
   }
 
-  private static WalkOffer getWalkOffer(Long id, PetOwner petOwner)
+  @Override
+  public WalkOfferPendingViewDto getPendingOffer(Long offerId)
   {
-    return Optional.of(petOwner)
-        .map(PetOwner::getWalkOffers)
-        .orElseGet(List::of)
-        .stream()
-        .filter(offer -> offer.getId().equals(id))
-        .findFirst()
+    Caregiver caregiver = caregiverService.getCurrentCaregiverOrThrow();
+    WalkOffer walkOffer = walkOfferRepository.findWalkOfferById(offerId)
         .orElseThrow(OfferNotFoundException::new);
+
+    if (!CaregiverUtils.didCaregiverAppliedForOffer(walkOffer, caregiver) ||
+        walkOffer.getStatus() != WalkOfferStatus.OPEN) {
+      throw new NotAllowedException();
+    }
+
+    return walkOfferPendingViewDtoMapper.toDto(walkOffer, caregiver);
+  }
+
+  @Override
+  public WalkOfferAcceptedViewDto getAcceptedOffer(Long offerId)
+  {
+    Caregiver caregiver = caregiverService.getCurrentCaregiverOrThrow();
+    WalkOffer walkOffer = walkOfferRepository.findWalkOfferById(offerId)
+        .orElseThrow(OfferNotFoundException::new);
+
+    if (Objects.isNull(walkOffer.getSelectedCaregiver()) || !caregiver.getId()
+        .equals(walkOffer.getSelectedCaregiver().getId())) {
+      throw new NotAllowedException();
+    }
+
+    return walkOfferAcceptedViewDtoMapper.toDto(walkOffer, caregiver);
+  }
+
+  @Override
+  public PageDto<WalkOfferPendingViewDto> getPendingOffers(Integer page, Integer pageSize)
+  {
+    Pageable pageable = getDefaultPageable(page, pageSize);
+    Caregiver caregiver = caregiverService.getCurrentCaregiverOrThrow();
+    Page<WalkOffer> walkOffers = walkOfferRepository.findPendingWalkOffers(caregiver, pageable);
+
+    return walkOfferPendingViewDtoMapper.toPageDto(walkOffers, caregiver);
+  }
+
+  @Override
+  public PageDto<WalkOfferAcceptedViewDto> getAcceptedOffers(Integer page, Integer pageSize)
+  {
+    Pageable pageable = getDefaultPageable(page, pageSize);
+    Caregiver caregiver = caregiverService.getCurrentCaregiverOrThrow();
+    Page<WalkOffer> walkOffers = walkOfferRepository.findAcceptedWalkOffers(caregiver, pageable);
+
+    return walkOfferAcceptedViewDtoMapper.toPageDto(walkOffers, caregiver);
+  }
+
+  @Override
+  public void applyForOffer(Long offerId)
+  {
+    Caregiver caregiver = caregiverService.getCurrentCaregiverOrThrow();
+    WalkOffer walkOffer = walkOfferRepository.findWalkOfferById(offerId)
+        .orElseThrow(OfferNotFoundException::new);
+
+    if (walkOffer.getStatus() != WalkOfferStatus.OPEN) {
+      throw new NotAllowedException();
+    }
+
+    if (walkOffer.getWalkDate().isBefore(ChronoLocalDate.from(LocalDateTime.now()))) {
+      throw new NotAllowedException();
+    }
+
+    if (CaregiverUtils.didCaregiverAppliedForOffer(walkOffer, caregiver)) {
+      throw new AlreadyAppliedException();
+    }
+
+    if (caregiver.getUser() == walkOffer.getPetOwner().getUser()) {
+      throw new NotAllowedException();
+    }
+
+    walkOffer.getWalkOfferApplications().add(WalkOfferApplication.builder()
+        .caregiver(caregiver)
+        .walkOffer(walkOffer)
+        .applicationDate(LocalDateTime.now())
+        .build());
+
+    walkOfferRepository.save(walkOffer);
+  }
+
+  @Override
+  public void removeApplicationForOffer(Long offerId)
+  {
+    Caregiver caregiver = caregiverService.getCurrentCaregiverOrThrow();
+    WalkOffer walkOffer = walkOfferRepository.findWalkOfferById(offerId)
+        .orElseThrow(OfferNotFoundException::new);
+
+    walkOffer.getWalkOfferApplications()
+        .removeIf(application -> application.getCaregiver().getId().equals(caregiver.getId()));
+
+    walkOfferRepository.save(walkOffer);
+  }
+
+  @Override
+  public WalkOfferCreatorViewDto acceptApplication(Long offerId, Long applicationId)
+  {
+    PetOwner petOwner = petService.getCurrentPetOwnerOrThrow();
+    WalkOffer walkOffer = getWalkOfferCreatedByUser(offerId, petOwner);
+
+    if (walkOffer.getStatus() != WalkOfferStatus.OPEN) {
+      throw new NotAllowedException();
+    }
+
+    if (!petOwner.getId().equals(walkOffer.getPetOwner().getId())) {
+      throw new NotAllowedException();
+    }
+
+    Caregiver caregiver = walkOffer.getWalkOfferApplications()
+        .stream()
+        .filter(application -> application.getId().equals(applicationId))
+        .map(WalkOfferApplication::getCaregiver)
+        .findFirst()
+        .orElseThrow(ApplicationNotFound::new);
+
+    if (Objects.isNull(caregiver)) {
+      throw new NotAllowedException();
+    }
+
+    walkOffer.setSelectedCaregiver(caregiver);
+    walkOffer.setStatus(WalkOfferStatus.ACCEPTED);
+
+    walkOffer = walkOfferRepository.save(walkOffer);
+
+    return walkOfferCreatorViewDtoMapper.toDto(walkOffer);
+  }
+
+  private static Pageable getDefaultPageable(Integer page, Integer pageSize)
+  {
+    return PageUtils.createPageable(page, pageSize, Sort.by(Sort.Direction.DESC, "createdAt"));
+  }
+
+  private WalkOffer getWalkOfferCreatedByUser(Long offerId, PetOwner petOwner)
+  {
+    WalkOffer walkOffer = walkOfferRepository.findWalkOfferById(offerId)
+        .orElseThrow(OfferNotFoundException::new);
+
+    if (!walkOffer.getPetOwner().getId().equals(petOwner.getId())) {
+      throw new NotAllowedException();
+    }
+
+    return walkOffer;
   }
 }

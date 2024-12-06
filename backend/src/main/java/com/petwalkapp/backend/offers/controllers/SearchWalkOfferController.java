@@ -1,7 +1,9 @@
 package com.petwalkapp.backend.offers.controllers;
 
 import com.petwalkapp.backend.common.dtos.PageDto;
+import com.petwalkapp.backend.common.requests.SortDirectionType;
 import com.petwalkapp.backend.offers.dtos.WalkOfferSearchViewDto;
+import com.petwalkapp.backend.offers.requests.SearchWalkOfferSortByType;
 import com.petwalkapp.backend.offers.requests.SearchWalkOffersRequest;
 import com.petwalkapp.backend.offers.services.IWalkOfferService;
 import jakarta.validation.Valid;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,8 +25,13 @@ public class SearchWalkOfferController
 
   @PostMapping
   public ResponseEntity<PageDto<WalkOfferSearchViewDto>> searchWalkOffers(
-      @Valid @RequestBody SearchWalkOffersRequest searchRequest)
+      @Valid @RequestBody SearchWalkOffersRequest searchRequest,
+      @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+      @RequestParam(name = "page_size", required = false, defaultValue = "10") Integer pageSize,
+      @RequestParam(name = "sort_by", required = false) SearchWalkOfferSortByType sortBy,
+      @RequestParam(name = "sort_direction", required = false) SortDirectionType sortDirection)
   {
-    return ResponseEntity.ok(walkOfferService.searchWalkOffers(searchRequest));
+    return ResponseEntity.ok(
+        walkOfferService.searchWalkOffers(searchRequest, page, pageSize, sortBy, sortDirection));
   }
 }

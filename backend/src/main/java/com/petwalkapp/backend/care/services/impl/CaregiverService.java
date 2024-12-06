@@ -35,7 +35,7 @@ public class CaregiverService implements ICaregiverService
   public CaregiverResponse add(@Valid CaregiverSaveRequest caregiverSaveRequest)
   {
     User currentUser = userService.getCurrentUser();
-    Caregiver caregiver = caregiverSaveRequestMapper.toCaregiver(caregiverSaveRequest);
+    Caregiver caregiver = caregiverSaveRequestMapper.toCaregiver(caregiverSaveRequest, currentUser);
     caregiver = caregiverRepository.save(caregiver);
     currentUser.setCaregiver(caregiver);
     userService.updateUser(currentUser);
@@ -67,11 +67,26 @@ public class CaregiverService implements ICaregiverService
   }
 
   @Override
-  public Caregiver getCurrentCaregiver()
+  public Caregiver getCurrentCaregiverOrThrow() throws CaregiverNotCreatedException
   {
     User currentUser = userService.getCurrentUser();
 
     return Optional.ofNullable(currentUser.getCaregiver())
         .orElseThrow(CaregiverNotCreatedException::new);
+  }
+
+  @Override
+  public Caregiver getCurrentCaregiver()
+  {
+    User currentUser = userService.getCurrentUser();
+
+    return currentUser.getCaregiver();
+  }
+
+  @Override
+  public Caregiver getCaregiverById(Long caregiverId)
+  {
+    return caregiverRepository.findById(caregiverId)
+        .orElse(null);
   }
 }

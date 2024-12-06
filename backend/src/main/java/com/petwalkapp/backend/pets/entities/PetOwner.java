@@ -1,6 +1,5 @@
 package com.petwalkapp.backend.pets.entities;
 
-import com.petwalkapp.backend.offers.entities.WalkOffer;
 import com.petwalkapp.backend.users.entities.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -30,14 +29,10 @@ public class PetOwner
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "owner_id")
   private List<Pet> pets = new ArrayList<>();
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "petOwner")
-  private List<WalkOffer> walkOffers = new ArrayList<>();
-
-  @OneToOne
-  @JoinColumn(name = "user_id")
+  @OneToOne(mappedBy = "petOwner")
   private User user;
 }

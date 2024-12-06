@@ -14,5 +14,9 @@ public interface ICaregiverService
 
   void delete();
 
+  Caregiver getCurrentCaregiverOrThrow();
+
   Caregiver getCurrentCaregiver();
+
+  Caregiver getCaregiverById(Long caregiverId);
 }

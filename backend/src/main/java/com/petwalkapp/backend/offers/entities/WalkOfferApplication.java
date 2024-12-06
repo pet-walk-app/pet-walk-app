@@ -1,12 +1,14 @@
-package com.petwalkapp.backend.care.entities;
+package com.petwalkapp.backend.offers.entities;
 
-import com.petwalkapp.backend.offers.entities.WalkOffer;
+import com.petwalkapp.backend.care.entities.Caregiver;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,17 +19,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "care_proposals")
-public class CareProposal
+@Table(name = "walk_offer_applications")
+public class WalkOfferApplication
 {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(optional = false)
   private Caregiver caregiver;
 
-  @ManyToOne
+  @ManyToOne(optional = false)
   private WalkOffer walkOffer;
+
+  @NotNull
+  private LocalDateTime applicationDate;
 }

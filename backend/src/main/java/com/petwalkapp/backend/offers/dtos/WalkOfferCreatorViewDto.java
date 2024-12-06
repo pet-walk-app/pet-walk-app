@@ -3,6 +3,7 @@ package com.petwalkapp.backend.offers.dtos;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.petwalkapp.backend.offers.entities.WalkOfferStatus;
 import com.petwalkapp.backend.pets.dtos.PetResponseDto;
+import com.petwalkapp.backend.users.dtos.UserProfileDto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,6 +24,8 @@ public class WalkOfferCreatorViewDto
 
   private List<PetResponseDto> pets;
 
+  private UserProfileDto selectedCaregiver;
+
   private String description;
 
   @JsonFormat(pattern = "yyyy-MM-dd")
@@ -37,6 +40,8 @@ public class WalkOfferCreatorViewDto
   private String zipCode;
 
   private String city;
+
+  private List<WalkOfferApplicationDto> applications;
 
   private WalkOfferStatus status;
 

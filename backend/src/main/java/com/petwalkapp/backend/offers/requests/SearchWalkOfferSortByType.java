@@ -6,13 +6,16 @@ import lombok.Getter;
 public enum SearchWalkOfferSortByType
 {
 
-  PRICE("price"), WALK_LENGTH("walk_length"), WALK_DATE("walk_date"), DISTANCE(
-      "distance"), CREATION_TIME("creation_time");
+  PRICE("price"),
+  WALK_LENGTH("walk_length"),
+  WALK_DATE("walk_date"),
+  DISTANCE("distance"),
+  CREATION_TIME("created_at");
 
-  private final String value;
+  private final String field;
 
-  SearchWalkOfferSortByType(String price)
+  SearchWalkOfferSortByType(String field)
   {
-    this.value = price;
+    this.field = field;
   }
 }

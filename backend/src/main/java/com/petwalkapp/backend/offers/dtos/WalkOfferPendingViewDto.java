@@ -3,7 +3,7 @@ package com.petwalkapp.backend.offers.dtos;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.petwalkapp.backend.offers.entities.WalkOfferStatus;
 import com.petwalkapp.backend.pets.dtos.PetResponseDto;
-import com.petwalkapp.backend.users.dtos.UserProfileDto;
+import com.petwalkapp.backend.users.dtos.UserOfferSearchDto;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,16 +17,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class WalkOfferCaregiverViewDto
+public class WalkOfferPendingViewDto
 {
 
   private Long id;
 
-  private UserProfileDto userProfile;
-
   private List<PetResponseDto> pets;
 
   private String description;
+
+  private UserOfferSearchDto offerCreator;
 
   @JsonFormat(pattern = "yyyy-MM-dd")
   private LocalDate walkDate;
@@ -34,6 +34,8 @@ public class WalkOfferCaregiverViewDto
   private Long walkLength;
 
   private BigDecimal price;
+
+  private boolean alreadyApplied;
 
   private WalkOfferStatus status;
 

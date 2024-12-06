@@ -12,11 +12,14 @@ import com.petwalkapp.backend.pets.mappers.PetSaveRequestDtoMapper;
 import com.petwalkapp.backend.pets.repositories.PetOwnerRepository;
 import com.petwalkapp.backend.pets.repositories.PetRepository;
 import com.petwalkapp.backend.pets.services.IPetService;
+import com.petwalkapp.backend.security.exceptions.NotAllowedException;
 import com.petwalkapp.backend.users.entities.User;
 import com.petwalkapp.backend.users.services.IUserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -36,23 +39,24 @@ public class PetService implements IPetService
   private final PetResponseDtoMapper petResponseDtoMapper;
 
   @Override
-  public PetResponseDto getPetById(Long petId)
+  public PetResponseDto getUserPetById(Long petId)
   {
-    PetOwner currentPetOwner = getOrCreateCreatePetOwner();
-    Pet pet = getUserPetById(petId, currentPetOwner.getPets());
+    Pet pet = getUserPetByIdOrThrow(petId);
 
     return petResponseDtoMapper.toDto(pet);
   }
 
   @Override
-  public List<Pet> getPetByIds(List<Long> petIds)
+  public List<Pet> getUserPetsByIds(List<Long> petIds)
   {
     PetOwner currentPetOwner = getOrCreateCreatePetOwner();
-    return Optional.ofNullable(petIds)
-        .orElseGet(List::of)
-        .stream()
-        .map(petId -> getUserPetById(petId, currentPetOwner.getPets()))
-        .toList();
+    List<Pet> matchingPets = petRepository.getPetsByIdInAndOwner(petIds, currentPetOwner);
+
+    if (matchingPets.size() != petIds.size()) {
+      throw new PetNotFoundException();
+    }
+
+    return matchingPets;
   }
 
   @Override
@@ -70,6 +74,10 @@ public class PetService implements IPetService
     Pet pet = petRepository.save(petSaveRequestDtoMapper.toPet(petSaveRequestDto));
     Optional.ofNullable(image).map(imageService::saveImage).ifPresent(pet::setImage);
 
+    if (Objects.isNull(currentPetOwner.getPets())) {
+      currentPetOwner.setPets(new ArrayList<>());
+    }
+
     currentPetOwner.getPets().add(pet);
     petOwnerRepository.save(currentPetOwner);
 
@@ -80,8 +88,7 @@ public class PetService implements IPetService
   public PetResponseDto updatePet(Long petId, @Valid PetSaveRequestDto petSaveRequestDto,
       MultipartFile image)
   {
-    PetOwner currentPetOwner = getOrCreateCreatePetOwner();
-    Pet petToUpdate = getUserPetById(petId, currentPetOwner.getPets());
+    Pet petToUpdate = getUserPetByIdOrThrow(petId);
     petSaveRequestDtoMapper.updatePetFromDto(petSaveRequestDto, petToUpdate);
 
     return updateImageIfPresentAndSave(image, petToUpdate);
@@ -90,20 +97,15 @@ public class PetService implements IPetService
   @Override
   public void deletePet(Long petId)
   {
-    PetOwner currentPetOwner = getOrCreateCreatePetOwner();
-    List<Pet> currentUserPets = currentPetOwner.getPets();
-    Pet petToDelete = getUserPetById(petId, currentUserPets);
+    Pet petToDelete = getUserPetByIdOrThrow(petId);
 
-    currentUserPets.remove(petToDelete);
-    petOwnerRepository.save(currentPetOwner);
+    petRepository.delete(petToDelete);
   }
 
   @Override
   public PetResponseDto deletePetImage(Long petId)
   {
-    PetOwner currentPetOwner = getOrCreateCreatePetOwner();
-    List<Pet> currentUserPets = currentPetOwner.getPets();
-    Pet pet = getUserPetById(petId, currentUserPets);
+    Pet pet = getUserPetByIdOrThrow(petId);
 
     imageService.deleteImage(pet.getImage());
     pet.setImage(null);
@@ -114,15 +116,20 @@ public class PetService implements IPetService
   @Override
   public PetResponseDto updatePetImage(Long petId, MultipartFile image)
   {
-    PetOwner currentPetOwner = getOrCreateCreatePetOwner();
-    List<Pet> currentUserPets = currentPetOwner.getPets();
-    Pet petToUpdate = getUserPetById(petId, currentUserPets);
+    Pet petToUpdate = getUserPetByIdOrThrow(petId);
 
     return updateImageIfPresentAndSave(image, petToUpdate);
   }
 
   @Override
   public PetOwner getCurrentPetOwner()
+  {
+    User currentUser = userService.getCurrentUser();
+    return currentUser.getPetOwner();
+  }
+
+  @Override
+  public PetOwner getCurrentPetOwnerOrThrow()
   {
     User currentUser = userService.getCurrentUser();
     return Optional.ofNullable(currentUser.getPetOwner())
@@ -141,12 +148,15 @@ public class PetService implements IPetService
     return petResponseDtoMapper.toDto(upatedPet);
   }
 
-  private static Pet getUserPetById(Long petId, List<Pet> currentUserPets)
+  private Pet getUserPetByIdOrThrow(Long petId)
   {
-    return currentUserPets.stream()
-        .filter(pet -> pet.getId().equals(petId))
-        .findFirst()
-        .orElseThrow(PetNotFoundException::new);
+    Pet pet = petRepository.getPetById(petId).orElseThrow(PetNotFoundException::new);
+
+    if (!pet.getOwner().getId().equals(getOrCreateCreatePetOwner().getId())) {
+      throw new NotAllowedException();
+    }
+
+    return pet;
   }
 
   private PetOwner getOrCreateCreatePetOwner()
@@ -159,7 +169,7 @@ public class PetService implements IPetService
 
   private PetOwner createPetOwner(User user)
   {
-    PetOwner petOwner = petOwnerRepository.save(new PetOwner());
+    PetOwner petOwner = petOwnerRepository.save(PetOwner.builder().user(user).build());
     user.setPetOwner(petOwner);
     userService.updateUser(user);
 

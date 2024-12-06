@@ -1,7 +1,7 @@
 package com.petwalkapp.backend.care.entities;
 
 import com.petwalkapp.backend.images.entities.Image;
-import com.petwalkapp.backend.offers.entities.WalkOffer;
+import com.petwalkapp.backend.users.entities.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +42,6 @@ public class Caregiver
   @JoinColumn(name = "image_id", referencedColumnName = "id")
   private List<Image> images = new ArrayList<>();
 
-  @OneToMany(mappedBy = "selectedCaregiver")
-  private List<WalkOffer> acceptedOffers = new ArrayList<>();
-
-  @OneToMany(mappedBy = "caregiver")
-  private List<CareProposal> proposals = new ArrayList<>();
+  @OneToOne(mappedBy = "caregiver")
+  private User user;
 }

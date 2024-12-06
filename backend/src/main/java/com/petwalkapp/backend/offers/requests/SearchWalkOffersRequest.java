@@ -1,6 +1,5 @@
 package com.petwalkapp.backend.offers.requests;
 
-import com.petwalkapp.backend.common.requests.SortDirectionType;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,29 +15,24 @@ import lombok.NoArgsConstructor;
 public class SearchWalkOffersRequest
 {
 
-  @NotNull private Double longitude;
+  @NotNull
+  private Double longitude;
 
-  @NotNull private Double latitude;
+  @NotNull
+  private Double latitude;
 
-  @NotNull private Double radius;
+  @NotNull
+  private Double radius;
 
   private BigDecimal priceFrom;
 
   private BigDecimal priceTo;
 
-  private LocalDate walkDateStartLimit;
+  private LocalDate walkDateFrom;
 
-  private LocalDate walkDateEndLimit;
+  private LocalDate walkDateTo;
 
   private Double minTime;
 
   private Double maxTime;
-
-  @NotNull Integer page;
-
-  @NotNull Integer pageSize;
-
-  SearchWalkOfferSortByType sortBy;
-
-  SortDirectionType sortDirection;
 }

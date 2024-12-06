@@ -24,9 +24,11 @@ public interface IPetService
 
   PetResponseDto updatePetImage(Long petId, MultipartFile image);
 
-  PetResponseDto getPetById(Long petId);
+  PetResponseDto getUserPetById(Long petId);
 
   PetOwner getCurrentPetOwner();
 
-  List<Pet> getPetByIds(List<Long> petIds);
+  PetOwner getCurrentPetOwnerOrThrow();
+
+  List<Pet> getUserPetsByIds(List<Long> petIds);
 }

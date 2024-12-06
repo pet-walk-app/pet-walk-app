@@ -3,8 +3,8 @@ package com.petwalkapp.backend.common.mappers;
 import com.petwalkapp.backend.common.dtos.PageDto;
 import org.springframework.data.domain.Page;
 
-public interface PageDtoMapper<T>
+public interface PageDtoMapper<From, To>
 {
 
-  PageDto<T> toPageDto(Page<T> page);
+  PageDto<To> toPageDto(Page<From> page);
 }

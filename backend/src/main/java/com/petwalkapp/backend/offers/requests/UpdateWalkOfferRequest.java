@@ -1,5 +1,6 @@
 package com.petwalkapp.backend.offers.requests;
 
+import com.petwalkapp.backend.common.validators.NotPastDate;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -22,14 +23,18 @@ public class UpdateWalkOfferRequest
   @NotEmpty
   private List<Long> petIds;
 
-  @NotNull private LocalDate walkDate;
+  @NotNull
+  @NotPastDate
+  private LocalDate walkDate;
 
   @NotBlank
   private String description;
 
-  @NotNull private Long walkLength;
+  @NotNull
+  private Long walkLength;
 
-  @NotNull private BigDecimal price;
+  @NotNull
+  private BigDecimal price;
 
   @NotBlank
   private String address;
