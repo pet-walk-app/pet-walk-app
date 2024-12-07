@@ -10,6 +10,8 @@ import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
 
 export default function CaregiverProfileForm2({navigation}) {
+  // True if user uses this form for the first time and creating an account
+  // False if user already has an account and is editing it
   const [editingProfile, setEditProfile] = useState(false);
 
   const img = require("../assets/plus.png");
