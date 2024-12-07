@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { postData, postMultipartData } from "./apiRequests"
+import { postData, getData, postMultipartData } from "./apiRequests"
 import apiUrls from '../consts/apiUrls'
 
 export const loginUser = async (credentials) => {
@@ -99,6 +99,16 @@ export const createProfile = async (data) => {
     try {
         const response = await postData(apiUrls.user.profile, data, true);
 
+        return response;
+    } catch (error) {
+        console.error("Creating profile error:", error.message || error);
+        throw error;
+    }
+};
+
+export const getProfile = async () => {
+    try {
+        const response = await getData(apiUrls.user.profile, true);
         return response;
     } catch (error) {
         console.error("Creating profile error:", error.message || error);
