@@ -100,8 +100,10 @@ export default function UserProfile({navigation}) {
             <Image source={require('../assets/grazynka.png')} style={profileStyles.petImage}/>
           </View>
         </ScrollView>
-        <Pressable style={profileStyles.button}>
-          <Text style={profileStyles.buttonText}>Edytuj</Text>
+        <Pressable 
+          style={profileStyles.button}
+          onPress={() => navigation.navigate('Caregiver Profile Form 2')}>
+          <Text style={profileStyles.buttonText}>Zdjęcia</Text>
         </Pressable>
       </View>
 

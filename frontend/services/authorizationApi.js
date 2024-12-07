@@ -85,8 +85,10 @@ export const saveCaregiverPhoto = async (data) => {
 
 //This part doesn't work :(
 export const savePet = async (data) => {
+    const formData = new FormData();
+    formData.append('pet', JSON.stringify(data))
     try {
-        const response = await postData(apiUrls.pet.create, data, true);
+        const response = await postMultipartData(apiUrls.pet.create, formData);
 
         return response;
     } catch (error) {
