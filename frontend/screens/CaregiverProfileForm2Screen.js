@@ -24,8 +24,10 @@ export default function CaregiverProfileForm2({navigation}) {
       const fetchProfile = async () => {
         try {
           const profile = await getProfile();
-          if (profile.caregiver != null) {
-            setEditProfile(true);
+          if (profile.caregiver != null && profile.caregiver.images) {
+            const imagesFromProfile = profile.caregiver.images.slice(0, 4).map(image => image.url); // Uzyskujemy tylko URL
+            setImages(imagesFromProfile);
+              setEditProfile(true);
           } else {
             setEditProfile(false);
           }

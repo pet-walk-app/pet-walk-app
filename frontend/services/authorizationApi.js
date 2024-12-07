@@ -61,6 +61,7 @@ export const saveCaregiver = async (data) => {
 };
 
 export const saveCaregiverPhoto = async (data) => {
+    //Delete all photos and then add new
     const responses = [];
     for (let i = 0; i < data.length; i++) {
         if (data[i] !== null) {
