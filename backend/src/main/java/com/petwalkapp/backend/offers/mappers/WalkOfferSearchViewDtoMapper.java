@@ -27,6 +27,7 @@ public interface WalkOfferSearchViewDtoMapper
       @Context SearchWalkOffersRequest searchRequest, @Context Caregiver currentCaregiver);
 
   @Mapping(target = "alreadyApplied", expression = "java(CaregiverUtils.didCaregiverAppliedForOffer(walkOffer, currentCaregiver))")
+  @Mapping(target = "isApplicationRejected", expression = "java(CaregiverUtils.isApplicationRejected(walkOffer, currentCaregiver))")
   @Mapping(target = "distance", expression = "java(calculationDistance(walkOffer, searchRequest))")
   @Mapping(target = "offerCreator", source = "walkOffer.petOwner.user")
   WalkOfferSearchViewDto toDto(WalkOffer walkOffer, @Context SearchWalkOffersRequest searchRequest,

@@ -26,7 +26,8 @@ public interface WalkOfferRepository extends JpaRepository<WalkOffer, Long>
       + "AND (:walkDateFrom IS NULL OR walk_date >= :walkDateFrom) "
       + "AND (:walkDateTo IS NULL OR walk_date <= :walkDateTo) "
       + "AND (:minTime IS NULL OR walk_length >= :minTime) "
-      + "AND (:maxTime IS NULL OR walk_length <= :maxTime)", countQuery = "SELECT count(*) FROM walk_offer WHERE status = 0 "
+      + "AND (:maxTime IS NULL OR walk_length <= :maxTime)", countQuery =
+      "SELECT count(*) FROM walk_offer WHERE status = 0 "
           + "AND ST_Distance_Sphere(zip_code_location, "
           + "ST_GeomFromText(CONCAT('POINT(', :longitude, ' ', :latitude, ')'))) <= :radius "
           + "AND (:priceFrom IS NULL OR price >= :priceFrom) "
@@ -45,8 +46,9 @@ public interface WalkOfferRepository extends JpaRepository<WalkOffer, Long>
 
   Page<WalkOffer> findWalkOfferByPetOwner(PetOwner petOwner, Pageable pageable);
 
-  @Query("SELECT wo FROM WalkOffer wo JOIN wo.walkOfferApplications woa WHERE woa.caregiver = :currentCaregiver AND wo.status = 0 ORDER BY woa.applicationDate DESC")
+  @Query("SELECT wo FROM WalkOffer wo JOIN wo.walkOfferApplications woa WHERE woa.caregiver = :currentCaregiver AND woa.isRejected = false AND wo.status = 0 AND wo.walkDate >= :walkDateFrom ORDER BY woa.applicationDate DESC")
   Page<WalkOffer> findPendingWalkOffers(@Param("currentCaregiver") Caregiver currentCaregiver,
+      @Param("walkDateFrom") LocalDate walkDateFrom,
       Pageable pageable);
 
   @Query("SELECT wo FROM WalkOffer wo WHERE wo.selectedCaregiver = :currentCaregiver")

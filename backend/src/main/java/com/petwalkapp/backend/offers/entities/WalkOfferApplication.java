@@ -33,5 +33,8 @@ public class WalkOfferApplication
   @ManyToOne(optional = false)
   private WalkOffer walkOffer;
 
-  @NotNull private LocalDateTime applicationDate;
+  @NotNull
+  private LocalDateTime applicationDate;
+
+  private boolean isRejected;
 }

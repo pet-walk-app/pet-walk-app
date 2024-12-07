@@ -42,6 +42,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
@@ -187,10 +188,11 @@ public class GlobalExceptionHandler
         .body(ErrorResponse.builder().message(MAX_FILE_SIZE_EXCEEDED).build());
   }
 
-  @ExceptionHandler({MissingServletRequestPartException.class, MultipartException.class})
+  @ExceptionHandler({MissingServletRequestPartException.class, MultipartException.class,
+      MethodArgumentTypeMismatchException.class})
   public ResponseEntity<ErrorResponse> handleMissingServletRequestPartException(Exception exception)
   {
-    log.warn("MissingServletRequestPartException: ", exception);
+    log.warn("Invalid request: ", exception);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .body(ErrorResponse.builder().message(INVALID_REQUEST_ARGUMENTS).build());
   }

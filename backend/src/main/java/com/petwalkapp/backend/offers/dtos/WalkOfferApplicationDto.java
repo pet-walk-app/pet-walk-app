@@ -17,4 +17,5 @@ public class WalkOfferApplicationDto
   private Long id;
   private UserCaregiverProfileDto caregiver;
   private LocalDateTime applicationDate;
+  private boolean isRejected;
 }

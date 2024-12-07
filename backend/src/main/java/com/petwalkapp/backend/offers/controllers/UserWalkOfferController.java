@@ -66,4 +66,26 @@ public class UserWalkOfferController
   {
     return ResponseEntity.ok(walkOfferService.acceptApplication(offerId, applicationId));
   }
+
+  @DeleteMapping("/accept/{id}")
+  public ResponseEntity<WalkOfferCreatorViewDto> undoAcceptApplication(
+      @PathVariable("id") Long offerId)
+  {
+    return ResponseEntity.ok(walkOfferService.undoAcceptApplication(offerId));
+  }
+
+  @GetMapping("/reject/{id}")
+  public ResponseEntity<WalkOfferCreatorViewDto> rejectApplication(@PathVariable("id") Long offerId,
+      @RequestParam("applicationId") Long applicationId)
+  {
+    return ResponseEntity.ok(walkOfferService.rejectApplication(offerId, applicationId));
+  }
+
+  @DeleteMapping("/reject/{id}")
+  public ResponseEntity<WalkOfferCreatorViewDto> undoRejectApplication(
+      @PathVariable("id") Long offerId,
+      @RequestParam("applicationId") Long applicationId)
+  {
+    return ResponseEntity.ok(walkOfferService.undoRejectApplication(offerId, applicationId));
+  }
 }

@@ -39,6 +39,8 @@ public class WalkOfferSearchViewDto
 
   private boolean alreadyApplied;
 
+  private boolean isApplicationRejected;
+
   private WalkOfferStatus status;
 
   private LocalDateTime createdAt;

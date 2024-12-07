@@ -43,4 +43,10 @@ public interface IWalkOfferService
   void removeApplicationForOffer(Long offerId);
 
   WalkOfferCreatorViewDto acceptApplication(Long offerId, Long applicationId);
+
+  WalkOfferCreatorViewDto rejectApplication(Long offerId, Long applicationId);
+
+  WalkOfferCreatorViewDto undoRejectApplication(Long offerId, Long applicationId);
+
+  WalkOfferCreatorViewDto undoAcceptApplication(Long offerId);
 }

@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 public interface WalkOfferApplicationDtoMapper
 {
 
+  @Mapping(target = "isRejected", source = "rejected")
   @Mapping(target = "caregiver", source = "caregiver.user")
   WalkOfferApplicationDto toDto(WalkOfferApplication walkOfferApplication);
 }
