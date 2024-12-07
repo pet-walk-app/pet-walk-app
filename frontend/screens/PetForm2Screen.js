@@ -18,17 +18,33 @@ export default function PetForm2() {
   const [hasPhoto, setHasPhoto] = useState(false);
   const [image, setImage] = useState("null");
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
+  const onSubmit = async (data) => {
+    try {
+      console.log("onSubmit")
+      await savePetPhoto(data)
+      //Alert.alert("Success", "Created profile!");
+      //navigation.navigate('Pet Form 2');
+    } catch (error) {
+      //Alert.alert("Błąd tworzenia profilu", error.message || "Wystąpił błąd podczas tworzenia profilu.")
+    }
+  };
 
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-      setHasPhoto(true)
+  const pickImage = async () => {
+    try {
+      console.log("pickImage1");
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+      console.log("pickImage2", result);
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+        setHasPhoto(true);
+      }
+    } catch (error) {
+      console.error("Error picking image:", error);
     }
   };
 
@@ -62,7 +78,7 @@ export default function PetForm2() {
         <CustomButton 
           color={green} 
           textColor={white}
-          action={""}
+          action={onSubmit}
           title={"Kontynuuj"}>
         </CustomButton>
       </View>

@@ -1,5 +1,38 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
+
+export const postMultipartData = async (endpoint, inputParam) => {
+	let token = await AsyncStorage.getItem("jwt_token")
+	let URL = endpoint;
+	console.log('URL:' + URL);
+	
+	let headers = {
+		Authorization: 'Bearer ' + token,
+		Accept: 'application/json'
+	};
+
+	let obj = {
+		method: 'POST',
+		headers: headers,
+		body: inputParam,
+	};
+
+	return fetch(URL, obj)
+	.then(resp => {
+		let json = null;
+		json = resp.json();
+		console.log(URL + ' Response', json);
+		if (resp.ok) {
+			return json;
+		}
+		return json.then(err => {
+			console.log('error :', err);
+			throw err;
+		});
+	})
+	.then(json => json);
+};
+
 const defaultHeaders = {
 	"Content-Type": "application/json",
 }

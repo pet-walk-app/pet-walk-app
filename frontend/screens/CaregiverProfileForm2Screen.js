@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react';
 import { formStyles } from "../styles/formStyles";
 import { green, white } from "../consts/colors";
 import { Pressable, Image, View, Text } from 'react-native';
+import { saveCaregiverPhoto } from "../services/authorizationApi";
 
 import * as ImagePicker from 'expo-image-picker';
 import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
 
 
-export default function CaregiverProfileForm2() {
+export default function CaregiverProfileForm2({navigation}) {
   // True if user uses this form for the first time and creating an account
   // False if user already has an account and is editing it
   const [editingProfile, setEditProfile] = useState(false)
@@ -17,6 +18,15 @@ export default function CaregiverProfileForm2() {
   const [formTitle, setFormTitle] = useState('')
   const [images, setImages] = useState([null, null, null, null]);
   const [hasPhoto, setHasPhoto] = useState([false, false, false, false]);
+
+  const onSubmit = async () => {
+    try {
+      await saveCaregiverPhoto(images)
+      navigation.navigate('First Visit Profile Choice');
+    } catch (error) {
+      Alert.alert("Błąd tworzenia profilu", error.message || "Wystąpił błąd podczas tworzenia profilu.")
+    }
+  };
 
 
   useEffect(() => {
@@ -65,7 +75,7 @@ export default function CaregiverProfileForm2() {
           <CustomButton 
             color={green} 
             textColor={white}
-            action={""}
+            action={onSubmit}
             title={"Kontynuuj"} 
           />
         </View>

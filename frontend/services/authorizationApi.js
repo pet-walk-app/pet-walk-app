@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { postData } from "./apiRequests"
+import { postData, postMultipartData } from "./apiRequests"
 import apiUrls from '../consts/apiUrls'
 
 export const loginUser = async (credentials) => {
@@ -58,6 +58,29 @@ export const saveCaregiver = async (data) => {
         console.error("Creating caregiver profile error:", error.message || error);
         throw error;
     }
+};
+
+export const saveCaregiverPhoto = async (data) => {
+    const responses = [];
+    for (let i = 0; i < data.length; i++) {
+        if (data[i] !== null) {
+            const formData = new FormData();
+            formData.append('files', {
+                uri: data[i],
+                type: "image/jpg",
+                name: `photo${i + 1}.jpg`
+            });
+
+            try {
+                const response = await postMultipartData(apiUrls.caregiver.addPhoto, formData);
+                responses.push(response);
+            } catch (error) {
+                console.error(`Error uploading photo ${i + 1}:`, error.message || error);
+            }
+        }
+    }
+
+    return responses;
 };
 
 //This part doesn't work :(
