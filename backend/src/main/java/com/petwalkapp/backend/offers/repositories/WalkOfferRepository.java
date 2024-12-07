@@ -26,8 +26,7 @@ public interface WalkOfferRepository extends JpaRepository<WalkOffer, Long>
       + "AND (:walkDateFrom IS NULL OR walk_date >= :walkDateFrom) "
       + "AND (:walkDateTo IS NULL OR walk_date <= :walkDateTo) "
       + "AND (:minTime IS NULL OR walk_length >= :minTime) "
-      + "AND (:maxTime IS NULL OR walk_length <= :maxTime)", countQuery =
-      "SELECT count(*) FROM walk_offer WHERE status = 0 "
+      + "AND (:maxTime IS NULL OR walk_length <= :maxTime)", countQuery = "SELECT count(*) FROM walk_offer WHERE status = 0 "
           + "AND ST_Distance_Sphere(zip_code_location, "
           + "ST_GeomFromText(CONCAT('POINT(', :longitude, ' ', :latitude, ')'))) <= :radius "
           + "AND (:priceFrom IS NULL OR price >= :priceFrom) "

@@ -1,6 +1,7 @@
 pet-walk-app:
   jwt-secret: VERY_SECRET
   expiration-time: 10
+  google-maps-api-key: VERY_SECRET
 
 spring:
   datasource:

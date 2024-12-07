@@ -242,8 +242,8 @@ public class WalkOfferService implements IWalkOfferService
     WalkOffer walkOffer = walkOfferRepository.findWalkOfferById(offerId)
         .orElseThrow(OfferNotFoundException::new);
 
-    WalkOfferApplication walkOfferApplication =
-        CaregiverUtils.findMatchingOfferApplication(walkOffer, caregiver);
+    WalkOfferApplication walkOfferApplication = CaregiverUtils.findMatchingOfferApplication(
+        walkOffer, caregiver);
 
     if (Objects.isNull(walkOfferApplication) || walkOfferApplication.isRejected()) {
       throw new NotAllowedException();
