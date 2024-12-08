@@ -128,7 +128,8 @@ public class WalkOfferService implements IWalkOfferService
         .map(SearchWalkOfferSortByType::getField)
         .map(sortField -> Sort.by(Sort.Direction.fromString(sortDirection.getValue()), sortField))
         .orElseGet(
-            () -> Sort.by(Sort.Direction.DESC, SearchWalkOfferSortByType.CREATION_TIME.getField()));
+            () -> Sort.by(Sort.Order.asc(SearchWalkOfferSortByType.DISTANCE.getField()))
+                .and(Sort.by(Sort.Order.desc(SearchWalkOfferSortByType.CREATION_TIME.getField()))));
 
     LocalDate walkDateFrom = Optional.ofNullable(searchRequest.getWalkDateFrom())
         .filter(localDate -> !localDate.isBefore(LocalDate.now()))

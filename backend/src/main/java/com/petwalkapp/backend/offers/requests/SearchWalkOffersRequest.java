@@ -19,7 +19,7 @@ public class SearchWalkOffersRequest
 
   @NotNull private Double latitude;
 
-  @NotNull private Double radius;
+  private Double radius;
 
   private BigDecimal priceFrom;
 
