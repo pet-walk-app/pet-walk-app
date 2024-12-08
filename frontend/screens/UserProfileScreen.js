@@ -1,8 +1,47 @@
 import { Pressable, Text, View, Image, ScrollView } from "react-native";
 import { profileStyles } from "../styles/profileStyles";
 import NoStatusBarView from "../components/NoStatusBarView";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState, useEffect } from "react";
+import CustomButton from "../components/CustomButton";
+import { green, white, darkGrey } from "../consts/colors";
+import { logoutUser } from "../services/authorizationApi";
 
 export default function UserProfile({navigation}) {
+
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const user = await AsyncStorage.getItem("user");
+        if (user) {
+          const parsedUser = JSON.parse(user);
+          setPhone(parsedUser.phone || "Brak danych");
+          setEmail(parsedUser.email || "Brak danych");
+          setDateOfBirth(parsedUser.dateOfBirth || "Brak danych");
+        } else {
+          console.warn("Brak danych użytkownika w AsyncStorage");
+        }
+      } catch (error) {
+        console.error("Błąd podczas ładowania danych użytkownika z AsyncStorage", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      navigation.replace("Login Screen");
+    } catch (error) {
+      console.error("Błąd podczas próby wylogowania:", error);
+    }
+  };
+
   return (
     <NoStatusBarView padding={40} extraStyle={profileStyles.container}>
 
@@ -22,15 +61,15 @@ export default function UserProfile({navigation}) {
 
         <View style={profileStyles.textContainer}>
           <Text style={[profileStyles.text]}>Numer telefonu:</Text>
-          <Text style={[profileStyles.text, profileStyles.boldText]}>938-493-829</Text>
+          <Text style={[profileStyles.text, profileStyles.boldText]}>{phone}</Text>
           <Text style={[profileStyles.text]}>Adres e-mail:</Text>
-          <Text style={[profileStyles.text, profileStyles.boldText]}>mail@mail.com</Text>
+          <Text style={[profileStyles.text, profileStyles.boldText]}>{email}</Text>
           <Text style={[profileStyles.text]}>Data urodzenia:</Text>
-          <Text style={[profileStyles.text, profileStyles.boldText]}>21.03.1983</Text>
+          <Text style={[profileStyles.text, profileStyles.boldText]}>{dateOfBirth}</Text>
         </View>
       </View>
 
-    <ScrollView>
+    <ScrollView style={profileStyles.scrollView}>
 
       <View style={profileStyles.headerSection}>
         <Text style={profileStyles.h1}>Twoje Zwierzęta</Text>
@@ -110,6 +149,13 @@ export default function UserProfile({navigation}) {
       </View>
 
       </ScrollView>
+
+      <CustomButton
+          color={green} 
+          textColor={white}
+          action={handleLogout}
+          title={'Wyloguj'}>
+      </CustomButton>
     </NoStatusBarView>
   );
 }

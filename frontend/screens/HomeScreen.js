@@ -54,7 +54,7 @@ export default function HomeScreen({navigation}) {
         onPress={() => navigation.navigate('Offers List')} 
       />
       <Button 
-        title="Profil opiekuna" 
+        title="Profil użytkownika" 
         onPress={() => navigation.navigate('User Profile')} 
       />
       <Button 
