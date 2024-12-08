@@ -14,8 +14,8 @@ const MyOffersFilter = ({ distanceFilter, setDistanceFilter }) => {
             onValueChange={(itemValue) => setDistanceFilter(itemValue)}
           >
           <Picker.Item label="Wszystkie oferty" value="1" />
-          <Picker.Item label="Moje oferty" value="2" />
-          <Picker.Item label="Oferty na które aplikowałem" value="3" />
+          <Picker.Item label="Moje ogłoszenia" value="2" />
+          <Picker.Item label="Zaakceptowane spacery" value="3" />
           </Picker>
         </View>
     </View>

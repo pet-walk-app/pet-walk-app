@@ -2,7 +2,6 @@ import React from 'react';
 import MyOfferPreview, { OfferStatusEnum } from '../components/MyOfferPreview';
 import MyOffersFilter from '../components/MyOffersFilter';
 import NoStatusBarView from '../components/NoStatusBarView';
-import BottomMenu from '../components/BottomMenu';
 
 import { ScrollView } from 'react-native';
 import { useState } from 'react';
@@ -45,8 +44,6 @@ export default function MyOffersScreen({ navigation }) {
           />
         ))}
       </ScrollView>
-
-      <BottomMenu navigation={navigation} />
     </NoStatusBarView>
   );
 }

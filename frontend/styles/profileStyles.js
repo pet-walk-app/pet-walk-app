@@ -152,6 +152,10 @@ export const profileStyles = StyleSheet.create({
         textAlign: 'justify',
         fontSize: 18,
         marginBottom: 15
+      },
+
+      scrollView: {
+        marginVertical: 10
       }
 
 })

@@ -24,7 +24,7 @@ export const loginUser = async (credentials) => {
 export const logoutUser = async () => {
     try {
         await AsyncStorage.removeItem('jwt_token')
-        console.log('Login successfull')
+        console.log('Logout successfull')
     } catch (error) {
         console.error('Error while trying to logout', error.message)
         throw error
