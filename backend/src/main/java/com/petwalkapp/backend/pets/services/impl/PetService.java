@@ -68,11 +68,10 @@ public class PetService implements IPetService
   }
 
   @Override
-  public PetResponseDto addPet(@Valid PetSaveRequestDto petSaveRequestDto, MultipartFile image)
+  public PetResponseDto addPet(@Valid PetSaveRequestDto petSaveRequestDto)
   {
     PetOwner currentPetOwner = getOrCreateCreatePetOwner();
     Pet pet = petRepository.save(petSaveRequestDtoMapper.toPet(petSaveRequestDto));
-    Optional.ofNullable(image).map(imageService::saveImage).ifPresent(pet::setImage);
 
     if (Objects.isNull(currentPetOwner.getPets())) {
       currentPetOwner.setPets(new ArrayList<>());
@@ -85,13 +84,13 @@ public class PetService implements IPetService
   }
 
   @Override
-  public PetResponseDto updatePet(Long petId, @Valid PetSaveRequestDto petSaveRequestDto,
-      MultipartFile image)
+  public PetResponseDto updatePet(Long petId, @Valid PetSaveRequestDto petSaveRequestDto)
   {
     Pet petToUpdate = getUserPetByIdOrThrow(petId);
     petSaveRequestDtoMapper.updatePetFromDto(petSaveRequestDto, petToUpdate);
 
-    return updateImageIfPresentAndSave(image, petToUpdate);
+    Pet upatedPet = petRepository.save(petToUpdate);
+    return petResponseDtoMapper.toDto(upatedPet);
   }
 
   @Override

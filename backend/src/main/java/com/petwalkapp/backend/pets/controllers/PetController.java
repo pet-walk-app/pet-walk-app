@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,20 +39,18 @@ public class PetController
     return ResponseEntity.ok(petService.getUserPetById(petId));
   }
 
-  @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+  @PostMapping
   public ResponseEntity<PetResponseDto> add(
-      @RequestPart(value = "pet", required = true) @Valid PetSaveRequestDto petRequestDto,
-      @RequestPart(value = "image", required = false) MultipartFile image)
+      @RequestBody @Valid PetSaveRequestDto petRequestDto)
   {
-    return ResponseEntity.ok(petService.addPet(petRequestDto, image));
+    return ResponseEntity.ok(petService.addPet(petRequestDto));
   }
 
   @PutMapping("/{id}")
   public ResponseEntity<PetResponseDto> update(@PathVariable("id") Long id,
-      @RequestPart(value = "pet", required = true) @Valid PetSaveRequestDto petRequestDto,
-      @RequestPart(value = "image", required = false) MultipartFile image)
+      @RequestBody @Valid PetSaveRequestDto petRequestDto)
   {
-    return ResponseEntity.ok(petService.updatePet(id, petRequestDto, image));
+    return ResponseEntity.ok(petService.updatePet(id, petRequestDto));
   }
 
   @PutMapping(value = "/{id}/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})

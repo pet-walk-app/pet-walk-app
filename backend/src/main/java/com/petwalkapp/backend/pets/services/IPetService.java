@@ -13,10 +13,9 @@ public interface IPetService
 
   List<PetResponseDto> getUserPets();
 
-  PetResponseDto addPet(@Valid PetSaveRequestDto petSaveRequestDto, MultipartFile image);
+  PetResponseDto addPet(@Valid PetSaveRequestDto petSaveRequestDto);
 
-  PetResponseDto updatePet(Long petId, @Valid PetSaveRequestDto petSaveRequestDto,
-      MultipartFile image);
+  PetResponseDto updatePet(Long petId, @Valid PetSaveRequestDto petSaveRequestDto);
 
   void deletePet(Long petId);
 
