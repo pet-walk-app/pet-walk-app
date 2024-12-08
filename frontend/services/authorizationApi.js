@@ -62,7 +62,7 @@ export const saveCaregiver = async (data) => {
 
 export const saveCaregiverPhoto = async (data) => {
     deleteData(apiUrls.caregiver.deleteAllPhotos, true)
-    
+
     const responses = [];
     for (let i = 0; i < data.length; i++) {
         if (data[i] !== null) {
@@ -90,9 +90,7 @@ export const savePet = async (data) => {
     const formData = new FormData();
     formData.append('pet', JSON.stringify(data))
     try {
-        const response = await postMultipartData(apiUrls.pet.create, formData);
-
-        return response;
+        return await postMultipartData(apiUrls.pet.create, formData);
     } catch (error) {
         console.error("Creating pet profile error:", error.message || error);
         throw error;

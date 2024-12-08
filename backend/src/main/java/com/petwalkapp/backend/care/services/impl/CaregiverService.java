@@ -32,15 +32,24 @@ public class CaregiverService implements ICaregiverService
   private final IUserService userService;
 
   @Override
-  public CaregiverResponse add(@Valid CaregiverSaveRequest caregiverSaveRequest)
+  public CaregiverResponse save(@Valid CaregiverSaveRequest caregiverSaveRequest)
   {
     User currentUser = userService.getCurrentUser();
-    Caregiver caregiver = caregiverSaveRequestMapper.toCaregiver(caregiverSaveRequest, currentUser);
-    caregiver = caregiverRepository.save(caregiver);
-    currentUser.setCaregiver(caregiver);
+    Caregiver currentCaregiver = currentUser.getCaregiver();
+
+    Caregiver caregiverToSave;
+    if (Objects.nonNull(currentCaregiver)) {
+      caregiverSaveRequestMapper.updateCaregiver(caregiverSaveRequest, currentCaregiver);
+      caregiverToSave = currentCaregiver;
+    } else {
+      caregiverToSave = caregiverSaveRequestMapper.toCaregiver(caregiverSaveRequest, currentUser);
+    }
+
+    caregiverToSave = caregiverRepository.save(caregiverToSave);
+    currentUser.setCaregiver(caregiverToSave);
     userService.updateUser(currentUser);
 
-    return caregiverResponseMapper.toCaregiverResponse(caregiver);
+    return caregiverResponseMapper.toCaregiverResponse(caregiverToSave);
   }
 
   @Override
