@@ -51,7 +51,9 @@ export default function PetProfile({navigation}) {
           Reksio jet wegetarianinem, cierpi też na nietolerancję laktozy, kotów i dzieci. Generalnie bardzo fajny pies, tylko czasem gryzie. Ale można się przyzwyczaić.
         </Text>
 
-        <Pressable style={profileStyles.button}>
+        <Pressable 
+        style={profileStyles.button}
+        onPress={() => navigation.navigate('Pet Form')}>
           <Text style={profileStyles.buttonText}>Edytuj</Text>
         </Pressable>
       </View>
