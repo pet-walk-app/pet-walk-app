@@ -35,8 +35,12 @@ export default function FirstVisitFormScreen({navigation}) {
           <Controller
             control={control}
             name="name"
-            rules={{ 
+            rules={{
               required: "Nazwa jest wymagana",
+              minLength: {
+                value: 5,
+                message: "Nazwa musi mieć co najmniej 5 znaków"
+              },
               pattern: {
                 value: /^(?!.*\d).+$/,
                 message: "Nazwa nie może zawierać cyfr"

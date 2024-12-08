@@ -4,13 +4,13 @@ import { formStyles } from "../styles/formStyles";
 import { loginStyles } from "../styles/loginFirstVisitStyles";
 import { green, white } from "../consts/colors";
 import { useForm, Controller } from "react-hook-form";
+import { fetchUserData } from "../services/userApi";
+import { loginUser, getProfile } from "../services/authorizationApi";
 
 import FormInput from "../components/FormInput";
 import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
-import { fetchUserData } from "../services/userApi";
 
-import { loginUser } from "../services/authorizationApi";
 
 
 export default function LoginScreen({navigation}) {
@@ -22,9 +22,22 @@ export default function LoginScreen({navigation}) {
     try {
       await loginUser(data)
       setIsLogged(true);
-      Alert.alert("Success", "Login successful!");
       fetchUserData();
-      navigation.navigate('First Visit Form');
+
+      const profile = await getProfile();
+      console.log(profile.firstVisit)
+
+      
+      if (profile.firstVisit) {
+        navigation.navigate('First Visit Form');
+      } else {
+        if (profile.caregiver || profile.petOwner) {
+          navigation.navigate('Offers List');
+        }
+        else {
+          navigation.navigate('First Visit Profile Choice');
+        }
+      }
     } catch (error) {
       Alert.alert("Błąd logowania", error.message || "Wystąpił błąd podczas logowania.")
       setIsLogged(false);

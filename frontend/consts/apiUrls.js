@@ -16,6 +16,7 @@ const apiUrls = {
 
     caregiver: {
         create: `${baseApi}/api/v1/caregiver`,
+        addPhoto: `${baseApi}/api/v1/caregiver/images`,
     }
 };
 

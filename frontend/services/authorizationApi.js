@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { postData } from "./apiRequests"
+import { postData, getData, postMultipartData } from "./apiRequests"
 import apiUrls from '../consts/apiUrls'
 
 export const loginUser = async (credentials) => {
@@ -60,10 +60,36 @@ export const saveCaregiver = async (data) => {
     }
 };
 
+export const saveCaregiverPhoto = async (data) => {
+    //Delete all photos and then add new
+    const responses = [];
+    for (let i = 0; i < data.length; i++) {
+        if (data[i] !== null) {
+            const formData = new FormData();
+            formData.append('files', {
+                uri: data[i],
+                type: "image/jpg",
+                name: `photo${i + 1}.jpg`
+            });
+
+            try {
+                const response = await postMultipartData(apiUrls.caregiver.addPhoto, formData);
+                responses.push(response);
+            } catch (error) {
+                console.error(`Error uploading photo ${i + 1}:`, error.message || error);
+            }
+        }
+    }
+
+    return responses;
+};
+
 //This part doesn't work :(
 export const savePet = async (data) => {
+    const formData = new FormData();
+    formData.append('pet', JSON.stringify(data))
     try {
-        const response = await postData(apiUrls.pet.create, data, true);
+        const response = await postMultipartData(apiUrls.pet.create, formData);
 
         return response;
     } catch (error) {
@@ -76,6 +102,16 @@ export const createProfile = async (data) => {
     try {
         const response = await postData(apiUrls.user.profile, data, true);
 
+        return response;
+    } catch (error) {
+        console.error("Creating profile error:", error.message || error);
+        throw error;
+    }
+};
+
+export const getProfile = async () => {
+    try {
+        const response = await getData(apiUrls.user.profile, true);
         return response;
     } catch (error) {
         console.error("Creating profile error:", error.message || error);
