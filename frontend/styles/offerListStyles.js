@@ -67,7 +67,12 @@ export const walkOfferPreviewStyles = StyleSheet.create({
     color: white,
   },
 
-  address: {
+  date: {
+    fontSize: 16,
+    color: white,
+  },
+
+  length: {
     fontSize: 16,
     color: white,
   },
@@ -82,52 +87,63 @@ export const walkOfferPreviewStyles = StyleSheet.create({
 export const offerListStyles = StyleSheet.create({
   filterContainer: {
     width: '100%',
-    paddingVertical: 10,
+    paddingVertical: 15,
+    paddingHorizontal: 10,
     backgroundColor: white,
     marginBottom: 15,
-    borderRadius: 15
+    borderRadius: 15,
   },
 
   filterSection: {
     marginVertical: 5,
     paddingHorizontal: 10,
+    width: '48%',
   },
 
   filterTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: green,
+    fontSize: 14,
+    marginBottom: 5,
   },
 
-  picker: {
-    height: 50,
+  doubleSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom: 15,
+  },
+
+  input: {
+    height: 45,
     borderColor: borderGrey,
     borderWidth: 1,
-    borderRadius: 15,
-    marginTop: 10,
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    backgroundColor: '#f9f9f9',
+    fontSize: 14,
+    color: darkGrey,
+    justifyContent: 'center',
   },
 
   buttonsContainer: {
     flexDirection: 'row',
-    alignContent: 'center',
-    justifyContent: 'space-evenly',
-    marginVertical: 15
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 10,
   },
 
   button: {
-    borderRadius: 30,
+    borderRadius: 20,
     paddingVertical: 10,
     paddingHorizontal: 20,
     alignItems: 'center',
-    width: '40%',
+    width: '48%',
   },
 
   buttonText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
     color: white,
   },
-
 
   sortButton: {
     backgroundColor: green,
@@ -136,7 +152,13 @@ export const offerListStyles = StyleSheet.create({
   filterButton: {
     backgroundColor: '#696969',
   },
+
+  filters: {
+    marginTop: 10,
+    paddingHorizontal: 5,
+  },
 });
+
 
 export const MyOfferPreviewStyles = StyleSheet.create({
   container: {

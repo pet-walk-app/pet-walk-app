@@ -1,14 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
 import { green, white, borderGrey } from '../consts/colors';
 import { Picker } from '@react-native-picker/picker';
 import { offerListStyles } from '../styles/offerListStyles';
+import DatePicker from "../components/DatePicker";
+import { getFutureDate } from '../utils/commonUtils';
 
-const OfferListFilter = ({ distanceFilter, setDistanceFilter, priceFilter, setPriceFilter, onSort }) => {
+const OfferListFilter = ({ filters, setFilters, onSubmit }) => {
   const [filtersVisible, setFiltersVisible] = useState(false);
+  const [walkDateFrom, setWalkDateFrom] = useState(null);
+  const [walkDateTo, setWalkDateTo] = useState(null);
 
-  const toggleFilters = () => {
-    setFiltersVisible(!filtersVisible);
+  const toggleFilters = () => setFiltersVisible(!filtersVisible);
+
+  const handleDateFromChange = (date) => {
+    setWalkDateFrom(date);
+    setFilters((prev) => ({ ...prev, walkDateFrom: date }));
+  };
+
+  const handleDateToChange = (date) => {
+    setWalkDateTo(date);
+    setFilters((prev) => ({ ...prev, walkDateTo: date }));
   };
 
   return (
@@ -18,46 +30,88 @@ const OfferListFilter = ({ distanceFilter, setDistanceFilter, priceFilter, setPr
           <Text style={offerListStyles.buttonText}>Filtry</Text>
         </Pressable>
 
-        <Pressable style={[offerListStyles.button, offerListStyles.sortButton]} onPress={onSort}>
-          <Text style={offerListStyles.buttonText}>Sortuj</Text>
+        <Pressable style={[offerListStyles.button, offerListStyles.sortButton]} onPress={() => onSubmit('WALK_LENGTH', 'DESC')}>
+          <Text style={offerListStyles.buttonText}>Zastosuj</Text>
         </Pressable>
       </View>
 
       {filtersVisible && (
         <View style={offerListStyles.filters}>
-          <View style={offerListStyles.filterSection}>
-            <Text style={offerListStyles.filterTitle}>Odległość</Text>
-            <Picker
-              selectedValue={distanceFilter}
-              style={offerListStyles.picker}
-              onValueChange={(itemValue) => setDistanceFilter(itemValue)}
-            >
-              <Picker.Item label="< 1 km" value="1" />
-              <Picker.Item label="1 - 3 km" value="1-3" />
-              <Picker.Item label="3 - 10 km" value="3-10" />
-              <Picker.Item label="10 - 20 km" value="10-20" />
-              <Picker.Item label="20 - 50 km" value="20-50" />
-              <Picker.Item label="Cała Polska" value="all" />
-            </Picker>
+
+            <View style={offerListStyles.doubleSection}>
+
+              <View style={offerListStyles.filterSection}>
+                <Text style={offerListStyles.filterTitle}>Cena od</Text>
+                <TextInput 
+                  style={offerListStyles.input}
+                  keyboardType="numeric"
+                  onChangeText={(value) => setFilters((prev) => ({ ...prev, priceFrom: parseInt(value, 10) }))}
+                />
+              </View> 
+              
+
+              <View style={offerListStyles.filterSection}>
+                <Text style={offerListStyles.filterTitle}>Cena do</Text>
+                <TextInput
+                  style={offerListStyles.input}
+                  keyboardType="numeric"
+                  onChangeText={(value) => setFilters((prev) => ({ ...prev, priceTo: parseInt(value, 10) }))}
+                />
+              </View> 
+            </View>
+
+            <View style={offerListStyles.doubleSection}>
+              <View style={offerListStyles.filterSection}>
+                <Text style={offerListStyles.filterTitle}>Minimalna długość spaceru (min)</Text>
+                <TextInput
+                  style={offerListStyles.input}
+                  keyboardType="numeric"
+                  onChangeText={(value) => setFilters((prev) => ({ ...prev, minTime: parseInt(value, 10) }))}
+                />
+              </View>
+
+              <View style={offerListStyles.filterSection}>
+              <Text style={offerListStyles.filterTitle}>Maksymalna długość spaceru (min)</Text>
+                <TextInput
+                  style={offerListStyles.input}
+                  keyboardType="numeric"
+                  onChangeText={(value) => setFilters((prev) => ({ ...prev, maxTime: parseInt(value, 10) }))}
+                />
+              </View>
+            </View>
+
+            <View style={offerListStyles.doubleSection}>
+            <View style={offerListStyles.filterSection}>
+              <Text style={offerListStyles.filterTitle}>Data od</Text>
+                <DatePicker
+                  date={walkDateFrom || new Date()}
+                  setDate={handleDateFromChange}
+                  dateMin={new Date()}
+                  dateMax={getFutureDate(0, 0, 1)}
+                  customStyle={offerListStyles.input}
+                />
+            </View>
+            <View style={offerListStyles.filterSection}>
+              <Text style={offerListStyles.filterTitle}>Data do</Text>
+              <DatePicker
+                date={walkDateTo || new Date()}
+                setDate={handleDateToChange}
+                dateMin={new Date()}
+                dateMax={getFutureDate(0, 0, 1)}
+                customStyle={offerListStyles.input}
+              />
+            </View>
           </View>
 
-          <View style={offerListStyles.filterSection}>
-            <Text style={offerListStyles.filterTitle}>Zapłata za godzinę</Text>
-            <Picker
-              selectedValue={priceFilter}
-              style={offerListStyles.picker}
-              onValueChange={(itemValue) => setPriceFilter(itemValue)}
-            >
-              <Picker.Item label="Za darmo" value="free" />
-              <Picker.Item label="Do 10 zł" value="0-10" />
-              <Picker.Item label="10 - 25 zł" value="10-25" />
-              <Picker.Item label="25 - 50 zł" value="25-50" />
-              <Picker.Item label="50 - 100 zł" value="50-100" />
-              <Picker.Item label="100 - 200 zł" value="100-200" />
-              <Picker.Item label="200 - 500 zł" value="200-500" />
-              <Picker.Item label="500+ zł" value="500+" />
-            </Picker>
-          </View>
+            <View style={offerListStyles.filterSection}>
+              <Text style={offerListStyles.filterTitle}>Maksymalna odległość (km)</Text>
+              <TextInput
+                style={offerListStyles.input}
+                keyboardType="numeric"
+                onChangeText={(value) => setFilters((prev) => ({ ...prev, radius: parseFloat(value * 1000) }))}
+              />
+            </View>
+
         </View>
       )}
     </View>
@@ -65,3 +119,4 @@ const OfferListFilter = ({ distanceFilter, setDistanceFilter, priceFilter, setPr
 };
 
 export default OfferListFilter;
+

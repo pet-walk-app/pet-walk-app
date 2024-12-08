@@ -21,7 +21,7 @@ const apiUrls = {
     },
 
     offers: {
-        allOffers: `${baseApi}/api/v1/offers/search?page=0&page_size=10&sort_by=WALK_LENGTH&sort_direction=DESC`,
+        allOffers:  `${baseApi}/api/v1/offers/search`
     }
 };
 
