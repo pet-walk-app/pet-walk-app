@@ -11,4 +11,6 @@ public interface ICaregiverImageService
   CaregiverResponse saveImages(@NotNull List<MultipartFile> imageFiles);
 
   void deleteImage(Long id);
+
+  void deleteAllImages();
 }

@@ -89,4 +89,11 @@ public class CaregiverService implements ICaregiverService
     return caregiverRepository.findById(caregiverId)
         .orElse(null);
   }
+
+  @Override
+  public CaregiverResponse getCurrentCaregiverResponse()
+  {
+    Caregiver caregiver = getCurrentCaregiver();
+    return caregiverResponseMapper.toCaregiverResponse(caregiver);
+  }
 }

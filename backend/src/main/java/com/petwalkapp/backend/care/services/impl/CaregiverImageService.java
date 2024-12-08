@@ -65,4 +65,19 @@ public class CaregiverImageService implements ICaregiverImageService
       caregiverService.save(currentCaregiver);
     }
   }
+
+  @Override
+  public void deleteAllImages()
+  {
+    Caregiver currentCaregiver = caregiverService.getCurrentCaregiverOrThrow();
+    List<Image> images = Optional.of(currentCaregiver)
+        .map(Caregiver::getImages)
+        .orElseGet(Collections::emptyList);
+
+    images.forEach(imageService::deleteImage);
+    images.clear();
+
+    currentCaregiver.setImages(images);
+    caregiverService.save(currentCaregiver);
+  }
 }

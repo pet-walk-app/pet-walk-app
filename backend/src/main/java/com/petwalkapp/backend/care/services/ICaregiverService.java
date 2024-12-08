@@ -19,4 +19,6 @@ public interface ICaregiverService
   Caregiver getCurrentCaregiver();
 
   Caregiver getCaregiverById(Long caregiverId);
+
+  CaregiverResponse getCurrentCaregiverResponse();
 }

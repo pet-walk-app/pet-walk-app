@@ -34,4 +34,10 @@ public class CaregiverImageController
   {
     caregiverImageService.deleteImage(id);
   }
+
+  @DeleteMapping
+  public void deleteAllImages()
+  {
+    caregiverImageService.deleteAllImages();
+  }
 }
