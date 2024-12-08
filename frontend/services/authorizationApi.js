@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { postData, getData, postMultipartData } from "./apiRequests"
+import {getData, postData, postMultipartData} from "./apiRequests"
 import apiUrls from '../consts/apiUrls'
 
 export const loginUser = async (credentials) => {
@@ -88,20 +88,14 @@ export const saveCaregiverPhoto = async (data) => {
 export const savePet = async (data) => {
 
     console.log("1")
-    newData = new Blob([JSON.stringify(data)], {
-        type: "application/json",
-      });
     console.log("2")
     
     const formData = new FormData();
     console.log("3")
-    formData.append('pet', newData)
-    console.log("4")
+    formData.append('pet', JSON.stringify(data))
 
     try {
-        const response = await postMultipartData(apiUrls.pet.create, formData);
-
-        return response;
+        return await postMultipartData(apiUrls.pet.create, formData);
     } catch (error) {
         console.error("Creating pet profile error:", error.message, error);
         throw error;

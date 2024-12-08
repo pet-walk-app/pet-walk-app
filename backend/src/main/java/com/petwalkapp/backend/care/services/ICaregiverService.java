@@ -8,7 +8,7 @@ import jakarta.validation.Valid;
 public interface ICaregiverService
 {
 
-  CaregiverResponse add(@Valid CaregiverSaveRequest caregiverSaveRequest);
+  CaregiverResponse save(@Valid CaregiverSaveRequest caregiverSaveRequest);
 
   Caregiver save(Caregiver caregiver);
 

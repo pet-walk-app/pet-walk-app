@@ -18,19 +18,16 @@ export const postMultipartData = async (endpoint, inputParam) => {
 	};
 
 	return fetch(URL, obj)
-	.then(resp => {
-		let json = null;
-		json = resp.json();
-		console.log(URL + ' Response', json);
-		if (resp.ok) {
-			return json;
-		}
-		return json.then(err => {
-			console.log('error :', err);
-			throw err;
-		});
-	})
-	.then(json => json).catch(error => console.log(error));
+		.then(async resp => {
+			let json = await resp.json();
+			console.log(URL + ' Response', json);
+			if (resp.ok) {
+				return json;
+			}
+
+			throw json;
+		})
+		.catch(error => console.error('Error details:', error));
 };
 
 const defaultHeaders = {
