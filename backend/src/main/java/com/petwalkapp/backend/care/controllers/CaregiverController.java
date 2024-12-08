@@ -29,7 +29,7 @@ public class CaregiverController
   @PostMapping
   public CaregiverResponse save(@Valid @RequestBody CaregiverSaveRequest caregiverSaveRequest)
   {
-    return caregiverService.add(caregiverSaveRequest);
+    return caregiverService.save(caregiverSaveRequest);
   }
 
   @DeleteMapping
