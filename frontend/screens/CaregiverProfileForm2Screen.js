@@ -10,10 +10,6 @@ import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
 
 export default function CaregiverProfileForm2({navigation}) {
-  // True if user uses this form for the first time and creating an account
-  // False if user already has an account and is editing it
-  const [editingProfile, setEditProfile] = useState(false);
-
   const img = require("../assets/plus.png");
   const trashIcon = require("../assets/icons/trash.png");
   const [formTitle, setFormTitle] = useState('');
@@ -24,21 +20,36 @@ export default function CaregiverProfileForm2({navigation}) {
       const fetchProfile = async () => {
         try {
           const profile = await getProfile();
+  
           if (profile.caregiver != null && profile.caregiver.images) {
-            const imagesFromProfile = profile.caregiver.images.slice(0, 4).map(image => image.url); // Uzyskujemy tylko URL
+            const imagesFromProfile = profile.caregiver.images.map(image => image.url || null);
+  
+            while (imagesFromProfile.length < 4) {
+              imagesFromProfile.push(null);
+            }
+  
             setImages(imagesFromProfile);
-              setEditProfile(true);
           } else {
-            setEditProfile(false);
+            setImages([null, null, null, null]);
+          }
+          if (profile.caregiver.images.length === 0)
+          {
+            setFormTitle("Dodaj zdjęcia swojego profilu");
+          }
+          else
+          {
+            setFormTitle("Edytuj zdjęcia swojego profilu");
           }
         } catch (error) {
           console.error("Error fetching profile:", error);
+          setImages([null, null, null, null]); // Domyślnie ustaw na 4 x null w razie błędu
         }
       };
   
       fetchProfile();
     }, [])
   );
+  
 
   const onSubmit = async () => {
     try {
@@ -48,14 +59,6 @@ export default function CaregiverProfileForm2({navigation}) {
       Alert.alert("Błąd tworzenia profilu", error.message || "Wystąpił błąd podczas tworzenia profilu.");
     }
   };
-
-  useEffect(() => {
-    if (editingProfile) {
-      setFormTitle("Edytuj zdjęcia swojego profilu");
-    } else {
-      setFormTitle("Dodaj zdjęcia swojego profilu");
-    }
-  }, [editingProfile]);
 
   const pickImage = async (index) => {
     let result = await ImagePicker.launchImageLibraryAsync({

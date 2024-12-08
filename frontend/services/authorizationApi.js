@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import { postData, getData, postMultipartData } from "./apiRequests"
+import { postData, getData, deleteData, postMultipartData } from "./apiRequests"
 import apiUrls from '../consts/apiUrls'
 
 export const loginUser = async (credentials) => {
@@ -61,7 +61,8 @@ export const saveCaregiver = async (data) => {
 };
 
 export const saveCaregiverPhoto = async (data) => {
-    //Delete all photos and then add new
+    deleteData(apiUrls.caregiver.deleteAllPhotos, true)
+    
     const responses = [];
     for (let i = 0; i < data.length; i++) {
         if (data[i] !== null) {
