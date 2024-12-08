@@ -24,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
   {
     MappingJackson2HttpMessageConverter jsonConverter = new MappingJackson2HttpMessageConverter();
-    
+
     jsonConverter.setSupportedMediaTypes(Arrays.asList(
         MediaType.APPLICATION_JSON,
         MediaType.APPLICATION_OCTET_STREAM

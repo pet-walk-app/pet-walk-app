@@ -1,51 +1,67 @@
-import { View, Text, ScrollView } from "react-native";
+import { useState, useCallback, useEffect } from "react";
+import { useFocusEffect } from '@react-navigation/native';
+import { View, Text, ScrollView, Alert } from "react-native";
 import { formStyles } from "../styles/formStyles";
-import { useState, useEffect } from "react";
 import { green, white } from "../consts/colors";
 import { useForm, Controller } from "react-hook-form";
-import { saveCaregiver } from "../services/authorizationApi";
+import { saveCaregiver, getProfile } from "../services/authorizationApi";
 
 import FormBigInput from "../components/FormBigInput";
 import FormInput from "../components/FormInput";
 import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
 
+export default function CaregiverProfileForm({ navigation }) {
+  const [editingProfile, setEditProfile] = useState(false);
+  const [formTitle, setFormTitle] = useState('');
 
-export default function CaregiverProfileForm({navigation}) {
-  // True if user uses this form for the first time and creating an account
-  // False if user already has an account and is editing it
-  const [editingProfile, setEditProfile] = useState(false)
+  const { control, handleSubmit, setValue, formState: { errors } } = useForm({
+    defaultValues: {
+      city: '',
+      description: '',
+    },
+  });
 
-  const [formTitle, setFormTitle] = useState('')
-  const { control, handleSubmit, formState: { errors } } = useForm();
+  useFocusEffect(
+    useCallback(() => {
+      const fetchProfile = async () => {
+        try {
+          const profile = await getProfile();
+
+          if (profile.caregiver) {
+            setFormTitle("Edytuj informacje profilu opiekuna");
+            if (profile.caregiver.city) {
+              setValue("city", profile.caregiver.city);
+            }
+            if (profile.caregiver.description) {
+              setValue("description", profile.caregiver.description);
+            }
+          } else {
+            setFormTitle("Uzupełnij swoje informacje żeby stworzyć profil opiekuna");
+          }
+        } catch (error) {
+          console.error("Error fetching profile:", error);
+        }
+      };
+
+      fetchProfile();
+    }, [setValue])
+  );
 
   const onSubmit = async (data) => {
     try {
-      await saveCaregiver(data)
-      //Alert.alert("Success", "Created profile!");
+      await saveCaregiver(data);
       navigation.navigate('Caregiver Profile Form 2');
     } catch (error) {
-      Alert.alert("Błąd tworzenia profilu", error.message || "Wystąpił błąd podczas tworzenia profilu.")
+      Alert.alert("Błąd tworzenia profilu", error.message || "Wystąpił błąd podczas tworzenia profilu.");
     }
   };
 
-  useEffect(() => {
-    if (editingProfile) {
-      setFormTitle("Edytuj informacje profilu opiekuna");
-    } else {
-      setFormTitle("Uzupełnij swoje informacje żeby stworzyć profil opiekuna");
-    }
-  }, [editingProfile]);
-
-
   return (
-    <NoStatusBarView 
-      style={{ flex: 1 }} 
-      behavior="position"
-    >
+    <NoStatusBarView style={{ flex: 1 }} behavior="position">
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View style={formStyles.container}>
-          <View style={[formStyles.middleSection, {justifyContent: "none"}]}>
+          <View style={[formStyles.middleSection, { justifyContent: "none" }]}>
             <Text style={formStyles.h1}>{formTitle}</Text>
             <View style={formStyles.formContainer}>
               <Controller
@@ -57,7 +73,8 @@ export default function CaregiverProfileForm({navigation}) {
                     value={value}
                     setValue={onChange}
                     placeholder={'Miasto'}
-                    errorMessage={errors.city?.message}/>
+                    errorMessage={errors.city?.message}
+                  />
                 )}
               />
               <Controller
@@ -65,22 +82,23 @@ export default function CaregiverProfileForm({navigation}) {
                 name="description"
                 rules={{ required: "Opis jest wymagany" }}
                 render={({ field: { onChange, value } }) => (
-                  <FormBigInput 
+                  <FormBigInput
                     value={value}
                     setValue={onChange}
                     placeholder={'Napisz kilka słów o sobie'}
                     errorMessage={errors.description?.message}
-                    height={330}/>
+                    height={330}
+                  />
                 )}
               />
             </View>
 
-            <CustomButton 
-              color={green} 
+            <CustomButton
+              color={green}
               textColor={white}
               action={handleSubmit(onSubmit)}
-              title={'Kontynuuj'}>
-            </CustomButton>
+              title={'Kontynuuj'}
+            />
           </View>
         </View>
       </ScrollView>

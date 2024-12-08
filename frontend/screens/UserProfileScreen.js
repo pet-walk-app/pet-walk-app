@@ -66,7 +66,9 @@ export default function UserProfile({navigation}) {
 
       <View style={profileStyles.caregiverSection}>
         <Text style={profileStyles.h3}>Nie masz jeszcze stworzonego profilu opiekuna.</Text>
-        <Pressable style={profileStyles.button}>
+        <Pressable 
+          style={profileStyles.button}
+          onPress={() => navigation.navigate('Caregiver Profile Form')}>
           <Text style={profileStyles.buttonText}>Utwórz</Text>
         </Pressable>
         <Text 

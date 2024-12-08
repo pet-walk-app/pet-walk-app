@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import {getData, postData, postMultipartData} from "./apiRequests"
+import { postData, getData, deleteData, postMultipartData } from "./apiRequests"
 import apiUrls from '../consts/apiUrls'
 
 export const loginUser = async (credentials) => {
@@ -61,7 +61,8 @@ export const saveCaregiver = async (data) => {
 };
 
 export const saveCaregiverPhoto = async (data) => {
-    //Delete all photos and then add new
+    deleteData(apiUrls.caregiver.deleteAllPhotos, true)
+
     const responses = [];
     for (let i = 0; i < data.length; i++) {
         if (data[i] !== null) {
@@ -86,18 +87,12 @@ export const saveCaregiverPhoto = async (data) => {
 
 //This part doesn't work :(
 export const savePet = async (data) => {
-
-    console.log("1")
-    console.log("2")
-    
     const formData = new FormData();
-    console.log("3")
     formData.append('pet', JSON.stringify(data))
-
     try {
         return await postMultipartData(apiUrls.pet.create, formData);
     } catch (error) {
-        console.error("Creating pet profile error:", error.message, error);
+        console.error("Creating pet profile error:", error.message || error);
         throw error;
     }
 };
