@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Image } from 'react-native';
 import { walkOfferPreviewStyles } from '../styles/offerListStyles';
 
-const  WalkOfferPreview = ({animalName, breed, distance, address, price}) => {
+const  WalkOfferPreview = ({animalName, breed, distance, date, length, price}) => {
     return (
       <View style={walkOfferPreviewStyles.container}>
         <View style={walkOfferPreviewStyles.leftSection}>
@@ -14,7 +14,8 @@ const  WalkOfferPreview = ({animalName, breed, distance, address, price}) => {
           <Text style={walkOfferPreviewStyles.animalName}>{animalName}</Text>
           <Text style={walkOfferPreviewStyles.breed}>Rasa: {breed}</Text>
           <Text style={walkOfferPreviewStyles.distance}>Odległość: {distance} km</Text>
-          <Text style={walkOfferPreviewStyles.address}>Adres: {address}</Text>
+          <Text style={walkOfferPreviewStyles.date}>Data spaceru: {date}</Text>
+          <Text style={walkOfferPreviewStyles.length}>Długośc: {length}</Text>
           <Text style={walkOfferPreviewStyles.price}>Zapłata: {price} zł</Text>
         </View>
       </View>

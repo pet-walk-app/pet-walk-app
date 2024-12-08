@@ -29,3 +29,20 @@ export const formatTime = (date) => {
 	const minutes = date.getMinutes().toString().padStart(2, '0');
 	return `${hours}:${minutes}`;
 };
+
+export const  minsToHours = (minutes) => {
+	if (minutes < 60) {
+	  return `${minutes} m`;
+	}
+  
+	const hours = Math.floor(minutes / 60);
+	const remainingM = minutes % 60;
+  
+	if (remainingM == 0) {
+		return `${hours} h`
+	} else {
+		return `${hours} h ${remainingM} m`
+	}
+
+  };
+  
