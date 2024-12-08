@@ -86,14 +86,24 @@ export const saveCaregiverPhoto = async (data) => {
 
 //This part doesn't work :(
 export const savePet = async (data) => {
+
+    console.log("1")
+    newData = new Blob([JSON.stringify(data)], {
+        type: "application/json",
+      });
+    console.log("2")
+    
     const formData = new FormData();
-    formData.append('pet', JSON.stringify(data))
+    console.log("3")
+    formData.append('pet', newData)
+    console.log("4")
+
     try {
         const response = await postMultipartData(apiUrls.pet.create, formData);
 
         return response;
     } catch (error) {
-        console.error("Creating pet profile error:", error.message || error);
+        console.error("Creating pet profile error:", error.message, error);
         throw error;
     }
 };

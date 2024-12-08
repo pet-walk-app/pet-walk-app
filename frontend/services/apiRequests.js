@@ -30,7 +30,7 @@ export const postMultipartData = async (endpoint, inputParam) => {
 			throw err;
 		});
 	})
-	.then(json => json);
+	.then(json => json).catch(error => console.log(error));
 };
 
 const defaultHeaders = {
