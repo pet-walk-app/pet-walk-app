@@ -4,7 +4,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 export const postMultipartData = async (endpoint, inputParam) => {
 	let token = await AsyncStorage.getItem("jwt_token")
 	let URL = endpoint;
-	console.log('URL:' + URL);
 	
 	let headers = {
 		Authorization: 'Bearer ' + token,
@@ -20,7 +19,6 @@ export const postMultipartData = async (endpoint, inputParam) => {
 	return fetch(URL, obj)
 		.then(async resp => {
 			let json = await resp.json();
-			console.log(URL + ' Response', json);
 			if (resp.ok) {
 				return json;
 			}
@@ -40,13 +38,6 @@ const fetchData = async (apiUrl, method, body = null, authorize = false) => {
 	}
 
 	await addAuthorizationHeader(headers, authorize)
-
-	console.log("Request Details:", {
-		url: apiUrl,
-		method: method,
-		headers: headers,
-		body: body ? JSON.stringify(body) : null,
-	})
 
 	const response = await fetch(apiUrl, {
 		method: method,

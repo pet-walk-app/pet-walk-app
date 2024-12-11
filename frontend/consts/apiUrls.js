@@ -11,6 +11,7 @@ const apiUrls = {
     },
 
     pet: {
+        basic: `${baseApi}/api/v1/pets`,
         create: `${baseApi}/api/v1/pets`,
     },
 
@@ -21,7 +22,8 @@ const apiUrls = {
     },
 
     offers: {
-        allOffers:  `${baseApi}/api/v1/offers/search`
+        allOffers:  `${baseApi}/api/v1/offers/search`,
+        singleOffer: `${baseApi}/api/v1/user/offers`
     }
 };
 

@@ -20,8 +20,8 @@ const DatePicker = ({
   };
 
   return (
-    <View>
-      <View style={customStyle}>
+    <View style={formStyles.formInput}>
+      <View>
         <Pressable onPress={() => setIsOpen(true)}>
           <Text style={formStyles.inputText}>{formatDate(date, '.')}</Text>
         </Pressable>

@@ -1,12 +1,19 @@
-export function formatDate(date, separator) {
+export function formatDate(date, separator, yearFirst = false) {
 	if (!(date instanceof Date)) {
-		date = parseDate(date)
+		date = parseDate(date);
 	}
 
-	const day = date.getDate().toString().padStart(2, "0")
-	const month = (date.getMonth() + 1).toString().padStart(2, "0")
-	const year = date.getFullYear()
-	return `${day}${separator}${month}${separator}${year}`
+	const day = date.getDate().toString().padStart(2, "0");
+	const month = (date.getMonth() + 1).toString().padStart(2, "0");
+	const year = date.getFullYear();
+
+	if (yearFirst) {
+		// Format "YYYY-MM-DD"
+		return `${year}${separator}${month}${separator}${day}`;
+	} else {
+		// Format "DD-MM-YYYY"
+		return `${day}${separator}${month}${separator}${year}`;
+	}
 }
 
 export function parseDate(dateStr) {

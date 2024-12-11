@@ -49,6 +49,8 @@ export const registerUser = async (credentials) => {
     }
 }
 
+// Te poniżej przenieść
+
 export const saveCaregiver = async (data) => {
     try {
         const response = await postData(apiUrls.caregiver.create, data, true);

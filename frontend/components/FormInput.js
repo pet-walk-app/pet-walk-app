@@ -10,14 +10,15 @@ export default function FormInput({
   secureTextEntry=false
 }) {
   return (
-    <View>
-      <View style={formStyles.formInput}>
+    <View style={formStyles.formInput}>
+      <View>
         <TextInput 
           placeholder={placeholder}
           value={value}
           onChangeText={(text) => setValue(text)}
           placeholderTextColor={darkGrey}
           secureTextEntry={secureTextEntry}
+          
         />
       </View>
       {errorMessage && <Text style={formStyles.errorText}>{errorMessage}</Text>}

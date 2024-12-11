@@ -1,14 +1,12 @@
 import apiUrls from '../consts/apiUrls';
-import { postData } from './apiRequests';
+import { postData, getData, updateData } from './apiRequests';
 
 export const fetchOffers = async (page, pageSize, sortBy, sortDirection, filters) => {
     const queryParams = `?page=${page}&page_size=${pageSize}&sort_by=${sortBy}&sort_direction=${sortDirection}`;
     const url = `${apiUrls.offers.allOffers}${queryParams}`;
-    console.log(url)
 
     try {
         filters = convertFiltersToJson(filters)
-        console.log(filters)
         const response = await postData(url, filters, true);
         return response;
     } catch (error) {
@@ -22,3 +20,38 @@ const convertFiltersToJson = (filters) => {
       Object.entries(filters).filter(([_, value]) => value !== null && value !== undefined)
     );
   };
+
+export const getOfferById = async (offerId) => {
+    const url = `${apiUrls.offers.singleOffer}${offerId}`;
+
+    try {
+        return await getData(url, true)
+    } catch (error) {
+        console.error('Fetch offers error:', error.message);
+        throw error;
+    }  
+}
+
+export const updateOffer = async (body, offerId) => {
+
+    const url = `${apiUrls.offers.singleOffer}${offerId}`;
+
+    try {
+        await updateData(url, body, true);
+    } catch (error) {
+        console.error('Edit offer error:', error.message);
+        throw error;
+    }
+}
+
+export const addOffer = async (body) => {
+
+    const url = `${apiUrls.offers.singleOffer}`;
+
+    try {
+        await postData(url, body, true);
+    } catch (error) {
+        console.error('Add offer error:', error.message);
+        throw error;
+    }
+}
