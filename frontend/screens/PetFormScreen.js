@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { formStyles } from "../styles/formStyles";
 import { green, white } from "../consts/colors";
 import { useForm, Controller } from "react-hook-form";
-import { savePet } from "../services/authorizationApi";
+import { savePet } from "../services/petApi";
 
 import FormBigInput from "../components/FormBigInput";
 import FormInput from "../components/FormInput";

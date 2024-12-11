@@ -3,7 +3,7 @@ import { formStyles } from "../styles/formStyles";
 import { StatusBar } from "expo-status-bar";
 import { useState, useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
-import { getProfile } from "../services/authorizationApi";
+import { getProfile } from "../services/userApi";
 import { green, white } from "../consts/colors";
 
 import CustomButton from "../components/CustomButton";

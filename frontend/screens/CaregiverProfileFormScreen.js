@@ -4,7 +4,8 @@ import { View, Text, ScrollView, Alert } from "react-native";
 import { formStyles } from "../styles/formStyles";
 import { green, white } from "../consts/colors";
 import { useForm, Controller } from "react-hook-form";
-import { saveCaregiver, getProfile } from "../services/authorizationApi";
+import { getProfile } from "../services/userApi";
+import { saveCaregiver } from "../services/caregiverApi";
 
 import FormBigInput from "../components/FormBigInput";
 import FormInput from "../components/FormInput";

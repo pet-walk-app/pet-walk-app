@@ -12,3 +12,14 @@ export const getUserPets = async () =>
         throw error;
     }  
 }
+
+export const savePet = async (data) => {
+    const formData = new FormData();
+    formData.append('pet', JSON.stringify(data))
+    try {
+        return await postMultipartData(apiUrls.pet.create, formData);
+    } catch (error) {
+        console.error("Creating pet profile error:", error.message || error);
+        throw error;
+    }
+};

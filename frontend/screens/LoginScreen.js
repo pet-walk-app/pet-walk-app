@@ -5,7 +5,8 @@ import { loginStyles } from "../styles/loginFirstVisitStyles";
 import { green, white } from "../consts/colors";
 import { useForm, Controller } from "react-hook-form";
 import { fetchUserData } from "../services/userApi";
-import { loginUser, getProfile } from "../services/authorizationApi";
+import { loginUser } from "../services/authorizationApi";
+import { getProfile } from "../services/userApi";
 
 import FormInput from "../components/FormInput";
 import CustomButton from "../components/CustomButton";

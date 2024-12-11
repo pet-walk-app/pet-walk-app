@@ -1,9 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import { formStyles } from "../styles/formStyles";
 import { green, white } from "../consts/colors";
 import { Pressable, Image, View, Text, Alert } from 'react-native';
-import { saveCaregiverPhoto, getProfile } from "../services/authorizationApi";
+import { getProfile } from "../services/userApi";
+import { saveCaregiverPhoto } from "../services/caregiverApi";
 
 import * as ImagePicker from 'expo-image-picker';
 import CustomButton from "../components/CustomButton";
@@ -20,8 +21,13 @@ export default function CaregiverProfileForm2({navigation}) {
       const fetchProfile = async () => {
         try {
           const profile = await getProfile();
+          console.log(profile)
+          if (profile.caregiver == null) {
+            setImages([null, null, null, null]);
+            return;
+          }
   
-          if (profile.caregiver != null && profile.caregiver.images) {
+          if (profile.caregiver.images) {
             const imagesFromProfile = profile.caregiver.images.map(image => image.url || null);
   
             while (imagesFromProfile.length < 4) {
@@ -29,9 +35,8 @@ export default function CaregiverProfileForm2({navigation}) {
             }
   
             setImages(imagesFromProfile);
-          } else {
-            setImages([null, null, null, null]);
-          }
+          } 
+
           if (profile.caregiver.images.length === 0)
           {
             setFormTitle("Dodaj zdjęcia swojego profilu");
@@ -54,7 +59,7 @@ export default function CaregiverProfileForm2({navigation}) {
   const onSubmit = async () => {
     try {
       await saveCaregiverPhoto(images);
-      navigation.navigate('First Visit Profile Choice');
+      navigation.navigate('Offers List');
     } catch (error) {
       Alert.alert("Błąd tworzenia profilu", error.message || "Wystąpił błąd podczas tworzenia profilu.");
     }

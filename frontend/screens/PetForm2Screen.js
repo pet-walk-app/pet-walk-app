@@ -3,7 +3,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Pressable, Image, View, Text } from 'react-native';
 import { formStyles } from "../styles/formStyles";
 import { green, white } from "../consts/colors";
-import { savePetPhoto, getProfile } from "../services/authorizationApi";
+import { savePetPhoto } from "../services/petApi";
+import { getProfile } from "../services/userApi";
 
 import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";

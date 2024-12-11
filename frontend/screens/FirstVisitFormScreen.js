@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import { formStyles } from "../styles/formStyles";
 import { useForm, Controller } from "react-hook-form";
-import { createProfile } from "../services/authorizationApi";
+import { createProfile } from "../services/userApi";
 import { green, white } from "../consts/colors";
 
 import FormInput from "../components/FormInput";
