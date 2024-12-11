@@ -1,9 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
-
-export const postMultipartData = async (endpoint, inputParam) => {
+const fetchMultipartData = async (apiUrl, method, body) => {
 	let token = await AsyncStorage.getItem("jwt_token")
-	let URL = endpoint;
+	let URL = apiUrl;
 	
 	let headers = {
 		Authorization: 'Bearer ' + token,
@@ -11,9 +10,9 @@ export const postMultipartData = async (endpoint, inputParam) => {
 	};
 
 	let obj = {
-		method: 'POST',
+		method: method,
 		headers: headers,
-		body: inputParam,
+		body: body,
 	};
 
 	return fetch(URL, obj)
@@ -55,6 +54,10 @@ export const postData = (apiUrl, body, authorize) => fetchData(apiUrl, "POST", b
 export const updateData = (apiUrl, body, authorize) => fetchData(apiUrl, "PUT", body, authorize)
 export const deleteData = (apiUrl, authorize) => fetchData(apiUrl, "DELETE", null, authorize)
 export const patchData = (apiUrl, body, authorize) => fetchData(apiUrl, "PATCH", body, authorize)
+
+export const postMultipartData = (apiUrl, body) => fetchMultipartData(apiUrl, "POST", body)
+export const updateMultipartData = (apiUrl, body) => fetchMultipartData(apiUrl, "PUT", body)
+export const deleteMultipartData = (apiUrl) => fetchMultipartData(apiUrl, "DELETE", null)
 
 const addAuthorizationHeader = async (headers, authorize) => {
 	if (authorize) {

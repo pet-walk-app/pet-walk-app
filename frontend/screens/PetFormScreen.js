@@ -25,7 +25,6 @@ export default function CaregiverProfileForm({navigation}) {
   const onSubmit = async (data) => {
     try {
       await savePet(data)
-      Alert.alert("Success", "Created profile!");
       navigation.navigate('Pet Form 2');
     } catch (error) {
       Alert.alert("Błąd tworzenia profilu", error.message || "Wystąpił błąd podczas tworzenia profilu.")

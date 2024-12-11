@@ -1,5 +1,5 @@
 import apiUrls from "../consts/apiUrls"
-import { getData } from "./apiRequests"
+import { postData, getData, updateMultipartData, deleteMultipartData } from "./apiRequests"
 
 export const getUserPets = async () =>
 {
@@ -14,12 +14,35 @@ export const getUserPets = async () =>
 }
 
 export const savePet = async (data) => {
-    const formData = new FormData();
-    formData.append('pet', JSON.stringify(data))
     try {
-        return await postMultipartData(apiUrls.pet.create, formData);
+        return await postData(apiUrls.pet.create, data, true);
     } catch (error) {
         console.error("Creating pet profile error:", error.message || error);
         throw error;
+    }
+};
+
+export const savePetPhoto = async (data) => {
+    const apiUrl = apiUrls.pet.basic + "/2/image";
+
+    if (data == null) {
+        try {
+            return await deleteMultipartData(apiUrl);
+        } catch (error) {
+            
+        }
+    }
+
+    const formData = new FormData();
+    formData.append('image', {
+        uri: data,
+        type: "image/jpg",
+        name: `photo.jpg`
+    });
+
+    try {
+        return await updateMultipartData(apiUrl, formData);
+    } catch (error) {
+        console.error(`Error uploading photo:`, error.message || error);
     }
 };

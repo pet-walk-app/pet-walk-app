@@ -10,7 +10,7 @@ import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
 import * as ImagePicker from 'expo-image-picker';
 
-export default function PetForm2() {
+export default function PetForm2({navigation}) {
   // True if user uses this form for the first time and creating an account
   // False if user already has an account and is editing it
   const [editingProfile, setEditProfile] = useState(false);
@@ -40,10 +40,10 @@ export default function PetForm2() {
     }, [])
   );
 
-  const onSubmit = async (data) => {
+  const onSubmit = async () => {
     try {
-      console.log("onSubmit");
-      //await savePetPhoto(data);
+      await savePetPhoto(image);
+      navigation.navigate('Offers List');
     } catch (error) {
       console.error("Error submitting:", error);
     }
