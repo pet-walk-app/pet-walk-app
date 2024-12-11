@@ -71,7 +71,7 @@ public class PetService implements IPetService
   public PetResponseDto addPet(@Valid PetSaveRequestDto petSaveRequestDto)
   {
     PetOwner currentPetOwner = getOrCreateCreatePetOwner();
-    Pet pet = petRepository.save(petSaveRequestDtoMapper.toPet(petSaveRequestDto));
+    Pet pet = petRepository.save(petSaveRequestDtoMapper.toPet(petSaveRequestDto, currentPetOwner));
 
     if (Objects.isNull(currentPetOwner.getPets())) {
       currentPetOwner.setPets(new ArrayList<>());
