@@ -3,7 +3,7 @@ import { postData, getData, updateMultipartData, deleteMultipartData } from "./a
 
 export const getUserPets = async () =>
 {
-    url = apiUrls.pet.basic
+    const url = apiUrls.pet.basic
     
     try {
         return await getData(url, true)
@@ -23,6 +23,7 @@ export const savePet = async (data) => {
 };
 
 export const savePetPhoto = async (data) => {
+    //TODO: change 2 to real id
     const apiUrl = apiUrls.pet.basic + "/2/image";
 
     if (data == null) {

@@ -8,7 +8,7 @@ const OfferStatusEnum = {
   WAITING: "waiting",
 };
 
-const MyOfferPreview = ({ myOffer, animalName, date, found, status }) => {
+const MyOfferPreview = ({ myOffer, animalName, date, found, status, imageUrl = null }) => {
   const [title, setTitle] = useState("");
   const [bottomLine, setBottomLine] = useState("");
 
@@ -40,7 +40,7 @@ const MyOfferPreview = ({ myOffer, animalName, date, found, status }) => {
       <View style={MyOfferPreviewStyles.content}>
         <View style={MyOfferPreviewStyles.leftSection}>
           <Image
-            source={require("../assets/default_dog_picture.png")}
+            source={imageUrl != null ? { uri: imageUrl } : require("../assets/default_dog_picture.png")}
             style={MyOfferPreviewStyles.profileImage}
           />
         </View>

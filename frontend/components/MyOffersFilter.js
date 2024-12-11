@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
+import React from 'react';
+import { View, Text } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { offerListStyles } from '../styles/offerListStyles';
 
@@ -15,7 +15,7 @@ const MyOffersFilter = ({ distanceFilter, setDistanceFilter }) => {
           >
           <Picker.Item label="Wszystkie oferty" value="1" />
           <Picker.Item label="Moje ogłoszenia" value="2" />
-          <Picker.Item label="Zaakceptowane spacery" value="3" />
+          <Picker.Item label="Moje aplikacje" value="3" />
           </Picker>
         </View>
     </View>
