@@ -1,6 +1,7 @@
 import NoStatusBarView from "../components/NoStatusBarView";
 import CaregiverFound from "../components/CaregiverFound";
 
+
 import { ScrollView } from "react-native";
 
 export default function CaregiversFound( { navigation } ) {
@@ -15,21 +16,25 @@ export default function CaregiversFound( { navigation } ) {
       <CaregiverFound
         caregiverName = {'Marian'}
         price = {'60'}
+        navigation = { navigation }
       >
       </CaregiverFound>
       <CaregiverFound
         caregiverName = {'Marian'}
         price = {'60'}
+        navigation = { navigation }
       >
       </CaregiverFound>
       <CaregiverFound
         caregiverName = {'Marian'}
         price = {'60'}
+        navigation = { navigation }
       >
       </CaregiverFound>
       <CaregiverFound
         caregiverName = {'Marian'}
         price = {'60'}
+        navigation = { navigation }
       >
       </CaregiverFound>
     </ScrollView>

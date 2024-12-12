@@ -1,10 +1,11 @@
 import React from 'react';
-import NoStatusBarView from '../components/NoStatusBarView';
 
+import { useNavigation  } from '@react-navigation/native';
 import { View, Text, Image, Pressable } from 'react-native';
 import { caregiverFoundStyles } from '../styles/componentsStyles';
 
-const CaregiverFound = ({caregiverName, price}) => {
+const CaregiverFound = ({caregiverName, price }) => {
+  const navigation = useNavigation();
   return (
     <View style={caregiverFoundStyles.container}>
       <View style={caregiverFoundStyles.leftSection}>
@@ -12,7 +13,8 @@ const CaregiverFound = ({caregiverName, price}) => {
           <Image source={require('../assets/grazynka.png')} style={caregiverFoundStyles.profileImage} />
         </View>
         <Pressable 
-          style={caregiverFoundStyles.button}>
+          style={caregiverFoundStyles.button}
+          onPress={() => navigation.navigate('User Profile')}>
           <Text style={caregiverFoundStyles.buttonText}>Profil</Text>
         </Pressable>
       </View>

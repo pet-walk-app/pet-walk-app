@@ -58,14 +58,3 @@ export const getProfile = async () => {
       throw error;
   }
 };
-    
-export const getOffer = async (id) => {
-  try {
-      const response = await getData(apiUrls.user.offers + "/" + id, true);
-      return response;
-  } catch (error) {
-      console.error("Getting offers error, offer " + id + " not found: ", error.message || error);
-      throw error;
-  }
-};
-
