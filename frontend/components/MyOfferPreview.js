@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image } from "react-native";
 import { MyOfferPreviewStyles } from "../styles/offerListStyles";
 
+//TODO: ustawić poprawnie resztę statusów(to co jest w cudzysłowiach)
 const OfferStatusEnum = {
-  ACCEPTED: "accepted",
-  DECLINED: "declined",
-  WAITING: "waiting",
+  ACCEPTED: "ACCEPTED",
+  CANCELLED: "CANCELLED",
+  OPEN: "OPEN",
 };
 
 const MyOfferPreview = ({ myOffer, animalName, date, found, status, imageUrl = null }) => {
@@ -22,10 +23,10 @@ const MyOfferPreview = ({ myOffer, animalName, date, found, status, imageUrl = n
         case OfferStatusEnum.ACCEPTED:
           setBottomLine("Status: zaakceptowano");
           break;
-        case OfferStatusEnum.DECLINED:
+        case OfferStatusEnum.CANCELLED:
           setBottomLine("Status: odrzucono");
           break;
-        case OfferStatusEnum.WAITING:
+        case OfferStatusEnum.OPEN:
           setBottomLine("Status: oczekiwanie");
           break;
         default:

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, ActivityIndicator } from 'react-native';
+import { View, FlatList, ActivityIndicator, Pressable } from 'react-native';
 import WalkOfferPreview from '../components/WalkOfferPreview';
 import NoStatusBarView from '../components/NoStatusBarView';
 import OfferListFilter from '../components/OfferListFilter';
@@ -26,7 +26,7 @@ export default function OffersListScreen({ navigation }) {
     console.log('sortBy:', sortBy);
     setIsLoading(true);
     try {
-      const response = await fetchOffers(1, 10, sortBy, sortOrder, filters);
+      const response = await fetchOffers(0, 10, sortBy, sortOrder, filters);
       setOffers(response.content || []);
     } catch (error) {
       console.error('Error loading offers:', error);
@@ -50,14 +50,17 @@ export default function OffersListScreen({ navigation }) {
       data={offers}
       keyExtractor={(item) => item.id.toString()}
       renderItem={({ item }) => (
-        <WalkOfferPreview
-          animalName={item.pets[0]?.name || 'Brak nazwy'}
-          breed={item.pets[0]?.breed || 'Nieznana rasa'}
-          distance={`${(item.distance).toFixed(1)}` || 'Nieznana odległość'}
-          date={item.walkDate || 'Brak daty spaceru'}
-          length={minsToHours(item.walkLength) || 'Brak długości spaceru'}
-          price={item.price || 'Brak ceny'}
-        />
+        <Pressable 
+          onPress={() => navigation.navigate('Walk Offer', { walkData: item })}>
+          <WalkOfferPreview
+            animalName={item.pets[0]?.name || 'Brak nazwy'}
+            breed={item.pets[0]?.breed || 'Nieznana rasa'}
+            distance={`${(item.distance).toFixed(1)}` || 'Nieznana odległość'}
+            date={item.walkDate || 'Brak daty spaceru'}
+            length={minsToHours(item.walkLength) || 'Brak długości spaceru'}
+            price={item.price || 'Brak ceny'}
+          />
+        </Pressable>
       )}
     />
   )}

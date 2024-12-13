@@ -1,4 +1,5 @@
 import apiUrls from "../consts/apiUrls"
+import {fetchUserData} from "./userApi"
 import { postData, getData, updateMultipartData, deleteMultipartData } from "./apiRequests"
 
 export const getUserPets = async () =>
@@ -15,7 +16,9 @@ export const getUserPets = async () =>
 
 export const savePet = async (data) => {
     try {
-        return await postData(apiUrls.pet.create, data, true);
+        const response = await postData(apiUrls.pet.create, data, true);
+        await fetchUserData();
+        return response;
     } catch (error) {
         console.error("Creating pet profile error:", error.message || error);
         throw error;
@@ -24,13 +27,15 @@ export const savePet = async (data) => {
 
 export const savePetPhoto = async (data) => {
     //TODO: change 2 to real id
-    const apiUrl = apiUrls.pet.basic + "/2/image";
+    const apiUrl = apiUrls.pet.basic + "/24/image";
 
     if (data == null) {
         try {
-            return await deleteMultipartData(apiUrl);
+            const response = await deleteMultipartData(apiUrl);
+            await fetchUserData();
+            return response;
         } catch (error) {
-            
+            await fetchUserData();
         }
     }
 
@@ -42,8 +47,11 @@ export const savePetPhoto = async (data) => {
     });
 
     try {
-        return await updateMultipartData(apiUrl, formData);
+        const response = await updateMultipartData(apiUrl, formData);
+        await fetchUserData();
+        return response;
     } catch (error) {
         console.error(`Error uploading photo:`, error.message || error);
+        await fetchUserData();
     }
 };

@@ -2,6 +2,7 @@ import { View, Text, Image } from "react-native";
 import { formStyles } from "../styles/formStyles";
 import { useState, useEffect } from "react";
 import { red, lightGreen, beige, green, white } from "../consts/colors";
+import { applyToOffer, deleteApplyToOffer } from "../services/offersApi";
 import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
 
@@ -12,13 +13,15 @@ const OfferStatus = {
   OFFER_ACCEPTED: 'offerAccepted',
 };
 
-export default function CaregiverProfileForm() {
+export default function WalkOffer({ route }) {
+  const { walkData } = route.params;
   const [title, setTitle] = useState("")
 
   const [offerType, setMyOffer] = useState(OfferStatus.NEW_OFFER)
   const [walkDate, setWalkDate] = useState('21.04.2024')
   const [address, setAddress] = useState('Ostrów Tumski, 61-001')
   const [city, setCity] = useState('Poznań')
+  const [distance, setDistance] = useState(1)
   const petDefaultPhoto = require("../assets/default_dog_picture.png");
   const [petPhoto, setPhoto] = useState('Reksio')
   const [petName, setPetName] = useState('Reksio')
@@ -29,6 +32,30 @@ export default function CaregiverProfileForm() {
   const [phoneNumber, setPhoneNumber] = useState('+48 123 213 224')
 
   useEffect(() => {
+    //TODO: poprawić status
+    if (walkData.alreadyApplied){
+      setMyOffer(OfferStatus.REQUEST_SENT)
+    }
+    else{
+      setMyOffer(OfferStatus.NEW_OFFER)
+      if(walkData.applicationRejected){
+        setMyOffer(OfferStatus.REQUEST_SENT)
+      }
+      
+    }
+
+    setWalkDate(walkData.walkDate);
+    setAddress(null)//TODO: dodać adres
+    setCity()//TODO: dodać miasto
+    setDistance(walkData.distance.toFixed(1))
+    //TODO: dodać zdjęcie
+    setPetName(walkData.pets[0].name)
+    setPetBreed(walkData.pets[0].breed)
+    setPetDescription(walkData.pets[0].description)
+    setWalkLength(walkData.walkLength)
+    setPrice(walkData.price)
+    setPhoneNumber() //TODO: dodać tel
+
     if (offerType == OfferStatus.MY_OFFER) {
       setTitle("Twoja oferta");
     } else {
@@ -48,11 +75,15 @@ export default function CaregiverProfileForm() {
 
   const handleApply = () => {
     console.log('Zgłoszono się!');
+    applyToOffer(walkData.id);
+    walkData.alreadyApplied = true;
     setMyOffer(OfferStatus.REQUEST_SENT);
   };
 
   const handleWithdrawApplication = () => {
     console.log('Zgłoszenie wycofane!');
+    deleteApplyToOffer(walkData.id);
+    walkData.alreadyApplied = false;
     setMyOffer(OfferStatus.NEW_OFFER);
   };
 
@@ -67,8 +98,13 @@ export default function CaregiverProfileForm() {
           <View style={formStyles.walkOfferText}>
             <Text>
               <Text style={{ fontWeight: "bold" }}>Informacje adresowe: </Text> {"\n"}
-              Adres: {address} {"\n"}
-              Miasto: {city}
+              {address && (
+                <>
+                  Adres: {address} {"\n"}
+                </>
+              )}
+              Miasto: {city} {"\n"}
+              Odległość od ciebie: {distance} km
             </Text>
           </View>
 
@@ -85,7 +121,7 @@ export default function CaregiverProfileForm() {
           <View style={formStyles.walkOfferText}>
             <Text>
               <Text style={{ fontWeight: "bold" }}>Spacer: </Text> {"\n"}
-              Data: <Text style={{ fontWeight: "bold" }}>{walkDate}</Text> {"\n"}
+              Data: {walkDate} {"\n"}
               Czas trwania: {walkLength} {"\n"}
               Budżet: {price}
             </Text>

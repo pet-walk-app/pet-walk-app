@@ -45,7 +45,7 @@ const fetchData = async (apiUrl, method, body = null, authorize = false) => {
 	})
 
 	await handleResponse(response)
-
+	
 	return response.json()
 }
 
