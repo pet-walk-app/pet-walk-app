@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, Pressable } from "react-native";
 import { MyOfferPreviewStyles } from "../styles/offerListStyles";
+import { useNavigation  } from '@react-navigation/native';
 
 //TODO: ustawić poprawnie resztę statusów(to co jest w cudzysłowiach)
 const OfferStatusEnum = {
@@ -9,7 +10,8 @@ const OfferStatusEnum = {
   OPEN: "OPEN",
 };
 
-const MyOfferPreview = ({ myOffer, animalName, date, found, status, imageUrl = null }) => {
+const MyOfferPreview = ({ walkData, myOffer, animalName, date, found, status, imageUrl = null }) => {
+  const navigation = useNavigation();
   const [title, setTitle] = useState("");
   const [bottomLine, setBottomLine] = useState("");
 
@@ -35,23 +37,29 @@ const MyOfferPreview = ({ myOffer, animalName, date, found, status, imageUrl = n
     }
   }, [myOffer, status, found]);
 
+  const onClick = () => {
+    navigation.navigate('Walk Offer', { walkData: walkData });
+  };
+
   return (
-    <View style={MyOfferPreviewStyles.container}>
-      <Text style={MyOfferPreviewStyles.myOfferTitle}>{title}</Text>
-      <View style={MyOfferPreviewStyles.content}>
-        <View style={MyOfferPreviewStyles.leftSection}>
-          <Image
-            source={imageUrl != null ? { uri: imageUrl } : require("../assets/default_dog_picture.png")}
-            style={MyOfferPreviewStyles.profileImage}
-          />
-        </View>
-        <View style={MyOfferPreviewStyles.myOfferMiddleSection}>
-          <Text style={MyOfferPreviewStyles.animalName}>{animalName}</Text>
-          <Text style={MyOfferPreviewStyles.text}>Data: {date}</Text>
-          <Text style={MyOfferPreviewStyles.text}>{bottomLine}</Text>
+    <Pressable onPress={onClick}>
+      <View style={MyOfferPreviewStyles.container}>
+        <Text style={MyOfferPreviewStyles.myOfferTitle}>{title}</Text>
+        <View style={MyOfferPreviewStyles.content}>
+          <View style={MyOfferPreviewStyles.leftSection}>
+            <Image
+              source={imageUrl != null ? { uri: imageUrl } : require("../assets/default_dog_picture.png")}
+              style={MyOfferPreviewStyles.profileImage}
+            />
+          </View>
+          <View style={MyOfferPreviewStyles.myOfferMiddleSection}>
+            <Text style={MyOfferPreviewStyles.animalName}>{animalName}</Text>
+            <Text style={MyOfferPreviewStyles.text}>Data: {date}</Text>
+            <Text style={MyOfferPreviewStyles.text}>{bottomLine}</Text>
+          </View>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

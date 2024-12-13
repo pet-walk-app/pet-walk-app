@@ -39,10 +39,8 @@ export default function WalkOffer({ route }) {
     const fetchProfileAndSetup = async () => {
       try {
         const profile = await getProfile();
-        console.log(profile);
-        
         //TODO: dodać status gdy mnie zaakceptowano
-        if (profile.id == walkData.offerCreator.id){
+        if (!walkData.offerCreator || profile.id == walkData.offerCreator.id){
           setMyOffer(OfferStatus.MY_OFFER);
         }
         else {
@@ -59,8 +57,8 @@ export default function WalkOffer({ route }) {
         setWalkDate(walkData.walkDate);
         setAddress(null); // TODO: dodać adres
         setCity(null); // TODO: dodać miasto
-        setDistance(walkData.distance.toFixed(1));
-        console.log(walkData);
+        //TODO: dodać dystans
+        //setDistance(walkData.distance.toFixed(1));
         setPhoto(walkData.pets[0]?.imageUrl || null);
         setPetName(walkData.pets[0]?.name || "Brak nazwy");
         setPetBreed(walkData.pets[0]?.breed || "Nieznana rasa");
