@@ -105,3 +105,15 @@ export const deleteApplyToOffer = async (offerId) => {
         //throw error;
     }
 }
+
+export const deleteOffer = async (offerId) => {
+
+    const url = apiUrls.user.deleteOffer + "/" + offerId;
+
+    try {
+        await deleteData(url, true);
+    } catch (error) {
+        console.error('Deleting offer error:', error.message);
+        throw error;
+    }
+}

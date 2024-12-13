@@ -8,6 +8,7 @@ const apiUrls = {
 
     user: {
         profile: `${baseApi}/api/v1/user/profile`,
+        deleteOffer: `${baseApi}/api/v1/user/offers`
     },
 
     pet: {
