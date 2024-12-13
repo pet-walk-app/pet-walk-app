@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image, Pressable } from "react-native";
 import { MyOfferPreviewStyles } from "../styles/offerListStyles";
 import { useNavigation  } from '@react-navigation/native';
+import { red, lightGreen, beige, green, white } from "../consts/colors";
+
+import CustomButton from "../components/CustomButton";
 
 //TODO: ustawić poprawnie resztę statusów(to co jest w cudzysłowiach)
 const OfferStatusEnum = {
@@ -14,6 +17,10 @@ const MyOfferPreview = ({ walkData, myOffer, animalName, date, found, status, im
   const navigation = useNavigation();
   const [title, setTitle] = useState("");
   const [bottomLine, setBottomLine] = useState("");
+
+  const handleGoToCaregivers = () => {
+    navigation.navigate('Caregivers Found');
+  };
 
   useEffect(() => {
     if (myOffer) {
@@ -43,7 +50,7 @@ const MyOfferPreview = ({ walkData, myOffer, animalName, date, found, status, im
 
   return (
     <Pressable onPress={onClick}>
-      <View style={MyOfferPreviewStyles.container}>
+      <View style={[MyOfferPreviewStyles.container, myOffer === true ? { height: 210 } : {}]}>
         <Text style={MyOfferPreviewStyles.myOfferTitle}>{title}</Text>
         <View style={MyOfferPreviewStyles.content}>
           <View style={MyOfferPreviewStyles.leftSection}>
@@ -58,6 +65,14 @@ const MyOfferPreview = ({ walkData, myOffer, animalName, date, found, status, im
             <Text style={MyOfferPreviewStyles.text}>{bottomLine}</Text>
           </View>
         </View>
+        {myOffer === true && (
+          <CustomButton    
+            ownStyle={{height: 40, width: "80%", borderWidth : 0}}
+            color={beige} 
+            action={handleGoToCaregivers}
+            title={'Zobacz chętnych'}>
+          </CustomButton>
+        )}
       </View>
     </Pressable>
   );
