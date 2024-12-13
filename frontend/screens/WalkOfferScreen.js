@@ -23,7 +23,7 @@ export default function WalkOffer({ route }) {
   const [city, setCity] = useState('Poznań')
   const [distance, setDistance] = useState(1)
   const petDefaultPhoto = require("../assets/default_dog_picture.png");
-  const [petPhoto, setPhoto] = useState('Reksio')
+  const [petPhoto, setPhoto] = useState(null)
   const [petName, setPetName] = useState('Reksio')
   const [petBreed, setPetBreed] = useState('Owczarek Kaukaski')
   const [petDescrition, setPetDescription] = useState('Pies zazwyczaj nie gryzie, chyba że jest w złym humorze')
@@ -48,7 +48,8 @@ export default function WalkOffer({ route }) {
     setAddress(null)//TODO: dodać adres
     setCity()//TODO: dodać miasto
     setDistance(walkData.distance.toFixed(1))
-    //TODO: dodać zdjęcie
+    console.log(walkData)
+    setPhoto(walkData.pets[0].imageUrl);
     setPetName(walkData.pets[0].name)
     setPetBreed(walkData.pets[0].breed)
     setPetDescription(walkData.pets[0].description)
@@ -181,8 +182,11 @@ export default function WalkOffer({ route }) {
         )}
       </View>
       <Image 
-        source={petDefaultPhoto}
-        style={formStyles.walkOfferImage}
+        source={petPhoto ? { uri: petPhoto } : petDefaultPhoto} 
+        style={[
+          formStyles.walkOfferImage, 
+          petPhoto ? { borderRadius: 40 } : null
+        ]}
       />
     </NoStatusBarView>
   );
