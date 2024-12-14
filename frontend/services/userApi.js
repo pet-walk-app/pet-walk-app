@@ -1,5 +1,6 @@
 import apiUrls from '../consts/apiUrls'
 import { getData, postData } from './apiRequests'
+import { postMultipartData, deleteMultipartData } from './apiRequests';
 
 export const fetchUserData = async () => {
     try {
@@ -56,3 +57,39 @@ export const getProfile = async () => {
       throw error;
   }
 };
+
+export const saveUserPhoto = async (data) => {
+  const apiUrl = apiUrls.user.image;
+
+  if (!data) {
+    throw new Error("No image data provided");
+  }
+
+  const formData = new FormData();
+  formData.append("file", {
+    uri: data,
+    type: "image/jpg",
+    name: "user_photo.jpg",
+  });
+
+  try {
+    await postMultipartData(apiUrl, formData);
+  } catch (error) {
+    console.error("Error uploading user photo:", error.message || error);
+    throw error;
+  }
+};
+
+export const deleteUserPhoto = async () => {
+  const apiUrl = apiUrls.user.image;
+
+  try {
+    await deleteMultipartData(apiUrl);
+  } catch (error) {
+    console.error("Error deleting user photo:", error.message || error);
+    throw error;
+  }
+};
+
+
+

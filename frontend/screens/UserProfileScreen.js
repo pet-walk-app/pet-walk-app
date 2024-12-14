@@ -2,7 +2,7 @@ import { Pressable, Text, View, Image, ScrollView } from "react-native";
 import { profileStyles } from "../styles/profileStyles";
 import NoStatusBarView from "../components/NoStatusBarView";
 import { fetchUserData } from "../services/userApi.js";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import CustomButton from "../components/CustomButton";
 import { green, white } from "../consts/colors";
 import { logoutUser } from "../services/authorizationApi";
@@ -18,18 +18,19 @@ export default function UserProfile({ navigation }) {
   const [caregiverDescr, setCaregiverDescr] = useState("");
   const [caregiverImages, setCaregiverImages] = useState([null, null, null, null]);
   const [pets, setPets] = useState([]);
+  const [imageUrl, setImageUrl] = useState("")
 
   useFocusEffect(
     React.useCallback(() => {
       const fetchData = async () => {
         try {
           const user = await fetchUserData();
-          console.log(user);
           if (user) {
             setPhone(user.phone || "Brak danych");
             setEmail(user.email || "Brak danych");
             setUsername(user.name || "Brak danych");
             setDateOfBirth(user.dateOfBirth || "Brak danych");
+            setImageUrl(user.imageUrl)
   
             if (user.caregiver != null) {
               setCaregiverDescr(user.caregiver.description || "Brak danych");
@@ -102,10 +103,10 @@ export default function UserProfile({ navigation }) {
 
       <View style={profileStyles.infoSection}>
         <View style={profileStyles.profileImageContainer}>
-          <Image
-            source={require("../assets/grazynka.png")}
-            style={profileStyles.profileImage}
-          />
+        <Image
+          source={imageUrl ? { uri: imageUrl } : require("../assets/grazynka.png")}
+          style={profileStyles.profileImage}
+        />
         </View>
 
         <View style={profileStyles.textContainer}>

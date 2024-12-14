@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { View, Text, Alert } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Alert, Pressable, Image } from "react-native";
 import { useForm, Controller } from "react-hook-form";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { editUser } from "../services/userApi";
+import * as ImagePicker from "expo-image-picker";
+import { fetchUserData, editUser, saveUserPhoto, deleteUserPhoto } from "../services/userApi";
 import { green, white } from "../consts/colors";
 import { formStyles } from "../styles/formStyles";
 
@@ -22,25 +22,59 @@ export default function EditUserScreen({ navigation }) {
     },
   });
 
+  const [image, setImage] = useState(null);
+  const [hasPhoto, setHasPhoto] = useState(false);
+
   useEffect(() => {
     const loadUserData = async () => {
       try {
-        const user = await AsyncStorage.getItem("user");
+        const user = await fetchUserData();
         if (user) {
-          const parsedUser = JSON.parse(user);
-          setValue("name", parsedUser.name || "");
-          setValue("phone", parsedUser.phone || "");
-          setValue("dateOfBirth", parsedUser.dateOfBirth ? new Date(parsedUser.dateOfBirth) : new Date(1990, 1, 1));
+          setValue("name", user.name || "");
+          setValue("phone", user.phone || "");
+          setValue("dateOfBirth", user.dateOfBirth ? new Date(user.dateOfBirth) : new Date(1990, 1, 1));
+          setImage(user.imageUrl || null);
+          setHasPhoto(!!user.imageUrl);
         } else {
-          console.warn("Brak danych użytkownika w AsyncStorage.");
+          console.warn("Brak danych użytkownika.");
         }
       } catch (error) {
-        console.error("Błąd podczas odczytu danych z AsyncStorage:", error.message);
+        console.error("Błąd podczas pobierania danych użytkownika:", error.message);
       }
     };
 
     loadUserData();
   }, [setValue]);
+
+  const pickImage = async () => {
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 1,
+      });
+
+      if (!result.canceled) {
+        setImage(result.assets[0].uri);
+        setHasPhoto(true);
+      }
+    } catch (error) {
+      console.error("Error picking image:", error);
+    }
+  };
+
+  const deleteImage = async () => {
+    try {
+      await deleteUserPhoto();
+      setImage(null);
+      setHasPhoto(false);
+      Alert.alert("Sukces", "Zdjęcie zostało usunięte.");
+    } catch (error) {
+      console.error("Błąd podczas usuwania zdjęcia:", error.message);
+      Alert.alert("Błąd", "Nie udało się usunąć zdjęcia.");
+    }
+  };
 
   const onSubmit = async (data) => {
     if (data.newPassword || data.confirmNewPassword) {
@@ -57,6 +91,11 @@ export default function EditUserScreen({ navigation }) {
         data.phone,
         data.newPassword
       );
+
+      if (hasPhoto && image) {
+        await saveUserPhoto(image);
+      }
+
       Alert.alert("Sukces", "Dane użytkownika zostały zaktualizowane.");
       navigation.goBack();
     } catch (error) {
@@ -68,6 +107,27 @@ export default function EditUserScreen({ navigation }) {
     <NoStatusBarView>
       <View style={formStyles.middleSection}>
         <Text style={formStyles.h1}>Edytuj swój profil użytkownika</Text>
+        <View style={formStyles.profileImageContainer}>
+          <Pressable onPress={pickImage}>
+            {hasPhoto ? (
+              <Image
+                source={{ uri: image }}
+                style={[formStyles.image, { width: 100, height: 100 }]}
+              />
+            ) : (
+              <Image
+                source={require("../assets/plus.png")}
+                style={[formStyles.image, { width: 100, height: 100 }]}
+              />
+            )}
+          </Pressable>
+          {hasPhoto && (
+            <Pressable onPress={deleteImage} style={{ marginTop: 10 }}>
+              <Text style={{ color: "red" }}>Usuń zdjęcie</Text>
+            </Pressable>
+          )}
+        </View>
+
         <View style={formStyles.formContainer}>
           <Controller
             control={control}

@@ -1,31 +1,44 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const fetchMultipartData = async (apiUrl, method, body) => {
-	let token = await AsyncStorage.getItem("jwt_token")
+	let token = await AsyncStorage.getItem("jwt_token");
 	let URL = apiUrl;
-	
+  
 	let headers = {
-		Authorization: 'Bearer ' + token,
-		Accept: 'application/json'
+	  Authorization: 'Bearer ' + token,
+	  Accept: 'application/json',
 	};
-
+  
 	let obj = {
-		method: method,
-		headers: headers,
-		body: body,
+	  method: method,
+	  headers: headers,
+	  body: body,
 	};
-
+  
 	return fetch(URL, obj)
-		.then(async resp => {
-			let json = await resp.json();
-			if (resp.ok) {
-				return json;
-			}
-
-			throw json;
-		})
-		.catch(error => console.error('Error details:', error));
-};
+	  .then(async (resp) => {
+		if (resp.status === 204) {
+		  return;
+		}
+  
+		try {
+		  let json = await resp.json();
+		  if (resp.ok) {
+			return json;
+		  }
+		  throw json;
+		} catch (err) {
+		  if (resp.ok) {
+			return;
+		  }
+		  throw err;
+		}
+	  })
+	  .catch((error) =>
+		console.error('Error while fetching multipart data:', error)
+	  );
+  };
+  
 
 const defaultHeaders = {
 	"Content-Type": "application/json",
