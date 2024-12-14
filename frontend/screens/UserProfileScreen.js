@@ -1,37 +1,77 @@
 import { Pressable, Text, View, Image, ScrollView } from "react-native";
 import { profileStyles } from "../styles/profileStyles";
 import NoStatusBarView from "../components/NoStatusBarView";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { fetchUserData } from "../services/userApi.js";
 import { useState, useEffect } from "react";
 import CustomButton from "../components/CustomButton";
-import { green, white, darkGrey } from "../consts/colors";
+import { green, white } from "../consts/colors";
 import { logoutUser } from "../services/authorizationApi";
+import { useFocusEffect } from "@react-navigation/native";
+import React from "react";
 
-export default function UserProfile({navigation}) {
 
+export default function UserProfile({ navigation }) {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
+  const [caregiverDescr, setCaregiverDescr] = useState("");
+  const [caregiverImages, setCaregiverImages] = useState([null, null, null, null]);
+  const [pets, setPets] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const user = await AsyncStorage.getItem("user");
-        if (user) {
-          const parsedUser = JSON.parse(user);
-          setPhone(parsedUser.phone || "Brak danych");
-          setEmail(parsedUser.email || "Brak danych");
-          setDateOfBirth(parsedUser.dateOfBirth || "Brak danych");
-        } else {
-          console.warn("Brak danych użytkownika w AsyncStorage");
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        try {
+          const user = await fetchUserData();
+          console.log(user);
+          if (user) {
+            setPhone(user.phone || "Brak danych");
+            setEmail(user.email || "Brak danych");
+            setUsername(user.name || "Brak danych");
+            setDateOfBirth(user.dateOfBirth || "Brak danych");
+  
+            if (user.caregiver != null) {
+              setCaregiverDescr(user.caregiver.description || "Brak danych");
+            }
+  
+            if (user.caregiver?.images) {
+              const imagesFromProfile = user.caregiver.images.map(
+                (image) => image.url || null
+              );
+  
+              while (imagesFromProfile.length < 4) {
+                imagesFromProfile.push(null);
+              }
+  
+              setCaregiverImages(imagesFromProfile);
+            }
+  
+            if (user.petOwner?.pets) {
+              setPets(user.petOwner.pets);
+            }
+          } else {
+            console.warn("Błąd podczas pobierania danych użytkownika");
+          }
+        } catch (error) {
+          console.error("Błąd podczas ładowania danych użytkownika:", error);
         }
-      } catch (error) {
-        console.error("Błąd podczas ładowania danych użytkownika z AsyncStorage", error);
-      }
-    };
-
-    fetchData();
-  }, []);
+      };
+  
+      fetchData();
+  
+      return () => {
+        setPhone("");
+        setEmail("");
+        setUsername("");
+        setDateOfBirth("");
+        setCaregiverDescr("");
+        setCaregiverImages([null, null, null, null]);
+        setPets([]);
+      };
+    }, [])
+  );
+  
 
   const handleLogout = async () => {
     try {
@@ -42,21 +82,30 @@ export default function UserProfile({navigation}) {
     }
   };
 
+  const addPet = () => {
+    navigation.navigate("Pet Form");
+  };
+
   return (
     <NoStatusBarView padding={40} extraStyle={profileStyles.container}>
-
       <View style={profileStyles.mainHeader}>
-          <Text style={profileStyles.h1}>Anna Kowalska</Text>
-          <Pressable style={profileStyles.button}
-            onPress={() => {navigation.navigate('Edit User')}}>
-            <Text style={profileStyles.buttonText}>Edytuj</Text>
-          </Pressable>
+        <Text style={profileStyles.h1}>{username}</Text>
+        <Pressable
+          style={profileStyles.button}
+          onPress={() => {
+            navigation.navigate("Edit User");
+          }}
+        >
+          <Text style={profileStyles.buttonText}>Edytuj</Text>
+        </Pressable>
       </View>
 
-      
       <View style={profileStyles.infoSection}>
         <View style={profileStyles.profileImageContainer}>
-          <Image source={require('../assets/grazynka.png')} style={profileStyles.profileImage}/>
+          <Image
+            source={require("../assets/grazynka.png")}
+            style={profileStyles.profileImage}
+          />
         </View>
 
         <View style={profileStyles.textContainer}>
@@ -69,93 +118,98 @@ export default function UserProfile({navigation}) {
         </View>
       </View>
 
-    <ScrollView style={profileStyles.scrollView}>
+      <ScrollView style={profileStyles.scrollView}>
+        <View style={profileStyles.headerSection}>
+          <Text style={profileStyles.h1}>Twoje Zwierzęta</Text>
+          <Text>Kliknij ikonę zwierzęcia, aby przejść do edycji</Text>
+        </View>
 
-      <View style={profileStyles.headerSection}>
-        <Text style={profileStyles.h1}>Twoje Zwierzęta</Text>
-        <Text>Kliknij ikonę zwierzęcia, aby przejść do edycji</Text>
-      </View>
-
-      <View
-        style={profileStyles.yourPetsSection}>
+        <View style={profileStyles.yourPetsSection}>
           <ScrollView style={profileStyles.petCarousel} horizontal={true}>
-            {[...Array(5)].map((_, index) => (
-              <View key={index} style={profileStyles.petImageContainer}>
-                <Image source={require('../assets/grazynka.png')} style={profileStyles.petImage} />
-                <Pressable 
-                  style={profileStyles.plusIconContainer}>
-                  <Image 
-                    source={require('../assets/icons/edit.png')}
+            {pets.map((pet) => (
+              <View key={pet.id} style={profileStyles.petImageContainer}>
+                <Image
+                  source={{ uri: pet.imageUrl }}
+                  style={profileStyles.petImage}
+                />
+                <Pressable
+                  // onPress={() => TODO: dodac przejscie do edycji
+                  style={profileStyles.plusIconContainer}
+                >
+                  <Image
+                    source={require("../assets/icons/edit.png")}
                     style={profileStyles.plusIcon}
                   />
                 </Pressable>
               </View>
             ))}
+            <View style={profileStyles.petImageContainer}>
+              <Pressable onPress={addPet} style={profileStyles.petImageContainer}>
+                  <Image
+                    source={require("../assets/plus.png")}
+                    style={profileStyles.petImage}
+                  />
+              </Pressable>
+            </View>
           </ScrollView>
+        </View>
 
-        <Pressable style={profileStyles.button}>
-          <Text style={profileStyles.buttonText}>Dodaj</Text>
-        </Pressable>
-      </View>
+        <View style={profileStyles.headerSection}>
+          <Text style={profileStyles.h1}>Profil Opiekuna</Text>
+        </View>
+
+        <View style={profileStyles.caregiverSection}>
+          {caregiverDescr === "" && (
+            <>
+              <Text style={profileStyles.h3}>
+                Nie masz jeszcze stworzonego profilu opiekuna.
+              </Text>
+              <Pressable
+                style={profileStyles.button}
+                onPress={() => navigation.navigate("Caregiver Profile Form")}
+              >
+                <Text style={profileStyles.buttonText}>Utwórz</Text>
+              </Pressable>
+            </>
+          )}
+
+          <Text style={profileStyles.caregiverDescription}>{caregiverDescr}</Text>
 
 
-      <View style={profileStyles.headerSection}>
-        <Text style={profileStyles.h1}>Profil Opiekuna</Text>
-      </View>
+          {caregiverDescr !== "" && (
+            <>
+            <Text style={profileStyles.h2}>Zdjęcia opiekuna</Text>
 
-      <View style={profileStyles.caregiverSection}>
-        <Text style={profileStyles.h3}>Nie masz jeszcze stworzonego profilu opiekuna.</Text>
-        <Pressable 
-          style={profileStyles.button}
-          onPress={() => navigation.navigate('Caregiver Profile Form')}>
-          <Text style={profileStyles.buttonText}>Utwórz</Text>
-        </Pressable>
-        <Text 
-          style={profileStyles.caregiverDescription}>
-          Ext ever since the 1500s, when an unknown printer took a galley of type and scrambled it to
-          make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, 
-          remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
-          and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-        </Text>
-        
-        <Text
-          style={profileStyles.h2}>
-          Zdjęcia opiekuna
-        </Text>
-        <ScrollView 
-          style={profileStyles.petCarousel}
-          horizontal={true}>
-          <View style={profileStyles.petImageContainer}>
-            <Image source={require('../assets/grazynka.png')} style={profileStyles.petImage}/>
-          </View>
-          <View style={profileStyles.petImageContainer}>
-            <Image source={require('../assets/grazynka.png')} style={profileStyles.petImage}/>
-          </View>
-          <View style={profileStyles.petImageContainer}>
-            <Image source={require('../assets/grazynka.png')} style={profileStyles.petImage}/>
-          </View>
-          <View style={profileStyles.petImageContainer}>
-            <Image source={require('../assets/grazynka.png')} style={profileStyles.petImage}/>
-          </View>
-          <View style={profileStyles.petImageContainer}>
-            <Image source={require('../assets/grazynka.png')} style={profileStyles.petImage}/>
-          </View>
-        </ScrollView>
-        <Pressable 
-          style={profileStyles.button}
-          onPress={() => navigation.navigate('Caregiver Profile Form 2')}>
-          <Text style={profileStyles.buttonText}>Zdjęcia</Text>
-        </Pressable>
-      </View>
+            <ScrollView style={profileStyles.petCarousel} horizontal={true}>
+              {caregiverImages.map((image, index) => (
+                <View key={index} style={profileStyles.petImageContainer}>
+                  <Image
+                    source={{ uri: image }}
+                    style={profileStyles.petImage}
+                  />
+                </View>
+              ))}
+            </ScrollView>
 
+            <Pressable
+              style={profileStyles.button}
+              onPress={() => navigation.navigate("Caregiver Profile Form 2")}
+            >
+              <Text style={profileStyles.buttonText}>Edytuj</Text>
+            </Pressable>
+            </>
+          )}
+
+
+        </View>
       </ScrollView>
 
       <CustomButton
-          color={green} 
-          textColor={white}
-          action={handleLogout}
-          title={'Wyloguj'}>
-      </CustomButton>
+        color={green}
+        textColor={white}
+        action={handleLogout}
+        title={"Wyloguj"}
+      ></CustomButton>
     </NoStatusBarView>
   );
 }

@@ -1,13 +1,11 @@
 import apiUrls from '../consts/apiUrls'
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import { getData, postData } from './apiRequests'
 
 export const fetchUserData = async () => {
     try {
         const userData = await getData(apiUrls.user.profile, true);
         if (userData) {
-            console.log("Fetching user data")
-            await AsyncStorage.setItem('user', JSON.stringify(userData)); 
+            return userData
         }
     } catch (error) {
         console.error('Fetch user error', error.message);
