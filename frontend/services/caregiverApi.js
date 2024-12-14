@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
 import { postData, deleteData, postMultipartData } from "./apiRequests"
 import apiUrls from '../consts/apiUrls'
 

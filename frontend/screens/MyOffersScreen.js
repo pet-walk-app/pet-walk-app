@@ -1,13 +1,12 @@
 import React from 'react';
 import MyOfferPreview, { OfferStatusEnum } from '../components/MyOfferPreview';
 import MyOffersFilter from '../components/MyOffersFilter';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import NoStatusBarView from '../components/NoStatusBarView';
 
 import { useFocusEffect } from '@react-navigation/native';
 import { useState, useEffect, useCallback } from "react";
 import { ScrollView } from 'react-native';
-import { getOffer } from "../services/userApi";
+import { fetchUserData, getOffer } from "../services/userApi";
 import { fetchMyAllOffers, fetchPendingOffers } from '../services/offersApi';
 
 export default function MyOffersScreen({ navigation }) {
@@ -26,13 +25,9 @@ export default function MyOffersScreen({ navigation }) {
   useFocusEffect(
     useCallback(() => {
       const fetchMyOffers = async () => {
-        const user = await AsyncStorage.getItem("user");
-        let parsedUser = null;
-        if (user) {
-          parsedUser = JSON.parse(user);
-        }
+        const user = await fetchUserData()
   
-        if (parsedUser && parsedUser.petOwner != null) {
+        if (user && user.petOwner != null) {
           try {
             setOffers([]);
   
