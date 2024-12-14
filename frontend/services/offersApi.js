@@ -3,7 +3,7 @@ import { postData, getData, updateData, deleteData } from './apiRequests';
 
 export const fetchOffers = async (page, pageSize, sortBy, sortDirection, filters) => {
     const queryParams = `?page=${page}&page_size=${pageSize}&sort_by=${sortBy}&sort_direction=${sortDirection}`;
-    const url = `${apiUrls.offers.allOffers}${queryParams}`;
+    const url = `${apiUrls.offers.search}${queryParams}`;
 
     try {
         filters = convertFiltersToJson(filters)
@@ -17,7 +17,7 @@ export const fetchOffers = async (page, pageSize, sortBy, sortDirection, filters
 
 export const fetchMyAllOffers = async (page, pageSize, sortBy, sortDirection) => {
     const queryParams = `?page=${page}&page_size=${pageSize}&sort_by=${sortBy}&sort_direction=${sortDirection}`;
-    const url = `${apiUrls.offers.singleOffer}${queryParams}`;
+    const url = `${apiUrls.offers.all}${queryParams}`;
 
     try {
         const response = await getData(url, true);
@@ -48,7 +48,7 @@ const convertFiltersToJson = (filters) => {
   };
 
 export const getOfferById = async (offerId) => {
-    const url = `${apiUrls.offers.singleOffer}${offerId}`;
+    const url = `${apiUrls.offers.all}${offerId}`;
 
     try {
         return await getData(url, true)
@@ -60,7 +60,7 @@ export const getOfferById = async (offerId) => {
 
 export const updateOffer = async (body, offerId) => {
 
-    const url = `${apiUrls.offers.singleOffer}${offerId}`;
+    const url = `${apiUrls.offers.all}${offerId}`;
 
     try {
         await updateData(url, body, true);
@@ -72,7 +72,7 @@ export const updateOffer = async (body, offerId) => {
 
 export const addOffer = async (body) => {
 
-    const url = `${apiUrls.offers.singleOffer}`;
+    const url = `${apiUrls.offers.all}`;
 
     try {
         await postData(url, body, true);
@@ -108,7 +108,7 @@ export const deleteApplyToOffer = async (offerId) => {
 
 export const deleteOffer = async (offerId) => {
 
-    const url = apiUrls.user.deleteOffer + "/" + offerId;
+    const url = apiUrls.offers.all + "/" + offerId;
 
     try {
         await deleteData(url, true);
