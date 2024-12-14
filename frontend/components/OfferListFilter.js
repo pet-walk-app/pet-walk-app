@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
-import { green, white, borderGrey } from '../consts/colors';
-import { Picker } from '@react-native-picker/picker';
 import { offerListStyles } from '../styles/offerListStyles';
 import DatePicker from "../components/DatePicker";
 import { getFutureDate } from '../utils/commonUtils';
@@ -30,7 +28,7 @@ const OfferListFilter = ({ filters, setFilters, onSubmit }) => {
           <Text style={offerListStyles.buttonText}>Filtry</Text>
         </Pressable>
 
-        <Pressable style={[offerListStyles.button, offerListStyles.sortButton]} onPress={() => onSubmit('WALK_LENGTH', 'DESC')}>
+        <Pressable style={[offerListStyles.button, offerListStyles.sortButton]} onPress={() => onSubmit('WALK_DATE', 'ASC')}>
           <Text style={offerListStyles.buttonText}>Zastosuj</Text>
         </Pressable>
       </View>

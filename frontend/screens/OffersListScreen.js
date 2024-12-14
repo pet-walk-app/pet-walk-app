@@ -10,6 +10,8 @@ import { minsToHours } from '../utils/commonUtils';
 export default function OffersListScreen({ navigation }) {
   const [offers, setOffers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const [filters, setFilters] = useState({
     priceFrom: null,
     priceTo: null,
@@ -19,15 +21,35 @@ export default function OffersListScreen({ navigation }) {
     walkDateTo: null,
     radius: null,
     latitude: 0,
-    longitude: 0
+    longitude: 0,
   });
-  
-  const loadOffers = async (sortBy = 'WALK_LENGTH', sortOrder = 'DESC') => {
-    console.log('sortBy:', sortBy);
+
+  const loadOffers = async (sortBy = 'WALK_DATE', sortOrder = 'ASC', isNextPage = false) => {
+    if (isNextPage && !hasMore) return;
+
     setIsLoading(true);
+
     try {
-      const response = await fetchOffers(0, 10, sortBy, sortOrder, filters);
-      setOffers(response.content || []);
+      const response = await fetchOffers(
+        isNextPage ? page + 1 : 0,
+        4,
+        sortBy,
+        sortOrder,
+        filters
+      );
+
+      const newOffers = response.content || [];
+
+      const uniqueOffers = [
+        ...(isNextPage ? offers : []),
+        ...newOffers,
+      ].filter((offer, index, self) => 
+        index === self.findIndex((o) => o.id === offer.id)
+      );
+
+      setOffers(uniqueOffers);
+      setHasMore(!response.last);
+      if (isNextPage) setPage((prevPage) => prevPage + 1);
     } catch (error) {
       console.error('Error loading offers:', error);
     } finally {
@@ -35,37 +57,47 @@ export default function OffersListScreen({ navigation }) {
     }
   };
 
-  
+  const handleLoadMore = () => {
+    if (!isLoading) {
+      loadOffers('WALK_DATE', 'ASC', true);
+    }
+  };
+
   useEffect(() => {
+    setPage(0);
+    setHasMore(true);
     loadOffers();
-  }, []);
+  }, [filters]);
 
   return (
-<NoStatusBarView>
-  <OfferListFilter filters={filters} setFilters={setFilters} onSubmit={loadOffers}/>
-  {isLoading ? (
-    <ActivityIndicator size="large" color="#0000ff" />
-  ) : (
-    <FlatList
-      data={offers}
-      keyExtractor={(item) => item.id.toString()}
-      renderItem={({ item }) => (
-        <Pressable 
-          onPress={() => navigation.navigate('Walk Offer', { walkData: item })}>
-          <WalkOfferPreview
-            animalName={item.pets[0]?.name || 'Brak nazwy'}
-            breed={item.pets[0]?.breed || 'Nieznana rasa'}
-            distance={`${(item.distance).toFixed(1)}` || 'Nieznana odległość'}
-            date={item.walkDate || 'Brak daty spaceru'}
-            length={minsToHours(item.walkLength) || 'Brak długości spaceru'}
-            price={item.price || 'Brak ceny'}
-          />
-        </Pressable>
+    <NoStatusBarView>
+      <OfferListFilter filters={filters} setFilters={setFilters} onSubmit={loadOffers} />
+      {isLoading && page === 0 ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <FlatList
+          data={offers}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <Pressable onPress={() => navigation.navigate('Walk Offer', { walkData: item })}>
+              <WalkOfferPreview
+                animalName={item.pets[0]?.name || 'Brak nazwy'}
+                breed={item.pets[0]?.breed || 'Nieznana rasa'}
+                distance={`${(item.distance).toFixed(1)}` || 'Nieznana odległość'}
+                date={item.walkDate || 'Brak daty spaceru'}
+                length={minsToHours(item.walkLength) || 'Brak długości spaceru'}
+                price={item.price || 'Brak ceny'}
+              />
+            </Pressable>
+          )}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.1}
+          ListFooterComponent={
+            isLoading && <ActivityIndicator size="large" color="#0000ff" />
+          }
+        />
       )}
-    />
-  )}
-  <BottomMenu navigation={navigation} />
-</NoStatusBarView>
-
+      <BottomMenu navigation={navigation} />
+    </NoStatusBarView>
   );
 }

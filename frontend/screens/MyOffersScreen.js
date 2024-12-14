@@ -31,7 +31,7 @@ export default function MyOffersScreen({ navigation }) {
           try {
             setOffers([]);
   
-            const response = await fetchMyAllOffers(0, 10, 'WALK_LENGTH', 'DESC');
+            const response = await fetchMyAllOffers(0, 10, 'WALK_DATE', 'ASC');
             const offers = response.content;
             if (offers == null) return;
   
