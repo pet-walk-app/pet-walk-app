@@ -157,21 +157,20 @@ export const caregiverFoundStyles = StyleSheet.create({
   container: {
     width: '100%',
     height: 160,
-    borderRadius: 40,
+    borderRadius: 20,
     borderWidth: 4,
     borderColor: darkGrey,
     flexDirection: 'row',
     marginVertical: 10,
     backgroundColor: green, 
-    padding: 10,
+    padding: 5,
   },
 
   leftSection: {
-    flex: 4,
+    flex: 3,
     alignContent: 'center',
     justifyContent: 'center',
-    gap: 5,
-    padding: 10,
+    gap: 10,
   },
 
   middleSection: {
@@ -235,14 +234,13 @@ export const caregiverFoundStyles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: white,
     borderRadius: 20,
-    padding: 10
   },
 
   profileImage: {
-    width: 60,
+    width: 80,
     height: 80,
-    alignSelf: 'center',
     borderRadius: 20,
+    alignSelf: 'center'
   }
 })
 

@@ -8,7 +8,9 @@ const apiUrls = {
 
     user: {
         profile: `${baseApi}/api/v1/user/profile`,
-        image: `${baseApi}/api/v1/user/image`
+        image: `${baseApi}/api/v1/user/image`,
+        acceptSomeoneToOffer: `${baseApi}/api/v1/user/offers`,
+        deleteOffer: `${baseApi}/api/v1/user/offers`
     },
 
     pet: {

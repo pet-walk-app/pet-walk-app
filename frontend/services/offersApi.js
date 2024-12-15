@@ -117,3 +117,15 @@ export const deleteOffer = async (offerId) => {
         throw error;
     }
 }
+
+export const acceptSomeoneToOffer = async (offerId, personId) => {
+
+    const url = apiUrls.user.deleteOffer + "/" + offerId + "applicationId=" + personId;
+
+    try {
+        await getData(url, true);
+    } catch (error) {
+        console.error('Deleting offer error:', error.message);
+        throw error;
+    }
+}

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image, Pressable } from "react-native";
 import { MyOfferPreviewStyles } from "../styles/offerListStyles";
 import { useNavigation  } from '@react-navigation/native';
-import { red, lightGreen, beige, green, white } from "../consts/colors";
+import { beige } from "../consts/colors";
 
 import CustomButton from "../components/CustomButton";
 
@@ -19,7 +19,11 @@ const MyOfferPreview = ({ walkData, myOffer, animalName, date, found, status, im
   const [bottomLine, setBottomLine] = useState("");
 
   const handleGoToCaregivers = () => {
-    navigation.navigate('Caregivers Found');
+    navigation.navigate('Caregivers Found', { walkData: walkData });
+  };
+
+  const onClick = () => {
+    navigation.navigate('Walk Offer', { walkData: walkData });
   };
 
   useEffect(() => {
@@ -43,10 +47,6 @@ const MyOfferPreview = ({ walkData, myOffer, animalName, date, found, status, im
       }
     }
   }, [myOffer, status, found]);
-
-  const onClick = () => {
-    navigation.navigate('Walk Offer', { walkData: walkData });
-  };
 
   return (
     <Pressable onPress={onClick}>

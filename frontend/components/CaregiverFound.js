@@ -3,14 +3,30 @@ import React from 'react';
 import { useNavigation  } from '@react-navigation/native';
 import { View, Text, Image, Pressable } from 'react-native';
 import { caregiverFoundStyles } from '../styles/componentsStyles';
+import { acceptSomeoneToOffer } from "../services/offersApi";
 
-const CaregiverFound = ({caregiverName, price }) => {
+const CaregiverFound = ({caregiverName, phone, img, caregiverId, offerId }) => {
   const navigation = useNavigation();
+  const ownerDefaultPhoto = require("../assets/grazynka.png");
+
+  const handleAccept = () => {
+    console.log("Accept button clicked");
+    //acceptSomeoneToOffer();
+  };
+  
+  const handleDecline = () => {
+    console.log("Decline button clicked");
+    
+  };
+
   return (
     <View style={caregiverFoundStyles.container}>
       <View style={caregiverFoundStyles.leftSection}>
         <View style={caregiverFoundStyles.profileImageContainer}>
-          <Image source={require('../assets/grazynka.png')} style={caregiverFoundStyles.profileImage} />
+          <Image 
+          source={img ? { uri: img } : ownerDefaultPhoto} 
+          style={caregiverFoundStyles.profileImage} 
+          />
         </View>
         <Pressable 
           style={caregiverFoundStyles.button}
@@ -25,14 +41,20 @@ const CaregiverFound = ({caregiverName, price }) => {
         </Text>
         <Text 
           style={caregiverFoundStyles.price}>
-          Zapłata: {price} zł/h
+          Telefon: {phone}
         </Text>
         <View style={caregiverFoundStyles.buttonsContainer}>
-          <Pressable style={caregiverFoundStyles.iconContainer}>
-            <Image source={require('../assets/icons/accept.png')} style={caregiverFoundStyles.image} />
-          </Pressable>
-          <Pressable style={caregiverFoundStyles.iconContainer}>
+          <Pressable 
+            onPress={() => handleDecline()}
+            style={caregiverFoundStyles.iconContainer}
+          >
             <Image source={require('../assets/icons/decline.png')} style={caregiverFoundStyles.image} />
+          </Pressable>
+          <Pressable 
+            onPress={() => handleAccept()}
+            style={caregiverFoundStyles.iconContainer}
+          >
+            <Image source={require('../assets/icons/accept.png')} style={caregiverFoundStyles.image} />
           </Pressable>
         </View>
       </View>
