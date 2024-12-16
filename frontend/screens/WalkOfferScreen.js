@@ -19,8 +19,9 @@ const OfferStatus = {
 export default function WalkOffer({ route }) {
   const navigation = useNavigation();
   const { walkData } = route.params;
-  const [title, setTitle] = useState("")
+  const [userHasCaregiverAccount, setUserHasCaregiverAccount] = useState(false)
 
+  const [title, setTitle] = useState("")
   const [offerType, setMyOffer] = useState(OfferStatus.NEW_OFFER)
   const [walkDate, setWalkDate] = useState('')
   const [address, setAddress] = useState('')
@@ -40,6 +41,7 @@ export default function WalkOffer({ route }) {
       try {
         const profile = await getProfile();
         //TODO: dodać status gdy mnie zaakceptowano
+        setUserHasCaregiverAccount(profile.caregiver != null);
         if (!walkData.offerCreator || profile.id == walkData.offerCreator.id){
           setMyOffer(OfferStatus.MY_OFFER);
         }
@@ -105,6 +107,11 @@ export default function WalkOffer({ route }) {
     setMyOffer(OfferStatus.NEW_OFFER);
   };
 
+  const handleCreateCaregiverProfile = () => {
+    console.log('Create caregiver profile');
+    navigation.navigate('Caregiver Profile Form')
+  };
+
   return (
     <NoStatusBarView>
       <View style={[formStyles.walkOfferMiddleSection, {justifyContent: "none"}]}>
@@ -163,7 +170,7 @@ export default function WalkOffer({ route }) {
           </View> 
         )}
 
-        { offerType == OfferStatus.NEW_OFFER && (
+        { offerType == OfferStatus.NEW_OFFER && userHasCaregiverAccount && (
           // if it's an offer I didn't interact with
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around', gap: 30}}>
             <CustomButton    
@@ -172,6 +179,19 @@ export default function WalkOffer({ route }) {
               textColor={white}
               action={handleApply}
               title={'Zgłoś się'}>
+            </CustomButton>
+          </View> 
+        )}
+
+        { offerType == OfferStatus.NEW_OFFER && !userHasCaregiverAccount && (
+          // if it's an offer I didn't interact with
+          <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around', gap: 30}}>
+            <CustomButton    
+              ownStyle={{width: "60%", borderWidth : 0}}
+              color={green} 
+              textColor={white}
+              action={handleCreateCaregiverProfile}
+              title={'Załóż profil opiekuna'}>
             </CustomButton>
           </View> 
         )}
