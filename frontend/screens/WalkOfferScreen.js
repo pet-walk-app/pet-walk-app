@@ -22,18 +22,18 @@ export default function WalkOffer({ route }) {
   const [title, setTitle] = useState("")
 
   const [offerType, setMyOffer] = useState(OfferStatus.NEW_OFFER)
-  const [walkDate, setWalkDate] = useState('21.04.2024')
-  const [address, setAddress] = useState('Ostrów Tumski, 61-001')
-  const [city, setCity] = useState('Poznań')
-  const [distance, setDistance] = useState(1)
+  const [walkDate, setWalkDate] = useState('')
+  const [address, setAddress] = useState('')
+  const [city, setCity] = useState('')
+  const [distance, setDistance] = useState()
   const petDefaultPhoto = require("../assets/default_dog_picture.png");
   const [petPhoto, setPhoto] = useState(null)
-  const [petName, setPetName] = useState('Reksio')
-  const [petBreed, setPetBreed] = useState('Owczarek Kaukaski')
-  const [petDescrition, setPetDescription] = useState('Pies zazwyczaj nie gryzie, chyba że jest w złym humorze')
-  const [walkLength, setWalkLength] = useState('2h')
-  const [price, setPrice] = useState('50zł')
-  const [phoneNumber, setPhoneNumber] = useState('+48 123 213 224')
+  const [petName, setPetName] = useState('')
+  const [petBreed, setPetBreed] = useState('')
+  const [petDescrition, setPetDescription] = useState('')
+  const [walkLength, setWalkLength] = useState('')
+  const [price, setPrice] = useState('')
+  const [phoneNumber, setPhoneNumber] = useState('')
 
   useEffect(() => {
     const fetchProfileAndSetup = async () => {

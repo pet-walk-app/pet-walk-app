@@ -6,25 +6,23 @@ import { ScrollView } from "react-native";
 
 export default function CaregiversFound({ route, navigation }) {
   const { applications } = route.params.walkData || {};
-
-  useEffect(() => {
-    console.log("CaregiversFound view has been loaded");
-    console.log(applications[0]);
-  }, []);
+  const { id: offerId } = route.params.walkData || {};
 
   return (
     <NoStatusBarView padding={20}>
       <ScrollView>
         {applications?.map((application) => {
-          const { caregiver, id } = application;
+          const { caregiver, id: applicationId } = application;
+          const caregiverId = application.id;
           return (
             <CaregiverFound
-              key={id}
-              caregiverName={caregiver.name || "Nieznane imię"}
+              key={applicationId}
+              caregiverName={caregiver?.name || "Nieznane imię"}
               phone={caregiver.phone} 
               navigation={navigation}
               img={caregiver.caregiver.images?.[0]?.url || null}
-              caregiverId
+              offerId={offerId}
+              caregiverId={caregiverId}
             />
           );
         })}

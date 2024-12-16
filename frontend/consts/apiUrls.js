@@ -9,7 +9,8 @@ const apiUrls = {
     user: {
         profile: `${baseApi}/api/v1/user/profile`,
         image: `${baseApi}/api/v1/user/image`,
-        acceptSomeoneToOffer: `${baseApi}/api/v1/user/offers`,
+        acceptSomeoneToOffer: `${baseApi}/api/v1/user/offers/accept`,
+        rejectSomeoneToOffer: `${baseApi}/api/v1/user/offers/reject`,
         deleteOffer: `${baseApi}/api/v1/user/offers`
     },
 

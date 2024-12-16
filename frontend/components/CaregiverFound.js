@@ -5,18 +5,14 @@ import { View, Text, Image, Pressable } from 'react-native';
 import { caregiverFoundStyles } from '../styles/componentsStyles';
 import { acceptSomeoneToOffer } from "../services/offersApi";
 
-const CaregiverFound = ({caregiverName, phone, img, caregiverId, offerId }) => {
+const CaregiverFound = ({caregiverName, phone, img, offerId, caregiverId }) => {
   const navigation = useNavigation();
   const ownerDefaultPhoto = require("../assets/grazynka.png");
 
   const handleAccept = () => {
     console.log("Accept button clicked");
-    //acceptSomeoneToOffer();
-  };
-  
-  const handleDecline = () => {
-    console.log("Decline button clicked");
-    
+    acceptSomeoneToOffer(offerId, caregiverId);
+    navigation.navigate('My Offers')
   };
 
   return (
@@ -45,15 +41,8 @@ const CaregiverFound = ({caregiverName, phone, img, caregiverId, offerId }) => {
         </Text>
         <View style={caregiverFoundStyles.buttonsContainer}>
           <Pressable 
-            onPress={() => handleDecline()}
-            style={caregiverFoundStyles.iconContainer}
-          >
-            <Image source={require('../assets/icons/decline.png')} style={caregiverFoundStyles.image} />
-          </Pressable>
-          <Pressable 
             onPress={() => handleAccept()}
-            style={caregiverFoundStyles.iconContainer}
-          >
+            style={caregiverFoundStyles.iconContainer}>
             <Image source={require('../assets/icons/accept.png')} style={caregiverFoundStyles.image} />
           </Pressable>
         </View>

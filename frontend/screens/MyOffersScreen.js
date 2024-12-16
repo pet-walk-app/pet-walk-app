@@ -26,7 +26,6 @@ export default function MyOffersScreen({ navigation }) {
     useCallback(() => {
       const fetchMyOffers = async () => {
         const user = await fetchUserData()
-  
         if (user && user.petOwner != null) {
           try {
             setOffers([]);
@@ -38,6 +37,7 @@ export default function MyOffersScreen({ navigation }) {
             const newOffers = offers.map((offer) => ({
               data: offer,
               myOffer: true,
+              selectedCaregiver: offer.selectedCaregiver,
               animalName: offer.pets.length > 0 ? offer.pets[0].name : null,
               date: offer.walkDate,
               found: offer.applications.length,
@@ -94,6 +94,7 @@ export default function MyOffersScreen({ navigation }) {
           <MyOfferPreview
             walkData = {offer.data}
             key={index}
+            selectedCaregiver={offer.selectedCaregiver}
             myOffer={offer.myOffer}
             animalName={offer.animalName}
             date={offer.date}

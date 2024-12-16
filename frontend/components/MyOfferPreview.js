@@ -13,13 +13,19 @@ const OfferStatusEnum = {
   OPEN: "OPEN",
 };
 
-const MyOfferPreview = ({ walkData, myOffer, animalName, date, found, status, imageUrl = null }) => {
+const MyOfferPreview = ({ walkData, myOffer, selectedCaregiver = null, animalName, date, found, status, imageUrl = null }) => {
   const navigation = useNavigation();
   const [title, setTitle] = useState("");
   const [bottomLine, setBottomLine] = useState("");
 
   const handleGoToCaregivers = () => {
     navigation.navigate('Caregivers Found', { walkData: walkData });
+  };
+
+  const handleGoToCaregiverProfile = () => {
+    console.log("Go to selected caregiver profile")
+    //TODO: naciśnięcie powinno prowadzić do podglądu profilu opiekuna. Należy przekazywać zmienną selectedCaregiver
+    //navigation.navigate('Caregivers Found', { walkData: selectedCaregiver });
   };
 
   const onClick = () => {
@@ -65,12 +71,20 @@ const MyOfferPreview = ({ walkData, myOffer, animalName, date, found, status, im
             <Text style={MyOfferPreviewStyles.text}>{bottomLine}</Text>
           </View>
         </View>
-        {myOffer === true && (
+        {myOffer === true && selectedCaregiver == null && (
           <CustomButton    
             ownStyle={{height: 40, width: "80%", borderWidth : 0}}
             color={beige} 
             action={handleGoToCaregivers}
             title={'Zobacz chętnych'}>
+          </CustomButton>
+        )}
+        {myOffer === true && selectedCaregiver != null && (
+          <CustomButton    
+            ownStyle={{height: 40, width: "80%", borderWidth : 0}}
+            color={beige} 
+            action={handleGoToCaregiverProfile}
+            title={'Znaleziono opiekuna'}>
           </CustomButton>
         )}
       </View>

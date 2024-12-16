@@ -118,14 +118,28 @@ export const deleteOffer = async (offerId) => {
     }
 }
 
-export const acceptSomeoneToOffer = async (offerId, personId) => {
+export const acceptSomeoneToOffer = async (offerId, caregiverId) => {
 
-    const url = apiUrls.user.deleteOffer + "/" + offerId + "applicationId=" + personId;
+    const url = apiUrls.user.acceptSomeoneToOffer + "/" + offerId + "?applicationId=" + caregiverId;
 
     try {
         await getData(url, true);
     } catch (error) {
-        console.error('Deleting offer error:', error.message);
+        console.error('Accepting someone to offer error:', error.message);
         throw error;
     }
 }
+
+//Currently this function is not in use, but it can be added as we develop app further
+/*export const rejectSomeoneToOffer = async (offerId, caregiverId) => {
+
+    const url = apiUrls.user.rejectSomeoneToOffer + "/" + offerId + "?applicationId=" + caregiverId;
+    console.log(url)
+
+    try {
+        await getData(url, true);
+    } catch (error) {
+        console.error('Rejecting someone to offer error:', error.message);
+        throw error;
+    }
+}*/
