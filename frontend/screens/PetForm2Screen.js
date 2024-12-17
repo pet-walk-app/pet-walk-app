@@ -1,16 +1,17 @@
 import { useState, useEffect, useCallback } from "react";
-import { useFocusEffect } from '@react-navigation/native';
 import { Pressable, Image, View, Text } from 'react-native';
 import { formStyles } from "../styles/formStyles";
 import { green, white } from "../consts/colors";
-import { savePetPhoto } from "../services/petApi";
-import { getProfile } from "../services/userApi";
+import { savePetPhoto, deletePetPhoto } from "../services/petApi";
 
 import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
 import * as ImagePicker from 'expo-image-picker';
 
-export default function PetForm2({navigation}) {
+export default function PetForm2({navigation, route}) {
+  const { petId } = route.params || {};
+  const { photo = null } = route.params || {};
+
   // True if user uses this form for the first time and creating an account
   // False if user already has an account and is editing it
   const [editingProfile, setEditProfile] = useState(false);
@@ -21,28 +22,25 @@ export default function PetForm2({navigation}) {
   const [hasPhoto, setHasPhoto] = useState(false);
   const [image, setImage] = useState(null);
 
-  useFocusEffect(
-    useCallback(() => {
-      const fetchProfile = async () => {
-        try {
-          const profile = await getProfile();
-          if (profile.caregiver != null) {
-            setEditProfile(true);
-          } else {
-            setEditProfile(false);
-          }
-        } catch (error) {
-          console.error("Error fetching profile:", error);
-        }
-      };
-  
-      fetchProfile();
-    }, [])
-  );
+  useEffect(() => {
+    if (photo != null){
+      setImage(photo)
+      setHasPhoto(true)
+    }
+  }, []);
 
   const onSubmit = async () => {
     try {
-      await savePetPhoto(image);
+      if (photo == null && image == null) {
+        // Do nothing
+      }
+      else if(photo != null && image == null) {
+        await deletePetPhoto(image, petId);
+      }
+      else {
+        await savePetPhoto(image, petId);
+      }
+        
       navigation.navigate('Offers List');
     } catch (error) {
       console.error("Error submitting:", error);

@@ -17,6 +17,7 @@ const apiUrls = {
     pet: {
         basic: `${baseApi}/api/v1/pets`,
         create: `${baseApi}/api/v1/pets`,
+        edit: `${baseApi}/api/v1/pets`,
     },
 
     caregiver: {

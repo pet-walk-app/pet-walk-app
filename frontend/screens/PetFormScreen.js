@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { formStyles } from "../styles/formStyles";
 import { green, white } from "../consts/colors";
 import { useForm, Controller } from "react-hook-form";
-import { savePet } from "../services/petApi";
+import { getPet, savePet } from "../services/petApi";
 
 import FormBigInput from "../components/FormBigInput";
 import FormInput from "../components/FormInput";
@@ -11,33 +11,44 @@ import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
 
 
-export default function CaregiverProfileForm({navigation}) {
-  // True if user uses this form for the first time and creating an account
-  // False if user already has an account and is editing it
-  const [editingProfile, setEditProfile] = useState(false)
+export default function PetForm({navigation, route}) {
+  const { petId = null } = route.params || {};
 
+  const [petImage, setpetImage] = useState(null)
   const [formTitle, setFormTitle] = useState('')
-  const [petName, setPetName] = useState('');
-  const [breed, setBreed] = useState('');
-  const [description, setDescription] = useState('');
-  const { control, handleSubmit, formState: { errors } } = useForm();
+  const { control, handleSubmit, formState: { errors }, reset } = useForm();
 
   const onSubmit = async (data) => {
     try {
-      await savePet(data)
-      navigation.navigate('Pet Form 2');
+      const response = await savePet(data, petId)
+      navigation.navigate('Pet Form 2', {petId: response.id, photo: petImage});
     } catch (error) {
       Alert.alert("Błąd tworzenia profilu", error.message || "Wystąpił błąd podczas tworzenia profilu.")
     }
   };
 
   useEffect(() => {
-    if (editingProfile) {
-      setFormTitle("Edytuj dane swojego zwierzaka");
-    } else {
-      setFormTitle("Uzupełnij informacje żeby stworzyć profil zwierzaka");
-    }
-  }, [editingProfile]);
+    const fetchPetData = async () => {
+      if (petId == null) {
+        setFormTitle("Uzupełnij informacje żeby stworzyć profil zwierzaka");
+      } else {
+        setFormTitle("Edytuj dane swojego zwierzaka");
+        try {
+          const petInfo = await getPet(petId);
+          reset({
+            name: petInfo.name || "",
+            breed: petInfo.breed || "",
+            description: petInfo.description || "",
+          });
+          setpetImage(petInfo.imageUrl)
+        } catch (error) {
+          console.error("Błąd pobierania danych zwierzaka:", error);
+        }
+      }
+    };
+  
+    fetchPetData();
+  }, [petId]);
 
 return (
     <NoStatusBarView 

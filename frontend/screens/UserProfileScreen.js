@@ -87,6 +87,10 @@ export default function UserProfile({ navigation }) {
     navigation.navigate("Pet Form");
   };
 
+  const editPet = (petId) => {
+    navigation.navigate("Pet Form", {petId: petId});
+  }
+
   return (
     <NoStatusBarView padding={40} extraStyle={profileStyles.container}>
       <View style={profileStyles.mainHeader}>
@@ -134,7 +138,7 @@ export default function UserProfile({ navigation }) {
                   style={profileStyles.petImage}
                 />
                 <Pressable
-                  // onPress={() => TODO: dodac przejscie do edycji
+                  onPress={() => editPet(pet.id)}
                   style={profileStyles.plusIconContainer}
                 >
                   <Image
