@@ -10,8 +10,8 @@ export default function FormInput({
   secureTextEntry=false
 }) {
   return (
-    <View>
-      <View style={formStyles.formInput}>
+    <View style={formStyles.formInput}>
+      <View>
         <View>
           <TextInput 
             placeholder={placeholder}

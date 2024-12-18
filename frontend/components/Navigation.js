@@ -47,9 +47,9 @@ export default function Navigation() {
         <Stack.Screen name = 'Caregivers Found' component={CaregiversFoundScreen}/>
         <Stack.Screen name = 'Add Offer' component={AddOfferScreen}/>
         <Stack.Screen name = 'Offers List' component={OffersListScreen} options={{ headerShown: false }} />
-        <Stack.Screen name = 'User Profile' component={UserProfile} options={{ headerShown: false }} />
+        <Stack.Screen name = 'User Profile' component={UserProfile}/>
         <Stack.Screen name = 'Pet Profile' component={PetProfile}/>
-        <Stack.Screen name = 'My Offers' component={MyOffersScreen} options={{ headerShown: false }} />
+        <Stack.Screen name = 'My Offers' component={MyOffersScreen}/>
         <Stack.Screen name = 'Edit User' component={EditUserScreen}/>
         <Stack.Screen name = 'Edit Offer' component={EditOfferScreen}/>
       </Stack.Navigator>
