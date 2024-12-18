@@ -48,8 +48,7 @@ const convertFiltersToJson = (filters) => {
   };
 
 export const getOfferById = async (offerId) => {
-    const url = `${apiUrls.offers.all}${offerId}`;
-
+    const url = `${apiUrls.offers.all}/${offerId}`;
     try {
         return await getData(url, true)
     } catch (error) {
@@ -60,7 +59,7 @@ export const getOfferById = async (offerId) => {
 
 export const updateOffer = async (body, offerId) => {
 
-    const url = `${apiUrls.offers.all}${offerId}`;
+    const url = `${apiUrls.offers.all}/${offerId}`;
 
     try {
         await updateData(url, body, true);

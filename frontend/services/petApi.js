@@ -4,7 +4,7 @@ import { postData, updateData, getData, updateMultipartData, deleteMultipartData
 
 export const getUserPets = async () =>
 {
-    const url = apiUrls.pet.ba
+    const url = apiUrls.pet.basic
     
     try {
         return await getData(url, true)

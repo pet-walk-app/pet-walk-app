@@ -15,7 +15,6 @@ export const saveCaregiver = async (data) => {
 
 export const saveCaregiverPhoto = async (data) => {
   deleteData(apiUrls.caregiver.deleteAllPhotos, true)
-  const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const responses = [];
   for (let i = 0; i < data.length; i++) {
@@ -34,7 +33,7 @@ export const saveCaregiverPhoto = async (data) => {
               console.error(`Error uploading photo ${i + 1}:`, error.message || error);
           }
       }
-      await wait(250);
+
   }
 
   return responses;

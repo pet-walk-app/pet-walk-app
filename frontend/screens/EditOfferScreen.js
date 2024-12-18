@@ -10,9 +10,9 @@ import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
 import { formatDate } from "../utils/commonUtils";
 
-export default function EditOfferScreen({ navigation }) {
+export default function EditOfferScreen({ navigation, route}) {
   const [offer, setOffer] = useState(null); 
-  const id = 1;
+  const { id } = route.params;
 
   const {
     control,
@@ -52,7 +52,6 @@ export default function EditOfferScreen({ navigation }) {
 
   const onSubmit = async (data) => {
     try {
-        console.log(offer)
       const body = {
         address: data.street || offer.address,
         city: data.city || offer.city,
@@ -63,8 +62,6 @@ export default function EditOfferScreen({ navigation }) {
         walkLength: parseInt(data.walkLength || offer.walkLength, 10),
         zipCode: data.zipCode || offer.zipCode,
       };
-
-      console.log('\n\n',body,'\n\n');
 
       await updateOffer(body, id);
       Alert.alert("Sukces", "Dane oferty zostały zaktualizowane.");

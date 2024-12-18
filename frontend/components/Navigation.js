@@ -28,16 +28,16 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-        initialRouteName='Home'
+        initialRouteName='Login Screen'
         screenOptions={{
             headerStyle: { backgroundColor: green },
             headerTintColor: white
         }}
       >
         <Stack.Screen name = 'Home' component={HomeScreen}/>
-        <Stack.Screen name = 'Login Screen' component={LoginScreen}/>
+        <Stack.Screen name = 'Login Screen' component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name = 'Registration Screen' component={RegistrationScreen}/>
-        <Stack.Screen name = 'First Visit Form' component={FirstVisitFormScreen}/>
+        <Stack.Screen name = 'First Visit Form' component={FirstVisitFormScreen} options={{ headerShown: false }} />
         <Stack.Screen name = 'First Visit Profile Choice' component={FirstVisitProfileChoiceScreen}/>
         <Stack.Screen name = 'Caregiver Profile Form' component={CaregiverProfileFormScreen}/>
         <Stack.Screen name = 'Caregiver Profile Form 2' component={CaregiverProfileForm2Screen}/>
@@ -46,10 +46,10 @@ export default function Navigation() {
         <Stack.Screen name = 'Walk Offer' component={WalkOfferScreen}/>
         <Stack.Screen name = 'Caregivers Found' component={CaregiversFoundScreen}/>
         <Stack.Screen name = 'Add Offer' component={AddOfferScreen}/>
-        <Stack.Screen name = 'Offers List' component={OffersListScreen}/>
-        <Stack.Screen name = 'User Profile' component={UserProfile}/>
+        <Stack.Screen name = 'Offers List' component={OffersListScreen} options={{ headerShown: false }} />
+        <Stack.Screen name = 'User Profile' component={UserProfile} options={{ headerShown: false }} />
         <Stack.Screen name = 'Pet Profile' component={PetProfile}/>
-        <Stack.Screen name = 'My Offers' component={MyOffersScreen}/>
+        <Stack.Screen name = 'My Offers' component={MyOffersScreen} options={{ headerShown: false }} />
         <Stack.Screen name = 'Edit User' component={EditUserScreen}/>
         <Stack.Screen name = 'Edit Offer' component={EditOfferScreen}/>
       </Stack.Navigator>

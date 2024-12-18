@@ -8,6 +8,7 @@ import { green, white } from "../consts/colors";
 import { logoutUser } from "../services/authorizationApi";
 import { useFocusEffect } from "@react-navigation/native";
 import React from "react";
+import BottomMenu from "../components/BottomMenu.js";
 
 
 export default function UserProfile({ navigation }) {
@@ -92,7 +93,9 @@ export default function UserProfile({ navigation }) {
   }
 
   return (
-    <NoStatusBarView padding={40} extraStyle={profileStyles.container}>
+    
+    <NoStatusBarView extraStyle={profileStyles.container}>
+      <View style={{ padding: 40, flex: 1 }}>
       <View style={profileStyles.mainHeader}>
         <Text style={profileStyles.h1}>{username}</Text>
         <Pressable
@@ -198,7 +201,7 @@ export default function UserProfile({ navigation }) {
 
             <Pressable
               style={profileStyles.button}
-              onPress={() => navigation.navigate("Caregiver Profile Form 2")}
+              onPress={() => navigation.navigate("Caregiver Profile Form")}
             >
               <Text style={profileStyles.buttonText}>Edytuj</Text>
             </Pressable>
@@ -215,6 +218,8 @@ export default function UserProfile({ navigation }) {
         action={handleLogout}
         title={"Wyloguj"}
       ></CustomButton>
+      </View>
+      <BottomMenu navigation={navigation}/>
     </NoStatusBarView>
   );
 }

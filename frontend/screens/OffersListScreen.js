@@ -39,6 +39,8 @@ export default function OffersListScreen({ navigation }) {
       );
 
       const newOffers = response.content || [];
+      console.log('Pets w ofercie:', newOffers[0]?.pets);
+
 
       const uniqueOffers = [
         ...(isNextPage ? offers : []),
@@ -87,6 +89,7 @@ export default function OffersListScreen({ navigation }) {
                 date={item.walkDate || 'Brak daty spaceru'}
                 length={minsToHours(item.walkLength) || 'Brak długości spaceru'}
                 price={item.price || 'Brak ceny'}
+                imageUrl={item.pets[0]?.imageUrl || ''}
               />
             </Pressable>
           )}

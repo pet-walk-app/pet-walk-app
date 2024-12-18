@@ -30,13 +30,13 @@ export default function LoginScreen({navigation}) {
 
       
       if (profile.firstVisit) {
-        navigation.navigate('First Visit Form');
+        navigation.replace('First Visit Form');
       } else {
         if (profile.caregiver || profile.petOwner) {
-          navigation.navigate('Offers List');
+          navigation.replace('Offers List');
         }
         else {
-          navigation.navigate('First Visit Profile Choice');
+          navigation.replace('First Visit Profile Choice');
         }
       }
     } catch (error) {

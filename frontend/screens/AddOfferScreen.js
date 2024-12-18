@@ -146,7 +146,6 @@ export default function AddOfferScreen({ navigation }) {
             />
           </View>
 
-          {/* Dane spaceru */}
           <View style={formStyles.formSection}>
             <Text style={formStyles.sectionHeader}>Dane spaceru</Text>
             <Controller

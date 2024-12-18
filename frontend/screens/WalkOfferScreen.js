@@ -89,7 +89,7 @@ export default function WalkOffer({ route }) {
   };
 
   const handleEdit = () => {
-    //TODO: dodać edycje oferty
+    navigation.navigate('Edit Offer', { id: walkData.id })
     console.log('Edycja');
   };
 
