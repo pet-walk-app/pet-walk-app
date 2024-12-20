@@ -7,7 +7,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useState, useEffect, useCallback } from "react";
 import { ScrollView } from 'react-native';
 import { fetchUserData, getOffer } from "../services/userApi";
-import { fetchMyAllOffers, fetchPendingOffers } from '../services/offersApi';
+import { fetchMyAllOffers, fetchPendingOffers, fetchAcceptedOffers } from '../services/offersApi';
 
 export default function MyOffersScreen({ navigation }) {
   const [distanceFilter, setDistanceFilter] = useState("1");
@@ -24,7 +24,7 @@ export default function MyOffersScreen({ navigation }) {
 
   useFocusEffect(
     useCallback(() => {
-      const fetchMyOffers = async () => {
+      const getMyOffers = async () => {
         const user = await fetchUserData()
         if (user && user.petOwner != null) {
           try {
@@ -49,11 +49,13 @@ export default function MyOffersScreen({ navigation }) {
           }
         }
       };
-      //TODO: dodać jeszcze zbieranie oferty które zostały zaakceptowane - /api/v1/caregiver/offers?page=0&page_size=10
-      const fetchOtherOffers = async () => {
+      
+      const getPendingOffers = async () => {
         try {
           const response = await fetchPendingOffers(0, 10);
           const offers = response.content;
+          console.log("offers pending")
+          console.log(offers)
           if (offers == null) return;
   
           const newOffers = offers.map((offer) => ({
@@ -67,13 +69,38 @@ export default function MyOffersScreen({ navigation }) {
   
           setOffers((prevOffers) => [...prevOffers, ...newOffers]);
         } catch (error) {
-          console.error("Error fetching other offers:", error);
+          console.error("Error fetching pending offers:", error);
+        }
+      };
+
+      const getAcceptedOffers = async () => {
+        try {
+          const response = await fetchAcceptedOffers(0, 10);
+          const offers = response.content;
+          console.log("offers accepted")
+          console.log(offers)
+          if (offers == null) return;
+          
+  
+          const newOffers = offers.map((offer) => ({
+            data: offer,
+            myOffer: false,
+            animalName: offer.pets.length > 0 ? offer.pets[0].name : null,
+            date: offer.walkDate,
+            imageUrl: offer.pets.length > 0 ? offer.pets[0].imageUrl : null,
+            status: offer.status,
+          }));
+  
+          setOffers((prevOffers) => [...prevOffers, ...newOffers]);
+        } catch (error) {
+          console.error("Error fetching pending offers:", error);
         }
       };
   
       const fetchAllOffers = async () => {
-        await fetchMyOffers();
-        await fetchOtherOffers();
+        await getMyOffers();
+        await getPendingOffers();
+        await getAcceptedOffers();
       };
   
       fetchAllOffers();

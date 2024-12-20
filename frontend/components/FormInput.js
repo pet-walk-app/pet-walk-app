@@ -10,17 +10,15 @@ export default function FormInput({
   secureTextEntry=false
 }) {
   return (
-    <View style={formStyles.formInput}>
-      <View>
-        <View>
-          <TextInput 
-            placeholder={placeholder}
-            value={value}
-            onChangeText={(text) => setValue(text)}
-            placeholderTextColor={darkGrey}
-            secureTextEntry={secureTextEntry}
-          />
-        </View>
+    <View >
+      <View style={formStyles.formInput}>
+        <TextInput 
+          placeholder={placeholder}
+          value={value}
+          onChangeText={(text) => setValue(text)}
+          placeholderTextColor={darkGrey}
+          secureTextEntry={secureTextEntry}
+        />
       </View>
       {errorMessage && <Text style={formStyles.errorText}>{errorMessage}</Text>}
     </View>

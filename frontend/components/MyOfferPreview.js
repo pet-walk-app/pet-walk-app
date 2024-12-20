@@ -6,7 +6,7 @@ import { beige } from "../consts/colors";
 
 import CustomButton from "../components/CustomButton";
 
-//TODO: ustawić poprawnie resztę statusów(to co jest w cudzysłowiach)
+
 const OfferStatusEnum = {
   ACCEPTED: "ACCEPTED",
   CANCELLED: "CANCELLED",

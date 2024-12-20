@@ -35,20 +35,25 @@ export default function WalkOffer({ route }) {
   const [walkLength, setWalkLength] = useState('')
   const [price, setPrice] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
+  const [petOwnerName, setPetOwnerName] = useState('')
+
 
   useEffect(() => {
     const fetchProfileAndSetup = async () => {
       try {
         const profile = await getProfile();
-        //TODO: dodać status gdy mnie zaakceptowano
         setUserHasCaregiverAccount(profile.caregiver != null);
         if (!walkData.offerCreator || profile.id == walkData.offerCreator.id){
           setMyOffer(OfferStatus.MY_OFFER);
         }
         else {
-            if (walkData.alreadyApplied) {
+          if (walkData.status == "ACCEPTED"){
+            setMyOffer(OfferStatus.OFFER_ACCEPTED);
+          }
+          else if (walkData.alreadyApplied) {
             setMyOffer(OfferStatus.REQUEST_SENT);
-          } else {
+          } 
+          else {
             setMyOffer(OfferStatus.NEW_OFFER);
             if (walkData.applicationRejected) {
               setMyOffer(OfferStatus.REQUEST_SENT);
@@ -57,8 +62,8 @@ export default function WalkOffer({ route }) {
         }
   
         setWalkDate(walkData.walkDate);
-        setAddress(null); // TODO: dodać adres
-        setCity(null); // TODO: dodać miasto
+        setAddress(walkData.address ?? null);
+        setCity(walkData.city ?? null);
         //TODO: dodać dystans
         //setDistance(walkData.distance.toFixed(1));
         setPhoto(walkData.pets[0]?.imageUrl || null);
@@ -67,7 +72,8 @@ export default function WalkOffer({ route }) {
         setPetDescription(walkData.pets[0]?.description || "Brak opisu");
         setWalkLength(walkData.walkLength);
         setPrice(walkData.price);
-        setPhoneNumber(null); // TODO: dodać telefon
+        setPetOwnerName(walkData.offerCreator.name ?? null);
+        setPhoneNumber(walkData.offerCreator.phone ?? null);
   
         if (offerType === OfferStatus.MY_OFFER) {
           setTitle("Twoja oferta");
@@ -212,7 +218,8 @@ export default function WalkOffer({ route }) {
           // if offer is accepted by pet owner
           <View style={[formStyles.walkOfferText, , {backgroundColor: beige}]}>
             <Text>
-              <Text style={{ fontWeight: "bold" }}>Masz pytanie? </Text> {"\n"}
+              <Text style={{ fontWeight: "bold" }}>Kontakt do właściciela </Text> {"\n"}
+              Imię: {petOwnerName} {"\n"}
               Numer telefonu: {phoneNumber}
             </Text>
           </View> 

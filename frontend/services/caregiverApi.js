@@ -13,6 +13,7 @@ export const saveCaregiver = async (data) => {
   }
 };
 
+//TODO: fix adding photo
 export const saveCaregiverPhoto = async (data) => {
   deleteData(apiUrls.caregiver.deleteAllPhotos, true)
 

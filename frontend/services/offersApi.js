@@ -41,6 +41,19 @@ export const fetchPendingOffers = async (page, pageSize) => {
     }
 };
 
+export const fetchAcceptedOffers = async (page, pageSize) => {
+    const queryParams = `?page=${page}&page_size=${pageSize}`;
+    const url = `${apiUrls.offers.acceptedOffers}${queryParams}`;
+
+    try {
+        const response = await getData(url, true);
+        return response;
+    } catch (error) {
+        console.error('Fetch accepted offers error:', error.message);
+        throw error;
+    }
+};
+
 const convertFiltersToJson = (filters) => {
     return Object.fromEntries(
       Object.entries(filters).filter(([_, value]) => value !== null && value !== undefined)

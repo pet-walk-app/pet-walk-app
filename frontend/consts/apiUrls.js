@@ -30,6 +30,7 @@ const apiUrls = {
         search: `${baseApi}/api/v1/offers/search`,
         all: `${baseApi}/api/v1/user/offers`,
         pendingOffers: `${baseApi}/api/v1/caregiver/offers/pending`,
+        acceptedOffers: `${baseApi}/api/v1/caregiver/offers`,
         apply: `${baseApi}/api/v1/caregiver/offers/apply`
         
     }
