@@ -25,6 +25,7 @@ export default function WalkOffer({ route }) {
   const [offerType, setMyOffer] = useState(OfferStatus.NEW_OFFER)
   const [walkDate, setWalkDate] = useState('')
   const [address, setAddress] = useState('')
+  const [zipCode, setZipCode] = useState('')
   const [city, setCity] = useState('')
   const [distance, setDistance] = useState()
   const petDefaultPhoto = require("../assets/default_dog_picture.png");
@@ -63,6 +64,7 @@ export default function WalkOffer({ route }) {
   
         setWalkDate(walkData.walkDate);
         setAddress(walkData.address ?? null);
+        setZipCode(walkData.zipCode ?? null)
         setCity(walkData.city ?? null);
         setDistance(walkData.distance?.toFixed(1));
         setPhoto(walkData.pets[0]?.imageUrl || null);
@@ -136,6 +138,12 @@ export default function WalkOffer({ route }) {
                 )}
                 Miasto: {city}
                 {distance && `\nOdległość od ciebie: ${distance} km`}
+
+                {zipCode && (
+                    <>
+                          Kod pocztowy: {zipCode} {"\n"}
+                    </>
+                )}
               </Text>
             </View>
 
