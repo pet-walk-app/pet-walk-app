@@ -13,6 +13,8 @@ export const getGeoLocation = async () => {
         throw new Error('Location permission denied');
     }
 
-    const {coords: {latitude, longitude}} = await Location.getCurrentPositionAsync();
+    const location = await Location.getCurrentPositionAsync();
+
+    const {coords: {latitude, longitude}} = location;
     return {latitude, longitude};
 };

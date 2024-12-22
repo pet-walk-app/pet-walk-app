@@ -39,6 +39,6 @@ public interface WalkOfferPendingViewDtoMapper
     Point zipCodeLocation = walkOffer.getZipCodeLocation();
 
     return DistanceCalculator.calculateDistance(zipCodeLocation.getY(), zipCodeLocation.getX(),
-        context.getLatitude(), context.getLatitude());
+        context.getLatitude(), context.getLongitude());
   }
 }

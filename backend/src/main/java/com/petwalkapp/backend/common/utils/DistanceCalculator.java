@@ -3,26 +3,25 @@ package com.petwalkapp.backend.common.utils;
 public class DistanceCalculator
 {
 
-  private static final double SEMI_MAJOR_AXIS_MT = 6378137;
-  private static final double SEMI_MINOR_AXIS_MT = 6356752.314245;
-  private static final double FLATTENING = 1 / 298.257223563;
-  private static final double ERROR_TOLERANCE = 1e-12;
-  private static final double EARTH_RADIUS = 6371D;
-
   public static double calculateDistance(double startLat, double startLong, double endLat,
       double endLong)
   {
+    final int EARTH_RADIUS_KM = 6371;
 
-    double dLat = Math.toRadians((endLat - startLat));
-    double dLong = Math.toRadians((endLong - startLong));
+    double startLatRad = Math.toRadians(startLat);
+    double startLongRad = Math.toRadians(startLong);
+    double endLatRad = Math.toRadians(endLat);
+    double endLongRad = Math.toRadians(endLong);
 
-    startLat = Math.toRadians(startLat);
-    endLat = Math.toRadians(endLat);
+    double deltaLat = endLatRad - startLatRad;
+    double deltaLong = endLongRad - startLongRad;
 
-    double a = haversine(dLat) + Math.cos(startLat) * Math.cos(endLat) * haversine(dLong);
+    double a = Math.sin(deltaLat / 2) * Math.sin(deltaLat / 2) +
+        Math.cos(startLatRad) * Math.cos(endLatRad) *
+            Math.sin(deltaLong / 2) * Math.sin(deltaLong / 2);
     double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    return EARTH_RADIUS * c;
+    return EARTH_RADIUS_KM * c;
   }
 
   private static double haversine(double val)

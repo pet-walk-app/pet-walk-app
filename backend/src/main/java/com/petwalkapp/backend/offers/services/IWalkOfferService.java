@@ -38,7 +38,7 @@ public interface IWalkOfferService
 
   PageDto<WalkOfferSearchViewDto> searchWalkOffers(@Valid SearchWalkOffersRequest searchRequest,
       Integer page, Integer pageSize, SearchWalkOfferSortByType sortBy,
-      SortDirectionType sortDirection);
+      SortDirectionType sortDirection, Double latitude, Double longitude);
 
   void applyForOffer(Long offerId);
 

@@ -100,7 +100,7 @@ export default function AddOfferScreen({ navigation }) {
               </Picker>
             </View>
           </View>
-          <PlacePickerSection errors={errors} control={control} />
+          <PlacePickerSection errors={errors} control={control} navigation={navigation} />
 
           <View style={formStyles.formSection}>
             <Text style={formStyles.sectionHeader}>Dane spaceru</Text>

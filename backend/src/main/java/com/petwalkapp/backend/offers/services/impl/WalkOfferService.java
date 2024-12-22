@@ -7,6 +7,7 @@ import com.petwalkapp.backend.common.dtos.PageDto;
 import com.petwalkapp.backend.common.requests.SortDirectionType;
 import com.petwalkapp.backend.common.utils.PageUtils;
 import com.petwalkapp.backend.offers.contexts.CaregiverMappingContext;
+import com.petwalkapp.backend.offers.contexts.SearchMappingContext;
 import com.petwalkapp.backend.offers.dtos.WalkOfferAcceptedViewDto;
 import com.petwalkapp.backend.offers.dtos.WalkOfferCreatorViewDto;
 import com.petwalkapp.backend.offers.dtos.WalkOfferPendingViewDto;
@@ -140,7 +141,7 @@ public class WalkOfferService implements IWalkOfferService
   @Override
   public PageDto<WalkOfferSearchViewDto> searchWalkOffers(SearchWalkOffersRequest searchRequest,
       Integer page, Integer pageSize, SearchWalkOfferSortByType sortBy,
-      SortDirectionType sortDirection)
+      SortDirectionType sortDirection, Double latitude, Double longitude)
   {
     Sort sort = Optional.ofNullable(sortBy)
         .map(SearchWalkOfferSortByType::getField)
@@ -154,13 +155,18 @@ public class WalkOfferService implements IWalkOfferService
 
     Pageable pageable = PageRequest.of(page, pageSize, sort);
     Page<WalkOffer> walkOffers = walkOfferRepository.findByLocationWithinRadiusAndFilters(
-        searchRequest.getLongitude(), searchRequest.getLatitude(), searchRequest.getRadius(),
+        longitude, latitude, searchRequest.getRadius(),
         searchRequest.getPriceFrom(), searchRequest.getPriceTo(), walkDateFrom,
         searchRequest.getWalkDateTo(), searchRequest.getMinTime(), searchRequest.getMaxTime(),
         pageable);
 
     Caregiver currentCaregiver = caregiverService.getCurrentCaregiver();
-    return walkOfferSearchViewDtoMapper.toPageDto(walkOffers, searchRequest, currentCaregiver);
+    return walkOfferSearchViewDtoMapper.toPageDto(walkOffers, SearchMappingContext.builder()
+        .searchRequest(searchRequest)
+        .currentCaregiver(currentCaregiver)
+        .latitude(latitude)
+        .longitude(longitude)
+        .build());
   }
 
   @Override
@@ -175,7 +181,7 @@ public class WalkOfferService implements IWalkOfferService
 
     if (Objects.isNull(matchingOfferApplication) || matchingOfferApplication.isRejected()
         || walkOffer.getStatus() != WalkOfferStatus.OPEN || walkOffer.getWalkDate()
-            .isBefore(ChronoLocalDate.from(LocalDateTime.now()))) {
+        .isBefore(ChronoLocalDate.from(LocalDateTime.now()))) {
       throw new NotAllowedException();
     }
 
@@ -348,7 +354,7 @@ public class WalkOfferService implements IWalkOfferService
     validateOfferCanBeUpdated(walkOffer, petOwner);
 
     WalkOfferApplication walkOfferApplication = Optional.ofNullable(
-        walkOffer.getWalkOfferApplications())
+            walkOffer.getWalkOfferApplications())
         .orElseGet(ArrayList::new)
         .stream()
         .filter(application -> application.getId().equals(applicationId))
@@ -369,7 +375,7 @@ public class WalkOfferService implements IWalkOfferService
     validateOfferCanBeUpdated(walkOffer, petOwner);
 
     WalkOfferApplication walkOfferApplication = Optional.ofNullable(
-        walkOffer.getWalkOfferApplications())
+            walkOffer.getWalkOfferApplications())
         .orElseGet(ArrayList::new)
         .stream()
         .filter(Objects::nonNull)

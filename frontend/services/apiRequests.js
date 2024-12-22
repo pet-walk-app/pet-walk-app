@@ -46,13 +46,12 @@ const defaultHeaders = {
 }
 
 const fetchData = async (apiUrl, method, body = null, authorize = false, addLocation = false) => {
-	const {latitude, longitude} = await getGeoLocation();
-
 	const headers = {
 		...defaultHeaders,
-		latitude,
-		longitude
+		...(addLocation && await getGeoLocation())
 	}
+
+	console.log(headers)
 
 	await addAuthorizationHeader(headers, authorize)
 
@@ -84,7 +83,7 @@ const sendRequest = async (apiUrl, method, body = null, authorize = false) => {
 }
 
 export const getData = (apiUrl, authorize, addLocation) => fetchData(apiUrl, "GET", null, authorize, addLocation)
-export const postData = (apiUrl, body, authorize) => fetchData(apiUrl, "POST", body, authorize)
+export const postData = (apiUrl, body, authorize, addLocation) => fetchData(apiUrl, "POST", body, authorize, addLocation)
 export const updateData = (apiUrl, body, authorize) => fetchData(apiUrl, "PUT", body, authorize)
 export const deleteData = (apiUrl, authorize) => sendRequest(apiUrl, "DELETE", null, authorize)
 export const patchData = (apiUrl, body, authorize) => fetchData(apiUrl, "PATCH", body, authorize)

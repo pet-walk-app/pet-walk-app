@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,9 +30,12 @@ public class SearchWalkOfferController
       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(name = "page_size", required = false, defaultValue = "10") Integer pageSize,
       @RequestParam(name = "sort_by", required = false) SearchWalkOfferSortByType sortBy,
-      @RequestParam(name = "sort_direction", required = false) SortDirectionType sortDirection)
+      @RequestParam(name = "sort_direction", required = false) SortDirectionType sortDirection,
+      @RequestHeader(name = "latitude", required = false) Double latitude,
+      @RequestHeader(name = "longitude", required = false) Double longitude)
   {
     return ResponseEntity.ok(
-        walkOfferService.searchWalkOffers(searchRequest, page, pageSize, sortBy, sortDirection));
+        walkOfferService.searchWalkOffers(searchRequest, page, pageSize, sortBy, sortDirection,
+            latitude, longitude));
   }
 }

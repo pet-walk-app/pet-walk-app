@@ -7,7 +7,7 @@ export const fetchOffers = async (page, pageSize, sortBy, sortDirection, filters
 
     try {
         filters = convertFiltersToJson(filters)
-        const response = await postData(url, filters, true);
+        const response = await postData(url, filters, true, true);
         return response;
     } catch (error) {
         console.error('Fetch offers error:', error.message);

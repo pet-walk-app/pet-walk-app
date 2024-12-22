@@ -6,7 +6,7 @@ import {profileStyles} from "../styles/profileStyles";
 import {ErrorMessage} from "./ErrorMessage";
 
 
-export const PlacePickerSection = ({errors, control}) => {
+export const PlacePickerSection = ({errors, control, navigation}) => {
     return (
         <View style={formStyles.formSection}>
             <Text style={formStyles.sectionHeader}>Miejsce odbioru</Text>
