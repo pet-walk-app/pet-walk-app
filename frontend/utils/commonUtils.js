@@ -39,7 +39,7 @@ export const formatTime = (date) => {
 
 export const  minsToHours = (minutes) => {
 	if (minutes < 60) {
-	  return `${minutes} m`;
+	  return `${minutes} min`;
 	}
   
 	const hours = Math.floor(minutes / 60);
@@ -48,7 +48,7 @@ export const  minsToHours = (minutes) => {
 	if (remainingM == 0) {
 		return `${hours} h`
 	} else {
-		return `${hours} h ${remainingM} m`
+		return `${hours} h ${remainingM} min`
 	}
 
   };

@@ -24,7 +24,8 @@ const OfferListFilter = ({ filters, setFilters, onSubmit }) => {
   return (
     <View style={offerListStyles.filterContainer}>
       <View style={offerListStyles.buttonsContainer}>
-        <Pressable style={[offerListStyles.button, offerListStyles.filterButton]} onPress={toggleFilters}>
+        <Pressable 
+          style={[offerListStyles.button, offerListStyles.filterButton]} onPress={toggleFilters}>
           <Text style={offerListStyles.buttonText}>Filtry</Text>
         </Pressable>
 
@@ -42,6 +43,7 @@ const OfferListFilter = ({ filters, setFilters, onSubmit }) => {
                 <Text style={offerListStyles.filterTitle}>Cena od</Text>
                 <TextInput 
                   style={offerListStyles.input}
+                  value={filters.priceFrom ? filters.priceFrom.toString() : ''}
                   keyboardType="numeric"
                   onChangeText={(value) => setFilters((prev) => ({ ...prev, priceFrom: parseInt(value, 10) }))}
                 />
@@ -52,6 +54,7 @@ const OfferListFilter = ({ filters, setFilters, onSubmit }) => {
                 <Text style={offerListStyles.filterTitle}>Cena do</Text>
                 <TextInput
                   style={offerListStyles.input}
+                  value={filters.priceTo ? filters.priceTo.toString() : ''}
                   keyboardType="numeric"
                   onChangeText={(value) => setFilters((prev) => ({ ...prev, priceTo: parseInt(value, 10) }))}
                 />
@@ -63,6 +66,7 @@ const OfferListFilter = ({ filters, setFilters, onSubmit }) => {
                 <Text style={offerListStyles.filterTitle}>Minimalna długość spaceru (min)</Text>
                 <TextInput
                   style={offerListStyles.input}
+                  value={filters.minTime ? filters.minTime.toString() : ''}
                   keyboardType="numeric"
                   onChangeText={(value) => setFilters((prev) => ({ ...prev, minTime: parseInt(value, 10) }))}
                 />
@@ -72,6 +76,7 @@ const OfferListFilter = ({ filters, setFilters, onSubmit }) => {
               <Text style={offerListStyles.filterTitle}>Maksymalna długość spaceru (min)</Text>
                 <TextInput
                   style={offerListStyles.input}
+                  value={filters.maxTime ? filters.maxTime.toString() : ''}
                   keyboardType="numeric"
                   onChangeText={(value) => setFilters((prev) => ({ ...prev, maxTime: parseInt(value, 10) }))}
                 />
@@ -105,6 +110,7 @@ const OfferListFilter = ({ filters, setFilters, onSubmit }) => {
               <Text style={offerListStyles.filterTitle}>Maksymalna odległość (km)</Text>
               <TextInput
                 style={offerListStyles.input}
+                value={filters.radius ? (filters.radius / 1000).toString() : ''}
                 keyboardType="numeric"
                 onChangeText={(value) => setFilters((prev) => ({ ...prev, radius: parseFloat(value * 1000) }))}
               />
