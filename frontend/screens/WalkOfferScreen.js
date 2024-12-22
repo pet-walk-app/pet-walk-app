@@ -136,8 +136,8 @@ export default function WalkOffer({ route }) {
                       Adres: {address} {"\n"}
                     </>
                 )}
-                Miasto: {city}
-                {distance && `\nOdległość od ciebie: ${distance} km`}
+                Miasto: {city} {"\n"}
+                {distance && `Odległość od ciebie: ${distance} km\n`}
 
                 {zipCode && (
                     <>
