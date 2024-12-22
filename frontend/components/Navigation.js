@@ -21,6 +21,7 @@ import MyOffersScreen from '../screens/MyOffersScreen';
 import EditUserScreen from '../screens/EditUserScreen';
 import EditOfferScreen from '../screens/EditOfferScreen';
 import CaregiverProfileScreen from '../screens/CaregiverProfileScreen';
+import {PlaceSelectionScreen} from "../screens/PlaceSelectionScreen";
 
 
 const Stack = createNativeStackNavigator();
@@ -29,7 +30,7 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-        initialRouteName='Login Screen'
+        initialRouteName='Offers List'
         screenOptions={{
             headerStyle: { backgroundColor: green },
             headerTintColor: white
@@ -54,6 +55,7 @@ export default function Navigation() {
         <Stack.Screen name = 'Edit User' component={EditUserScreen}/>
         <Stack.Screen name = 'Edit Offer' component={EditOfferScreen}/>
         <Stack.Screen name = 'Caregiver Profile' component={CaregiverProfileScreen}/>
+        <Stack.Screen name = 'Place Selection' component={PlaceSelectionScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -42,4 +42,8 @@ public class CreateWalkOfferRequest
 
   @NotBlank
   private String city;
+
+  @NotNull private Double latitude;
+
+  @NotNull private Double longitude;
 }

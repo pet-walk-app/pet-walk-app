@@ -26,13 +26,15 @@ public interface IWalkOfferService
 
   WalkOfferCreatorViewDto deleteUserWalkOffer(Long id);
 
-  WalkOfferPendingViewDto getPendingOffer(Long offerId);
+  WalkOfferPendingViewDto getPendingOffer(Long offerId, Double latitude, Double longitude);
 
-  WalkOfferAcceptedViewDto getAcceptedOffer(Long offerId);
+  WalkOfferAcceptedViewDto getAcceptedOffer(Long offerId, Double latitude, Double longitude);
 
-  PageDto<WalkOfferPendingViewDto> getPendingOffers(Integer page, Integer pageSize);
+  PageDto<WalkOfferPendingViewDto> getPendingOffers(Integer page, Integer pageSize, Double latitude,
+      Double longitude);
 
-  PageDto<WalkOfferAcceptedViewDto> getAcceptedOffers(Integer page, Integer pageSize);
+  PageDto<WalkOfferAcceptedViewDto> getAcceptedOffers(Integer page, Integer pageSize,
+      Double latitude, Double longitude);
 
   PageDto<WalkOfferSearchViewDto> searchWalkOffers(@Valid SearchWalkOffersRequest searchRequest,
       Integer page, Integer pageSize, SearchWalkOfferSortByType sortBy,

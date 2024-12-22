@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,7 +65,11 @@ public class PetService implements IPetService
   {
     PetOwner currentPetOwner = getOrCreateCreatePetOwner();
 
-    return currentPetOwner.getPets().stream().map(petResponseDtoMapper::toDto).toList();
+    return Optional.ofNullable(currentPetOwner.getPets())
+        .map(List::stream)
+        .orElseGet(Stream::empty)
+        .map(petResponseDtoMapper::toDto)
+        .toList();
   }
 
   @Override

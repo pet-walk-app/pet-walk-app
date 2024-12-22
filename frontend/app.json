@@ -1,4 +1,7 @@
 {
+  "name": "PetWalk",
+  "displayName": "PetWalk",
+  "newArchEnabled": true,
   "expo": {
     "name": "PetWalk",
     "slug": "PetWalk",
@@ -12,13 +15,19 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "newArchEnabled": true
     },
     "android": {
+      "newArchEnabled": true,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "FOREGROUND_SERVICE",
+        "ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

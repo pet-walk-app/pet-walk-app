@@ -35,7 +35,9 @@ public class WalkOfferSearchViewDto
 
   private BigDecimal price;
 
-  private double distance;
+  private Double distance;
+
+  private String city;
 
   private boolean alreadyApplied;
 

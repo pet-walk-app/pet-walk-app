@@ -10,6 +10,7 @@ import { formStyles } from "../styles/formStyles";
 import NoStatusBarView from "../components/NoStatusBarView";
 import { Picker } from "@react-native-picker/picker";
 import { formatDate, getFutureDate } from "../utils/commonUtils";
+import {PlacePickerSection} from "../components/PlacePickerSection";
 
 export default function AddOfferScreen({ navigation }) {
   const [pets, setPets] = useState([]);
@@ -22,6 +23,7 @@ export default function AddOfferScreen({ navigation }) {
     formState: { errors },
   } = useForm({
     defaultValues: {
+      place: null,
       street: "",
       zipCode: "",
       city: "",
@@ -56,14 +58,16 @@ export default function AddOfferScreen({ navigation }) {
     }
 
     const body = {
-      address: data.street,
-      city: data.city,
+      address: data.place.formattedAddress,
+      city: data.place.city,
       description: data.description,
       petIds: [selectedPetId],
       price: parseFloat(data.price),
       walkDate: formatDate(data.walkDate, "-", true),
       walkLength: parseInt(data.walkLength, 10),
-      zipCode: data.zipCode,
+      zipCode: data.place.postalCode,
+      latitude: data.place.latitude,
+      longitude: data.place.longitude,
     };
 
     try {
@@ -96,55 +100,7 @@ export default function AddOfferScreen({ navigation }) {
               </Picker>
             </View>
           </View>
-
-          <View style={formStyles.formSection}>
-            <Text style={formStyles.sectionHeader}>Miejsce spaceru</Text>
-            <Controller
-              control={control}
-              name="street"
-              rules={{ required: "Ulica jest wymagana" }}
-              render={({ field: { onChange, value } }) => (
-                <FormInput
-                  value={value}
-                  setValue={onChange}
-                  placeholder="Ulica"
-                  errorMessage={errors.street?.message}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="zipCode"
-              rules={{
-                required: "Kod pocztowy jest wymagany",
-                pattern: {
-                  value: /^\d{2}-\d{3}$/,
-                  message: "Kod pocztowy musi być w formacie XX-XXX",
-                },
-              }}
-              render={({ field: { onChange, value } }) => (
-                <FormInput
-                  value={value}
-                  setValue={onChange}
-                  placeholder="Kod pocztowy"
-                  errorMessage={errors.zipCode?.message}
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="city"
-              rules={{ required: "Miasto jest wymagane" }}
-              render={({ field: { onChange, value } }) => (
-                <FormInput
-                  value={value}
-                  setValue={onChange}
-                  placeholder="Miasto"
-                  errorMessage={errors.city?.message}
-                />
-              )}
-            />
-          </View>
+          <PlacePickerSection errors={errors} control={control} />
 
           <View style={formStyles.formSection}>
             <Text style={formStyles.sectionHeader}>Dane spaceru</Text>

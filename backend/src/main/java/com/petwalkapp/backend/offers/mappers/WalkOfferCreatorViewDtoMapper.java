@@ -20,6 +20,8 @@ public interface WalkOfferCreatorViewDtoMapper
   @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
   PageDto<WalkOfferCreatorViewDto> toPageDto(Page<WalkOffer> walkOffers);
 
+  @Mapping(target = "longitude", expression = "java(walkOffer.getZipCodeLocation().getX())")
+  @Mapping(target = "latitude", expression = "java(walkOffer.getZipCodeLocation().getY())")
   @Mapping(target = "applications", source = "walkOffer.walkOfferApplications")
   @Mapping(target = "selectedCaregiver", source = "walkOffer.selectedCaregiver.user")
   WalkOfferCreatorViewDto toDto(WalkOffer walkOffer);

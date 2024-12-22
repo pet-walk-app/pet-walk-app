@@ -5,10 +5,10 @@ import { getOfferById, updateOffer } from "../services/offersApi";
 import DatePicker from "../components/DatePicker";
 import FormInput from "../components/FormInput";
 import { formStyles } from "../styles/formStyles";
-import TimePicker from "../components/TimePicker";
 import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
 import { formatDate } from "../utils/commonUtils";
+import {PlacePickerSection} from "../components/PlacePickerSection";
 
 export default function EditOfferScreen({ navigation, route}) {
   const [offer, setOffer] = useState(null); 
@@ -36,9 +36,13 @@ export default function EditOfferScreen({ navigation, route}) {
         const fetchedOffer = await getOfferById(id); 
         setOffer(fetchedOffer);
 
-        setValue("street", fetchedOffer.address || "");
-        setValue("zipCode", fetchedOffer.zipCode || "");
-        setValue("city", fetchedOffer.city || "");
+        setValue("place", {
+          formattedAddress: fetchedOffer.address,
+            postalCode: fetchedOffer.zipCode,
+            city: fetchedOffer.city,
+            latitude: fetchedOffer.latitude,
+            longitude: fetchedOffer.longitude,
+        })
         setValue("walkDate", fetchedOffer.walkDate ? new Date(fetchedOffer.walkDate) : new Date());
         setValue("walkTime", fetchedOffer.walkTime ? new Date(fetchedOffer.walkTime) : new Date());
         setValue("walkLength", fetchedOffer.walkLength?.toString() || "");
@@ -53,14 +57,16 @@ export default function EditOfferScreen({ navigation, route}) {
   const onSubmit = async (data) => {
     try {
       const body = {
-        address: data.street || offer.address,
-        city: data.city || offer.city,
+        address: data.place.formattedAddress,
+        city: data.place.city,
         description: offer.description,
         petIds: offer.pets ? offer.pets.map((pet) => pet.id) : [], 
         price: offer.price,
         walkDate: formatDate(data.walkDate || offer.walkDate, "-", true),
         walkLength: parseInt(data.walkLength || offer.walkLength, 10),
-        zipCode: data.zipCode || offer.zipCode,
+        zipCode: data.place.postalCode,
+        latitude: data.place.latitude,
+        longitude: data.place.longitude,
       };
 
       await updateOffer(body, id);
@@ -77,48 +83,7 @@ export default function EditOfferScreen({ navigation, route}) {
 
       <ScrollView>
         <View style={formStyles.formContainer}>
-          <Controller
-            control={control}
-            name="street"
-            rules={{ required: "Ulica jest wymagana" }}
-            render={({ field: { onChange, value } }) => (
-              <FormInput
-                value={value}
-                setValue={onChange}
-                placeholder="Ulica"
-                errorMessage={errors.street?.message}
-              />
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="zipCode"
-            rules={{ required: "Kod pocztowy jest wymagany" }}
-            render={({ field: { onChange, value } }) => (
-              <FormInput
-                value={value}
-                setValue={onChange}
-                placeholder="Kod pocztowy"
-                errorMessage={errors.zipCode?.message}
-              />
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="city"
-            rules={{ required: "Miasto jest wymagane" }}
-            render={({ field: { onChange, value } }) => (
-              <FormInput
-                value={value}
-                setValue={onChange}
-                placeholder="Miasto"
-                errorMessage={errors.city?.message}
-              />
-            )}
-          />
-
+          <PlacePickerSection errors={errors} control={control} />
           <Controller
             control={control}
             name="walkDate"

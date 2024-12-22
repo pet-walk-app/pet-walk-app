@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import {getGeoLocation} from "../helpers/GeoLocationGetter";
 
 const fetchMultipartData = async (apiUrl, method, body) => {
 	let token = await AsyncStorage.getItem("jwt_token");
@@ -44,9 +45,13 @@ const defaultHeaders = {
 	"Content-Type": "application/json",
 }
 
-const fetchData = async (apiUrl, method, body = null, authorize = false) => {
+const fetchData = async (apiUrl, method, body = null, authorize = false, addLocation = false) => {
+	const {latitude, longitude} = await getGeoLocation();
+
 	const headers = {
 		...defaultHeaders,
+		latitude,
+		longitude
 	}
 
 	await addAuthorizationHeader(headers, authorize)
@@ -59,13 +64,29 @@ const fetchData = async (apiUrl, method, body = null, authorize = false) => {
 
 	await handleResponse(response)
 	
-	return response.json()
+	return response?.json()
 }
 
-export const getData = (apiUrl, authorize) => fetchData(apiUrl, "GET", null, authorize)
+const sendRequest = async (apiUrl, method, body = null, authorize = false) => {
+	const headers = {
+		...defaultHeaders,
+	}
+
+	await addAuthorizationHeader(headers, authorize)
+
+	const response = await fetch(apiUrl, {
+		method: method,
+		headers: headers,
+		body: body ? JSON.stringify(body) : null,
+	})
+
+	await handleResponse(response);
+}
+
+export const getData = (apiUrl, authorize, addLocation) => fetchData(apiUrl, "GET", null, authorize, addLocation)
 export const postData = (apiUrl, body, authorize) => fetchData(apiUrl, "POST", body, authorize)
 export const updateData = (apiUrl, body, authorize) => fetchData(apiUrl, "PUT", body, authorize)
-export const deleteData = (apiUrl, authorize) => fetchData(apiUrl, "DELETE", null, authorize)
+export const deleteData = (apiUrl, authorize) => sendRequest(apiUrl, "DELETE", null, authorize)
 export const patchData = (apiUrl, body, authorize) => fetchData(apiUrl, "PATCH", body, authorize)
 
 export const postMultipartData = (apiUrl, body) => fetchMultipartData(apiUrl, "POST", body)

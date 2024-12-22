@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,31 +25,44 @@ public class CaregiverWalkOfferController
   @GetMapping
   public ResponseEntity<PageDto<WalkOfferAcceptedViewDto>> displayAcceptedOffers(
       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-      @RequestParam(name = "page_size", required = false, defaultValue = "10") Integer pageSize)
+      @RequestParam(name = "page_size", required = false, defaultValue = "10") Integer pageSize,
+      @RequestHeader(name = "latitude", required = false) Double latitude,
+      @RequestHeader(name = "longitude", required = false) Double longitude
+  )
   {
-    return ResponseEntity.ok(walkOfferService.getAcceptedOffers(page, pageSize));
+    return ResponseEntity.ok(
+        walkOfferService.getAcceptedOffers(page, pageSize, latitude, longitude));
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<WalkOfferAcceptedViewDto> displayAcceptedOffer(
-      @PathVariable("id") Long offerId)
+      @PathVariable("id") Long offerId,
+      @RequestHeader(name = "latitude", required = false) Double latitude,
+      @RequestHeader(name = "longitude", required = false) Double longitude)
   {
-    return ResponseEntity.ok(walkOfferService.getAcceptedOffer(offerId));
+    return ResponseEntity.ok(walkOfferService.getAcceptedOffer(offerId, latitude, longitude));
   }
 
   @GetMapping("/pending")
   public ResponseEntity<PageDto<WalkOfferPendingViewDto>> displayPendingOffers(
       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-      @RequestParam(name = "page_size", required = false, defaultValue = "10") Integer pageSize)
+      @RequestParam(name = "page_size", required = false, defaultValue = "10") Integer pageSize,
+      @RequestHeader(name = "latitude", required = false) Double latitude,
+      @RequestHeader(name = "longitude", required = false) Double longitude
+  )
   {
-    return ResponseEntity.ok(walkOfferService.getPendingOffers(page, pageSize));
+    return ResponseEntity.ok(
+        walkOfferService.getPendingOffers(page, pageSize, latitude, longitude));
   }
 
   @GetMapping("/pending/{id}")
   public ResponseEntity<WalkOfferPendingViewDto> displayPendingOffer(
-      @PathVariable("id") Long offerId)
+      @PathVariable("id") Long offerId,
+      @RequestHeader(name = "latitude", required = false) Double latitude,
+      @RequestHeader(name = "longitude", required = false) Double longitude
+  )
   {
-    return ResponseEntity.ok(walkOfferService.getPendingOffer(offerId));
+    return ResponseEntity.ok(walkOfferService.getPendingOffer(offerId, latitude, longitude));
   }
 
   @GetMapping("/apply/{id}")

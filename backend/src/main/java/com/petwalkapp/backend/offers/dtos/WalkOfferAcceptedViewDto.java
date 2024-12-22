@@ -41,6 +41,8 @@ public class WalkOfferAcceptedViewDto
 
   private String city;
 
+  private Double distance;
+
   private boolean alreadyApplied;
 
   private WalkOfferStatus status;

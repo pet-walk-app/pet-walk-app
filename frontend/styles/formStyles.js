@@ -84,19 +84,17 @@ export const formStyles = StyleSheet.create({
 
   formSection: {
     gap: 10,
-    padding: 15,
+    padding: 20,
     borderRadius: 40,
     borderWidth: 2,
     borderColor: borderGrey,
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center',
     width: '100%',
     marginVertical: 5
   },
 
   sectionHeader: {
     fontSize: 20,
+    textAlign: 'center',
   },
 
 

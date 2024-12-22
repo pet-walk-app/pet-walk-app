@@ -3,9 +3,10 @@ package com.petwalkapp.backend.care;
 import com.petwalkapp.backend.care.entities.Caregiver;
 import com.petwalkapp.backend.offers.entities.WalkOffer;
 import com.petwalkapp.backend.offers.entities.WalkOfferApplication;
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -34,8 +35,8 @@ public class CaregiverUtils
     }
 
     return Optional.ofNullable(walkOffer.getWalkOfferApplications())
-        .stream()
-        .flatMap(Collection::stream)
+        .map(List::stream)
+        .orElseGet(Stream::empty)
         .filter(
             walkOfferApplication -> walkOfferApplication.getCaregiver().equals(currentCaregiver))
         .findFirst()

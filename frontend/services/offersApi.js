@@ -20,7 +20,7 @@ export const fetchMyAllOffers = async (page, pageSize, sortBy, sortDirection) =>
     const url = `${apiUrls.offers.all}${queryParams}`;
 
     try {
-        const response = await getData(url, true);
+        const response = await getData(url, true, true);
         return response;
     } catch (error) {
         console.error('Fetch offers error:', error.message);
@@ -33,7 +33,7 @@ export const fetchPendingOffers = async (page, pageSize) => {
     const url = `${apiUrls.offers.pendingOffers}${queryParams}`;
 
     try {
-        const response = await getData(url, true);
+        const response = await getData(url, true, true);
         return response;
     } catch (error) {
         console.error('Fetch pending offers error:', error.message);
@@ -46,7 +46,7 @@ export const fetchAcceptedOffers = async (page, pageSize) => {
     const url = `${apiUrls.offers.acceptedOffers}${queryParams}`;
 
     try {
-        const response = await getData(url, true);
+        const response = await getData(url, true, true);
         return response;
     } catch (error) {
         console.error('Fetch accepted offers error:', error.message);

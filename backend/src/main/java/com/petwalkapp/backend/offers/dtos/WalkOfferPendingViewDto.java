@@ -35,6 +35,10 @@ public class WalkOfferPendingViewDto
 
   private BigDecimal price;
 
+  private Double distance;
+
+  private String city;
+
   private boolean alreadyApplied;
 
   private WalkOfferStatus status;

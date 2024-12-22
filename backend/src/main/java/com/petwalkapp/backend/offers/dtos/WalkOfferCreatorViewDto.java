@@ -48,4 +48,8 @@ public class WalkOfferCreatorViewDto
   private LocalDateTime createdAt;
 
   private LocalDateTime updatedAt;
+
+  private double latitude;
+
+  private double longitude;
 }
