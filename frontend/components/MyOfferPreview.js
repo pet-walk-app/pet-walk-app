@@ -56,7 +56,7 @@ const MyOfferPreview = ({ walkData, myOffer, selectedCaregiver = null, animalNam
 
   return (
     <Pressable onPress={onClick}>
-      <View style={[MyOfferPreviewStyles.container, myOffer === true ? { height: 210 } : {}]}>
+      <View style={[MyOfferPreviewStyles.container, myOffer === true && found != 0 ? { height: 210 } : {}]}>
         <Text style={MyOfferPreviewStyles.myOfferTitle}>{title}</Text>
         <View style={MyOfferPreviewStyles.content}>
           <View style={MyOfferPreviewStyles.leftSection}>
@@ -71,7 +71,7 @@ const MyOfferPreview = ({ walkData, myOffer, selectedCaregiver = null, animalNam
             <Text style={MyOfferPreviewStyles.text}>{bottomLine}</Text>
           </View>
         </View>
-        {myOffer === true && selectedCaregiver == null && (
+        {myOffer === true && selectedCaregiver == null && found != 0 && (
           <CustomButton    
             ownStyle={{height: 40, width: "80%", borderWidth : 0}}
             color={beige} 
