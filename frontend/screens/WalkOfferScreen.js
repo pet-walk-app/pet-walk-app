@@ -25,6 +25,7 @@ export default function WalkOffer({ route }) {
   const [offerType, setMyOffer] = useState(OfferStatus.NEW_OFFER)
   const [walkDate, setWalkDate] = useState('')
   const [address, setAddress] = useState('')
+  const [zipCode, setZipCode] = useState('')
   const [city, setCity] = useState('')
   const [distance, setDistance] = useState()
   const petDefaultPhoto = require("../assets/default_dog_picture.png");
@@ -63,6 +64,7 @@ export default function WalkOffer({ route }) {
   
         setWalkDate(walkData.walkDate);
         setAddress(walkData.address ?? null);
+        setZipCode(walkData.zipCode ?? null)
         setCity(walkData.city ?? null);
         //TODO: dodać dystans
         //setDistance(walkData.distance.toFixed(1));
@@ -72,8 +74,11 @@ export default function WalkOffer({ route }) {
         setPetDescription(walkData.pets[0]?.description || "Brak opisu");
         setWalkLength(walkData.walkLength);
         setPrice(walkData.price);
-        setPetOwnerName(walkData.offerCreator.name ?? null);
-        setPhoneNumber(walkData.offerCreator.phone ?? null);
+        if (walkData.offerCreator)
+        {
+          setPetOwnerName(walkData.offerCreator.name ?? null);
+          setPhoneNumber(walkData.offerCreator.phone ?? null);
+        }
   
         if (offerType === OfferStatus.MY_OFFER) {
           setTitle("Twoja oferta");
@@ -132,6 +137,11 @@ export default function WalkOffer({ route }) {
               {address && (
                 <>
                   Adres: {address} {"\n"}
+                </>
+              )}
+              {zipCode && (
+                <>
+                  Kod pocztowy: {zipCode} {"\n"}
                 </>
               )}
               Miasto: {city} {"\n"}
