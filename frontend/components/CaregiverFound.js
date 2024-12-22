@@ -5,9 +5,13 @@ import { View, Text, Image, Pressable } from 'react-native';
 import { caregiverFoundStyles } from '../styles/componentsStyles';
 import { acceptSomeoneToOffer } from "../services/offersApi";
 
-const CaregiverFound = ({caregiverName, phone, img, offerId, caregiverId }) => {
+const CaregiverFound = ({caregiverData, offerId, caregiverId }) => {
   const navigation = useNavigation();
   const ownerDefaultPhoto = require("../assets/grazynka.png");
+
+  const caregiverName = caregiverData?.name || "Nieznane imię";
+  const phone = caregiverData?.phone || "Brak numeru";
+  const images = caregiverData.imageUrl || ownerDefaultPhoto;
 
   const handleAccept = () => {
     console.log("Accept button clicked");
@@ -20,13 +24,13 @@ const CaregiverFound = ({caregiverName, phone, img, offerId, caregiverId }) => {
       <View style={caregiverFoundStyles.leftSection}>
         <View style={caregiverFoundStyles.profileImageContainer}>
           <Image 
-          source={img ? { uri: img } : ownerDefaultPhoto} 
-          style={caregiverFoundStyles.profileImage} 
+            source={images ? { uri: images } : ownerDefaultPhoto} 
+            style={caregiverFoundStyles.profileImage} 
           />
         </View>
         <Pressable 
           style={caregiverFoundStyles.button}
-          onPress={() => navigation.navigate('User Profile')}>
+          onPress={() => navigation.navigate('Caregiver Profile', { caregiverData })}>
           <Text style={caregiverFoundStyles.buttonText}>Profil</Text>
         </Pressable>
       </View>

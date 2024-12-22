@@ -8,6 +8,9 @@ import { fetchOffers } from '../services/offersApi';
 import { minsToHours } from '../utils/commonUtils';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
+import Geolocation from 'react-native-geolocation-service';
+import { PermissionsAndroid, Alert } from 'react-native';
+
 
 export default function OffersListScreen({ navigation }) {
   const [offers, setOffers] = useState([]);

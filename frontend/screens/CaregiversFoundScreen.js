@@ -17,10 +17,8 @@ export default function CaregiversFound({ route, navigation }) {
           return (
             <CaregiverFound
               key={applicationId}
-              caregiverName={caregiver?.name || "Nieznane imię"}
-              phone={caregiver.phone} 
+              caregiverData = {caregiver}
               navigation={navigation}
-              img={caregiver.caregiver.images?.[0]?.url || null}
               offerId={offerId}
               caregiverId={caregiverId}
             />
