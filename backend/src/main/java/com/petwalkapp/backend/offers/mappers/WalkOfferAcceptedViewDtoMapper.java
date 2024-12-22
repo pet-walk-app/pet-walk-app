@@ -40,6 +40,6 @@ public interface WalkOfferAcceptedViewDtoMapper
 
     Point zipCodeLocation = walkOffer.getZipCodeLocation();
     return DistanceCalculator.calculateDistance(zipCodeLocation.getY(), zipCodeLocation.getX(),
-        context.getLatitude(), context.getLatitude());
+        context.getLatitude(), context.getLongitude());
   }
 }

@@ -83,7 +83,7 @@ export default function EditOfferScreen({ navigation, route}) {
 
       <ScrollView>
         <View style={formStyles.formContainer}>
-          <PlacePickerSection errors={errors} control={control} />
+          <PlacePickerSection errors={errors} control={control} navigation={navigation} />
           <Controller
             control={control}
             name="walkDate"

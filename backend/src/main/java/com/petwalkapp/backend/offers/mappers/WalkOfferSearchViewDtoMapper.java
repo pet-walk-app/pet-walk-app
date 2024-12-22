@@ -1,12 +1,11 @@
 package com.petwalkapp.backend.offers.mappers;
 
 import com.petwalkapp.backend.care.CaregiverUtils;
-import com.petwalkapp.backend.care.entities.Caregiver;
 import com.petwalkapp.backend.common.dtos.PageDto;
 import com.petwalkapp.backend.common.utils.DistanceCalculator;
+import com.petwalkapp.backend.offers.contexts.SearchMappingContext;
 import com.petwalkapp.backend.offers.dtos.WalkOfferSearchViewDto;
 import com.petwalkapp.backend.offers.entities.WalkOffer;
-import com.petwalkapp.backend.offers.requests.SearchWalkOffersRequest;
 import com.petwalkapp.backend.pets.mappers.PetResponseDtoMapper;
 import com.petwalkapp.backend.users.mappers.UserOfferSearchDtoMapper;
 import org.locationtech.jts.geom.Point;
@@ -24,20 +23,23 @@ public interface WalkOfferSearchViewDtoMapper
 
   @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
   PageDto<WalkOfferSearchViewDto> toPageDto(Page<WalkOffer> walkOffers,
-      @Context SearchWalkOffersRequest searchRequest, @Context Caregiver currentCaregiver);
+      @Context SearchMappingContext context);
 
-  @Mapping(target = "alreadyApplied", expression = "java(CaregiverUtils.didCaregiverAppliedForOffer(walkOffer, currentCaregiver))")
-  @Mapping(target = "isApplicationRejected", expression = "java(CaregiverUtils.isApplicationRejected(walkOffer, currentCaregiver))")
-  @Mapping(target = "distance", expression = "java(calculationDistance(walkOffer, searchRequest))")
+  @Mapping(target = "alreadyApplied", expression = "java(CaregiverUtils.didCaregiverAppliedForOffer(walkOffer, context.getCurrentCaregiver()))")
+  @Mapping(target = "isApplicationRejected", expression = "java(CaregiverUtils.isApplicationRejected(walkOffer, context.getCurrentCaregiver()))")
+  @Mapping(target = "distance", expression = "java(calculationDistance(walkOffer, context))")
   @Mapping(target = "offerCreator", source = "walkOffer.petOwner.user")
-  WalkOfferSearchViewDto toDto(WalkOffer walkOffer, @Context SearchWalkOffersRequest searchRequest,
-      @Context Caregiver currentCaregiver);
+  WalkOfferSearchViewDto toDto(WalkOffer walkOffer, @Context SearchMappingContext context);
 
-  default double calculationDistance(WalkOffer walkOffer, SearchWalkOffersRequest searchRequest)
+  default Double calculationDistance(WalkOffer walkOffer, SearchMappingContext context)
   {
+    if (context.getLatitude() == null || context.getLongitude() == null) {
+      return null;
+    }
+
     Point zipCodeLocation = walkOffer.getZipCodeLocation();
 
     return DistanceCalculator.calculateDistance(zipCodeLocation.getY(), zipCodeLocation.getX(),
-        searchRequest.getLatitude(), searchRequest.getLongitude());
+        context.getLatitude(), context.getLongitude());
   }
 }

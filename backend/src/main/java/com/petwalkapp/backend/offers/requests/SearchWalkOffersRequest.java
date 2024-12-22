@@ -1,6 +1,5 @@
 package com.petwalkapp.backend.offers.requests;
 
-import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;
@@ -14,10 +13,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SearchWalkOffersRequest
 {
-
-  @NotNull private Double longitude;
-
-  @NotNull private Double latitude;
 
   private Double radius;
 

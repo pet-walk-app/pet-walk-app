@@ -8,8 +8,6 @@ import { fetchOffers } from '../services/offersApi';
 import { minsToHours } from '../utils/commonUtils';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
-import Geolocation from 'react-native-geolocation-service';
-import { PermissionsAndroid, Alert } from 'react-native';
 
 
 export default function OffersListScreen({ navigation }) {
@@ -24,9 +22,7 @@ export default function OffersListScreen({ navigation }) {
     maxTime: null,
     walkDateFrom: null,
     walkDateTo: null,
-    radius: null,
-    latitude: 0,
-    longitude: 0,
+    radius: null
   });
 
   const loadOffers = async (sortBy = 'WALK_DATE', sortOrder = 'ASC', isNextPage = false) => {
