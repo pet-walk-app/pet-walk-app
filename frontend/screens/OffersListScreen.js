@@ -6,6 +6,8 @@ import OfferListFilter from '../components/OfferListFilter';
 import BottomMenu from '../components/BottomMenu';
 import { fetchOffers } from '../services/offersApi';
 import { minsToHours } from '../utils/commonUtils';
+import { useFocusEffect } from '@react-navigation/native';
+import { useCallback } from 'react';
 
 export default function OffersListScreen({ navigation }) {
   const [offers, setOffers] = useState([]);
@@ -39,8 +41,6 @@ export default function OffersListScreen({ navigation }) {
       );
 
       const newOffers = response.content || [];
-      console.log('Pets w ofercie:', newOffers[0]?.pets);
-
 
       const uniqueOffers = [
         ...(isNextPage ? offers : []),
@@ -71,6 +71,14 @@ export default function OffersListScreen({ navigation }) {
     loadOffers();
   }, [filters]);
 
+  useFocusEffect(
+    useCallback(() => {
+      setPage(0);
+      setHasMore(true);
+      loadOffers();
+    }, [])
+  );
+   
   return (
     <NoStatusBarView>
       <OfferListFilter filters={filters} setFilters={setFilters} onSubmit={loadOffers} />
