@@ -181,7 +181,7 @@ public class WalkOfferService implements IWalkOfferService
 
     if (Objects.isNull(matchingOfferApplication) || matchingOfferApplication.isRejected()
         || walkOffer.getStatus() != WalkOfferStatus.OPEN || walkOffer.getWalkDate()
-            .isBefore(ChronoLocalDate.from(LocalDateTime.now()))) {
+        .isBefore(ChronoLocalDate.from(LocalDateTime.now()))) {
       throw new NotAllowedException();
     }
 
@@ -354,7 +354,7 @@ public class WalkOfferService implements IWalkOfferService
     validateOfferCanBeUpdated(walkOffer, petOwner);
 
     WalkOfferApplication walkOfferApplication = Optional.ofNullable(
-        walkOffer.getWalkOfferApplications())
+            walkOffer.getWalkOfferApplications())
         .orElseGet(ArrayList::new)
         .stream()
         .filter(application -> application.getId().equals(applicationId))
@@ -375,7 +375,7 @@ public class WalkOfferService implements IWalkOfferService
     validateOfferCanBeUpdated(walkOffer, petOwner);
 
     WalkOfferApplication walkOfferApplication = Optional.ofNullable(
-        walkOffer.getWalkOfferApplications())
+            walkOffer.getWalkOfferApplications())
         .orElseGet(ArrayList::new)
         .stream()
         .filter(Objects::nonNull)

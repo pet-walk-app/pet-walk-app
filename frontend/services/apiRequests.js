@@ -51,6 +51,8 @@ const fetchData = async (apiUrl, method, body = null, authorize = false, addLoca
 		...(addLocation && await getGeoLocation())
 	}
 
+	console.log(headers)
+
 	await addAuthorizationHeader(headers, authorize)
 
 	const response = await fetch(apiUrl, {
