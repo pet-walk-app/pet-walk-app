@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 public class InvalidSortFieldException extends BaseServerException
 {
 
-  private static final String message = "Invalid sort field, allowed: ";
+  private static final String message = "Nieprawidłowy klucz sortowania, prawidłowe: ";
 
   public InvalidSortFieldException(String allowedFields)
   {

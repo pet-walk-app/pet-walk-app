@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 public class OfferNotFoundException extends BaseServerException
 {
 
-  private static final String message = "Offer could not be found";
+  private static final String message = "Oferta nie została znaleziona";
 
   public OfferNotFoundException()
   {

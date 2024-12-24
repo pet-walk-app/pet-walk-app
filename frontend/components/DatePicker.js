@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import {Animated, Easing, Pressable, Text, View} from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { formStyles } from '../styles/formStyles';
 import { formatDate } from '../utils/commonUtils';
+import {darkGrey} from "../consts/colors";
 
 const DatePicker = ({
   date,
@@ -10,7 +11,8 @@ const DatePicker = ({
   dateMax,
   dateMin,
   errorMessage,
-  customStyle = formStyles.formInput,
+  customStyle,
+  label
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -20,10 +22,15 @@ const DatePicker = ({
   };
 
   return (
-    <View style={formStyles.formInput}>
+    <View style={customStyle || formStyles.formInput}>
       <View>
         <Pressable onPress={() => setIsOpen(true)}>
-          <Text style={formStyles.inputText}>{formatDate(date, '.')}</Text>
+          {label && (<Text style={formStyles.label}>{label}</Text>)}
+          <Text style={[formStyles.inputText, label ? {
+                height: '100%',
+                paddingTop: 25
+              } : {}
+          ]}>{formatDate(date, '.')}</Text>
         </Pressable>
 
         <DateTimePickerModal

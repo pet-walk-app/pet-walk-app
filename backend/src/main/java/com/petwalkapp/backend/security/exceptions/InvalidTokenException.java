@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 public class InvalidTokenException extends BaseServerException
 {
 
-  private static final String message = "Invalid token";
+  private static final String message = "Nieprawidłowy token";
 
   public InvalidTokenException()
   {

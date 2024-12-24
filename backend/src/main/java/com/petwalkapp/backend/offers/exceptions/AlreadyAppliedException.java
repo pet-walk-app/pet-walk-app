@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 public class AlreadyAppliedException extends BaseServerException
 {
 
-  private static final String message = "User already applied to this offer";
+  private static final String message = "Użytkownik już zgłosił się na tę ofertę";
 
   public AlreadyAppliedException()
   {

@@ -8,7 +8,7 @@ import org.apache.commons.io.FileUtils;
 public class InvalidFileSizeException extends BaseServerException
 {
 
-  private static final String message = "File size exceeds maximum allowed - " + FileUtils
+  private static final String message = "Rozmiar pliku jest zbyt duży, maksymalny - " + FileUtils
       .byteCountToDisplaySize(MAX_FILE_SIZE);
 
   public InvalidFileSizeException()

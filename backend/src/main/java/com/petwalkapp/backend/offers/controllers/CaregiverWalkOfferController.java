@@ -26,12 +26,12 @@ public class CaregiverWalkOfferController
   public ResponseEntity<PageDto<WalkOfferAcceptedViewDto>> displayAcceptedOffers(
       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(name = "page_size", required = false, defaultValue = "10") Integer pageSize,
+      @RequestParam(name = "display_old_offers", required = false, defaultValue = "false") Boolean displayOldOffers,
       @RequestHeader(name = "latitude", required = false) Double latitude,
-      @RequestHeader(name = "longitude", required = false) Double longitude
-  )
+      @RequestHeader(name = "longitude", required = false) Double longitude)
   {
     return ResponseEntity.ok(
-        walkOfferService.getAcceptedOffers(page, pageSize, latitude, longitude));
+        walkOfferService.getAcceptedOffers(page, pageSize, latitude, longitude, displayOldOffers));
   }
 
   @GetMapping("/{id}")

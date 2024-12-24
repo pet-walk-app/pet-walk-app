@@ -1,6 +1,5 @@
 package com.petwalkapp.backend.offers.mappers;
 
-import com.petwalkapp.backend.common.connectors.googlemaps.GoogleMapsAPIConnector;
 import com.petwalkapp.backend.offers.entities.WalkOffer;
 import com.petwalkapp.backend.offers.requests.UpdateWalkOfferRequest;
 import com.petwalkapp.backend.pets.services.IPetService;
@@ -17,9 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Mapper(imports = {LocalDateTime.class})
 public abstract class UpdateWalkOfferRequestMapper
 {
-
-  @Autowired
-  private GoogleMapsAPIConnector googleMapsAPIConnector;
 
   @Autowired
   private GeometryFactory geometryFactory;

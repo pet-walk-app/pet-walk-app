@@ -13,7 +13,7 @@ const OfferStatusEnum = {
   OPEN: "OPEN",
 };
 
-const MyOfferPreview = ({ walkData, myOffer, selectedCaregiver = null, animalName, date, found, status, imageUrl = null }) => {
+const MyOfferPreview = ({ walkData, myOffer, selectedCaregiver = null, animalName, date, found, status, imageUrl = null, updateOfferFromResponse }) => {
   const navigation = useNavigation();
   const [title, setTitle] = useState("");
   const [bottomLine, setBottomLine] = useState("");
@@ -29,7 +29,7 @@ const MyOfferPreview = ({ walkData, myOffer, selectedCaregiver = null, animalNam
   };
 
   const onClick = () => {
-    navigation.navigate('Walk Offer', { walkData: walkData });
+    navigation.navigate('Walk Offer', { walkData: walkData, onWalkOfferUpdate: updateOfferFromResponse });
   };
 
   useEffect(() => {

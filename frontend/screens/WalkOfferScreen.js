@@ -2,7 +2,7 @@ import {View, Text, Image, ScrollView} from "react-native";
 import { formStyles } from "../styles/formStyles";
 import { useState, useEffect } from "react";
 import { red, lightGreen, beige, green, white } from "../consts/colors";
-import { applyToOffer, deleteApplyToOffer, deleteOffer } from "../services/offersApi";
+import {applyToOffer, deleteApplyToOffer, deleteOffer, updateOffer} from "../services/offersApi";
 import { getProfile } from "../services/userApi";
 import { useNavigation  } from '@react-navigation/native';
 
@@ -18,11 +18,12 @@ const OfferStatus = {
 
 export default function WalkOffer({ route }) {
   const navigation = useNavigation();
-  const { walkData } = route.params;
-  const [userHasCaregiverAccount, setUserHasCaregiverAccount] = useState(false)
+  const { walkData, onWalkOfferUpdate } = route.params;
+  const [userHasCaregiverAccount, setUserHasCaregiverAccount] = useState(false);
+  const [currentWalkData, setCurrentWalkData] = useState(walkData);
 
   const [title, setTitle] = useState("")
-  const [offerType, setMyOffer] = useState(OfferStatus.NEW_OFFER)
+  const [offerType, setOfferType] = useState(OfferStatus.NEW_OFFER)
   const [walkDate, setWalkDate] = useState('')
   const [address, setAddress] = useState('')
   const [zipCode, setZipCode] = useState('')
@@ -45,38 +46,38 @@ export default function WalkOffer({ route }) {
       try {
         const profile = await getProfile();
         setUserHasCaregiverAccount(profile.caregiver != null);
-        if (!walkData.offerCreator || profile.id == walkData.offerCreator.id){
-          setMyOffer(OfferStatus.MY_OFFER);
+        if (!currentWalkData.offerCreator || profile.id == currentWalkData.offerCreator.id){
+          setOfferType(OfferStatus.MY_OFFER);
         }
         else {
-          if (walkData.status == "ACCEPTED"){
-            setMyOffer(OfferStatus.OFFER_ACCEPTED);
+          if (currentWalkData.status == "ACCEPTED"){
+            setOfferType(OfferStatus.OFFER_ACCEPTED);
           }
-          else if (walkData.alreadyApplied) {
-            setMyOffer(OfferStatus.REQUEST_SENT);
+          else if (currentWalkData.alreadyApplied) {
+            setOfferType(OfferStatus.REQUEST_SENT);
           }
           else {
-            setMyOffer(OfferStatus.NEW_OFFER);
-            if (walkData.applicationRejected) {
-              setMyOffer(OfferStatus.REQUEST_SENT);
+            setOfferType(OfferStatus.NEW_OFFER);
+            if (currentWalkData.applicationRejected) {
+              setOfferType(OfferStatus.REQUEST_SENT);
             }
           }
         }
-  
-        setWalkDate(walkData.walkDate);
-        setAddress(walkData.address ?? null);
-        setZipCode(walkData.zipCode ?? null)
-        setCity(walkData.city ?? null);
-        setDistance(walkData.distance?.toFixed(1));
-        setPhoto(walkData.pets[0]?.imageUrl || null);
-        setPetName(walkData.pets[0]?.name || "Brak nazwy");
-        setPetBreed(walkData.pets[0]?.breed || "Nieznana rasa");
-        setPetDescription(walkData.pets[0]?.description || "Brak opisu");
-        setWalkLength(walkData.walkLength);
-        setPrice(walkData.price);
-        setPetOwnerName(walkData.offerCreator?.name ?? null);
-        setPhoneNumber(walkData.offerCreator?.phone ?? null);
-  
+
+        setWalkDate(currentWalkData.walkDate);
+        setAddress(currentWalkData.address ?? null);
+        setZipCode(currentWalkData.zipCode ?? null)
+        setCity(currentWalkData.city ?? null);
+        setDistance(currentWalkData.distance?.toFixed(1));
+        setPhoto(currentWalkData.pets[0]?.imageUrl || null);
+        setPetName(currentWalkData.pets[0]?.name || "Brak nazwy");
+        setPetBreed(currentWalkData.pets[0]?.breed || "Nieznana rasa");
+        setPetDescription(currentWalkData.pets[0]?.description || "Brak opisu");
+        setWalkLength(currentWalkData.walkLength);
+        setPrice(currentWalkData.price);
+        setPetOwnerName(currentWalkData.offerCreator?.name ?? null);
+        setPhoneNumber(currentWalkData.offerCreator?.phone ?? null);
+
         if (offerType === OfferStatus.MY_OFFER) {
           setTitle("Twoja oferta");
         } else {
@@ -86,33 +87,39 @@ export default function WalkOffer({ route }) {
         console.error("Error fetching profile:", error);
       }
     };
-  
+
     fetchProfileAndSetup();
-  }, [offerType, walkData]);
+  }, [offerType, currentWalkData]);
 
   const handleRemove = () => {
     console.log('Usunięcie');
-    deleteOffer(walkData.id);
+    deleteOffer(currentWalkData.id);
     navigation.navigate('Offers List')
   };
 
   const handleEdit = () => {
-    navigation.navigate('Edit Offer', { id: walkData.id })
+    navigation.navigate('Edit Offer', { id: currentWalkData.id, onWalkOfferUpdate: (updatedWalkData) => {
+        onWalkOfferUpdate(currentWalkData);
+        setCurrentWalkData({
+          ...currentWalkData,
+          ...updatedWalkData,
+        });
+      }})
     console.log('Edycja');
   };
 
   const handleApply = () => {
     console.log('Zgłoszono się!');
-    applyToOffer(walkData.id);
-    walkData.alreadyApplied = true;
-    setMyOffer(OfferStatus.REQUEST_SENT);
+    applyToOffer(currentWalkData.id);
+    currentWalkData.alreadyApplied = true;
+    setOfferType(OfferStatus.REQUEST_SENT);
   };
 
   const handleWithdrawApplication = () => {
     console.log('Zgłoszenie wycofane!');
-    deleteApplyToOffer(walkData.id);
-    walkData.alreadyApplied = false;
-    setMyOffer(OfferStatus.NEW_OFFER);
+    deleteApplyToOffer(currentWalkData.id);
+    currentWalkData.alreadyApplied = false;
+    setOfferType(OfferStatus.NEW_OFFER);
   };
 
   const handleCreateCaregiverProfile = () => {

@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 public class NotAllowedException extends BaseServerException
 {
 
-  private static final String message = "User cannot perform this action";
+  private static final String message = "Użytkownik nie może wykonać tej akcji";
 
   public NotAllowedException()
   {

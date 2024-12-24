@@ -1,11 +1,9 @@
 import { StyleSheet } from 'react-native';
 import {
   green,
-  lightGreen,
   white,
-  backgroundGrey,
   darkGrey,
-  borderGrey
+  borderGrey, black
 } from '../consts/colors.js';
 
 export const walkOfferPreviewStyles = StyleSheet.create({
@@ -120,7 +118,7 @@ export const offerListStyles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: '#f9f9f9',
     fontSize: 14,
-    color: darkGrey,
+    color: black,
     justifyContent: 'center',
   },
 

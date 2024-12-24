@@ -7,6 +7,8 @@ const borderGrey = '#CFCFD9'
 const red = '#F7B3B8'
 const beige = '#EFE4B0'
 
+const black = '#000000'
+
 
 export {
   green,
@@ -16,5 +18,6 @@ export {
   darkGrey,
   borderGrey,
   red,
-  beige
+  beige,
+  black
 }

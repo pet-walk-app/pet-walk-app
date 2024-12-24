@@ -15,7 +15,8 @@ import jakarta.validation.Valid;
 public interface IWalkOfferService
 {
 
-  PageDto<WalkOfferCreatorViewDto> getUserWalkOffers(Integer page, Integer pageSize);
+  PageDto<WalkOfferCreatorViewDto> getUserWalkOffers(Integer page, Integer pageSize,
+      Boolean displayOldOffers);
 
   WalkOfferCreatorViewDto getUserWalkOffer(Long id);
 
@@ -34,7 +35,7 @@ public interface IWalkOfferService
       Double longitude);
 
   PageDto<WalkOfferAcceptedViewDto> getAcceptedOffers(Integer page, Integer pageSize,
-      Double latitude, Double longitude);
+      Double latitude, Double longitude, Boolean displayOldOffers);
 
   PageDto<WalkOfferSearchViewDto> searchWalkOffers(@Valid SearchWalkOffersRequest searchRequest,
       Integer page, Integer pageSize, SearchWalkOfferSortByType sortBy,

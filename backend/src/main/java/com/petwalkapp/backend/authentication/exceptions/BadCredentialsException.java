@@ -8,7 +8,7 @@ public class BadCredentialsException extends BaseServerException
 
   public BadCredentialsException()
   {
-    super("Provided user credentials are not valid");
+    super("Wprowadzone nieprawidłowe dane logowania");
     setStatus(HttpStatus.UNAUTHORIZED);
   }
 }

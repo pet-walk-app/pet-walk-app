@@ -36,9 +36,10 @@ public class UserWalkOfferController
   @GetMapping
   public ResponseEntity<PageDto<WalkOfferCreatorViewDto>> getUserWalkOffers(
       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-      @RequestParam(name = "page_size", required = false, defaultValue = "10") Integer pageSize)
+      @RequestParam(name = "page_size", required = false, defaultValue = "10") Integer pageSize,
+      @RequestParam(name = "display_old_offers", required = false, defaultValue = "false") Boolean displayOldOffers)
   {
-    return ResponseEntity.ok(walkOfferService.getUserWalkOffers(page, pageSize));
+    return ResponseEntity.ok(walkOfferService.getUserWalkOffers(page, pageSize, displayOldOffers));
   }
 
   @GetMapping("/{id}")

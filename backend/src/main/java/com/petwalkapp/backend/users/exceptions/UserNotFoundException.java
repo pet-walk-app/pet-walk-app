@@ -7,6 +7,6 @@ public class UserNotFoundException extends BaseServerException
 
   public UserNotFoundException()
   {
-    super("User not found");
+    super("Użytkownik nie został odnaleziony");
   }
 }

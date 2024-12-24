@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 public class UnsuccessfulDeleteException extends BaseServerException
 {
 
-  private static final String message = "Image was not deleted, please try again";
+  private static final String message = "Zdjęcie nie zostało usunięte, spróbuj ponownie";
 
   public UnsuccessfulDeleteException()
   {

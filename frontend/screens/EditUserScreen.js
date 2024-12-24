@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Alert, Pressable, Image } from "react-native";
+import {View, Text, Alert, Pressable, Image, ScrollView} from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import * as ImagePicker from "expo-image-picker";
 import { fetchUserData, editUser, saveUserPhoto, deleteUserPhoto } from "../services/userApi";
@@ -105,137 +105,140 @@ export default function EditUserScreen({ navigation }) {
 
   return (
     <NoStatusBarView>
-      <View style={formStyles.middleSection}>
-        <Text style={formStyles.h1}>Edytuj swój profil użytkownika</Text>
-        <View style={formStyles.profileImageContainer}>
-          <Pressable onPress={pickImage}>
-            {hasPhoto ? (
-              <Image
-                source={{ uri: image }}
-                style={[formStyles.image, { width: 100, height: 100 }]}
-              />
-            ) : (
-              <Image
-                source={require("../assets/plus.png")}
-                style={[formStyles.image, { width: 100, height: 100 }]}
-              />
-            )}
-          </Pressable>
-          {hasPhoto && (
-            <Pressable onPress={deleteImage} style={{ marginTop: 10 }}>
-              <Text style={{ color: "red" }}>Usuń zdjęcie</Text>
+      <ScrollView>
+        <View style={formStyles.middleSection}>
+          <Text style={formStyles.h1}>Edytuj swój profil użytkownika</Text>
+          <View style={formStyles.profileImageContainer}>
+            <Pressable onPress={pickImage}>
+              {hasPhoto ? (
+                  <Image
+                      source={{ uri: image }}
+                      style={[formStyles.image, { width: 100, height: 100 }]}
+                  />
+              ) : (
+                  <Image
+                      source={require("../assets/plus.png")}
+                      style={[formStyles.image, { width: 100, height: 100 }]}
+                  />
+              )}
             </Pressable>
-          )}
+            {hasPhoto && (
+                <Pressable onPress={deleteImage} style={{ marginTop: 10 }}>
+                  <Text style={{ color: "red" }}>Usuń zdjęcie</Text>
+                </Pressable>
+            )}
+          </View>
+
+          <View style={formStyles.formContainer}>
+            <Controller
+                control={control}
+                name="name"
+                rules={{
+                  required: "Imię jest wymagane",
+                  pattern: {
+                    value: /^[a-zA-Z0-9_-]+$/,
+                    message: "Imię może zawierać cyfry, litery, -, _",
+                  },
+                }}
+                render={({ field: { onChange, value } }) => (
+                    <FormInput
+                        value={value}
+                        setValue={onChange}
+                        placeholder={"Imię użytkownika"}
+                        errorMessage={errors.name?.message}
+                    />
+                )}
+            />
+
+            <Controller
+                control={control}
+                name="phone"
+                rules={{
+                  required: "Numer telefonu jest wymagany",
+                  pattern: {
+                    value: /^\d{9}$/,
+                    message: "Numer musi składać się z 9 cyfr",
+                  },
+                }}
+                render={({ field: { onChange, value } }) => (
+                    <FormInput
+                        value={value}
+                        setValue={onChange}
+                        placeholder={"Numer telefonu"}
+                        errorMessage={errors.phone?.message}
+                    />
+                )}
+            />
+
+            <Controller
+                control={control}
+                name="dateOfBirth"
+                rules={{ required: "Data urodzenia jest wymagana" }}
+                render={({ field: { onChange, value } }) => (
+                    <DatePicker
+                        label={'Data urodzenia'}
+                        date={value}
+                        setDate={onChange}
+                        dateMin={new Date(1990, 1, 1)}
+                        errorMessage={errors.dateOfBirth?.message}
+                    />
+                )}
+            />
+
+            <Controller
+                control={control}
+                name="newPassword"
+                rules={{
+                  minLength: {
+                    value: 5,
+                    message: "Hasło musi mieć co najmniej 5 znaków",
+                  },
+                  maxLength: {
+                    value: 64,
+                    message: "Hasło może mieć maksymalnie 64 znaki",
+                  },
+                }}
+                render={({ field: { onChange, value } }) => (
+                    <FormInput
+                        value={value}
+                        setValue={onChange}
+                        placeholder={"Nowe hasło"}
+                        secureTextEntry={true}
+                        errorMessage={errors.newPassword?.message}
+                    />
+                )}
+            />
+
+            <Controller
+                control={control}
+                name="confirmNewPassword"
+                render={({ field: { onChange, value } }) => (
+                    <FormInput
+                        value={value}
+                        setValue={onChange}
+                        placeholder={"Potwierdź nowe hasło"}
+                        secureTextEntry={true}
+                        errorMessage={errors.confirmNewPassword?.message}
+                    />
+                )}
+            />
+          </View>
+
+          <CustomButton
+              color={green}
+              textColor={white}
+              action={handleSubmit(onSubmit)}
+              title={"Zapisz zmiany"}
+          />
+          <CustomButton
+              color={white}
+              textColor={green}
+              action={() => navigation.goBack()}
+              title={"Anuluj"}
+          />
         </View>
-
-        <View style={formStyles.formContainer}>
-          <Controller
-            control={control}
-            name="name"
-            rules={{
-              required: "Imię jest wymagane",
-              pattern: {
-                value: /^[a-zA-Z0-9_-]+$/,
-                message: "Imię może zawierać cyfry, litery, -, _",
-              },
-            }}
-            render={({ field: { onChange, value } }) => (
-              <FormInput
-                value={value}
-                setValue={onChange}
-                placeholder={"Imię użytkownika"}
-                errorMessage={errors.name?.message}
-              />
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="phone"
-            rules={{
-              required: "Numer telefonu jest wymagany",
-              pattern: {
-                value: /^\d{9}$/,
-                message: "Numer musi składać się z 9 cyfr",
-              },
-            }}
-            render={({ field: { onChange, value } }) => (
-              <FormInput
-                value={value}
-                setValue={onChange}
-                placeholder={"Numer telefonu"}
-                errorMessage={errors.phone?.message}
-              />
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="dateOfBirth"
-            rules={{ required: "Data urodzenia jest wymagana" }}
-            render={({ field: { onChange, value } }) => (
-              <DatePicker
-                date={value}
-                setDate={onChange}
-                dateMin={new Date(1990, 1, 1)}
-                errorMessage={errors.dateOfBirth?.message}
-              />
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="newPassword"
-            rules={{
-              minLength: {
-                value: 5,
-                message: "Hasło musi mieć co najmniej 5 znaków",
-              },
-              maxLength: {
-                value: 64,
-                message: "Hasło może mieć maksymalnie 64 znaki",
-              },
-            }}
-            render={({ field: { onChange, value } }) => (
-              <FormInput
-                value={value}
-                setValue={onChange}
-                placeholder={"Nowe hasło"}
-                secureTextEntry={true}
-                errorMessage={errors.newPassword?.message}
-              />
-            )}
-          />
-
-          <Controller
-            control={control}
-            name="confirmNewPassword"
-            render={({ field: { onChange, value } }) => (
-              <FormInput
-                value={value}
-                setValue={onChange}
-                placeholder={"Potwierdź nowe hasło"}
-                secureTextEntry={true}
-                errorMessage={errors.confirmNewPassword?.message}
-              />
-            )}
-          />
-        </View>
-
-        <CustomButton
-          color={green}
-          textColor={white}
-          action={handleSubmit(onSubmit)}
-          title={"Zapisz zmiany"}
-        />
-        <CustomButton
-          color={white}
-          textColor={green}
-          action={() => navigation.goBack()}
-          title={"Anuluj"}
-        />
-      </View>
-      <View style={formStyles.bottomSection}></View>
+        <View style={formStyles.bottomSection}></View>
+      </ScrollView>
     </NoStatusBarView>
   );
 }
