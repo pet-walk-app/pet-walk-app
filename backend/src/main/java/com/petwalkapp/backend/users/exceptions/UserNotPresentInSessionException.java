@@ -5,7 +5,7 @@ import com.petwalkapp.backend.security.exceptions.BaseServerException;
 public class UserNotPresentInSessionException extends BaseServerException
 {
 
-  private static final String message = "User is not present in the session";
+  private static final String message = "Użytkownik nie zostal znaleziony w sesji";
 
   public UserNotPresentInSessionException()
   {

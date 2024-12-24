@@ -7,6 +7,6 @@ public class EmailTakenException extends BaseServerException
 
   public EmailTakenException()
   {
-    super("Email is already taken");
+    super("Email jest już wykorzystany");
   }
 }

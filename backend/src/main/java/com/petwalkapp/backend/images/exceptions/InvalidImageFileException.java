@@ -5,7 +5,7 @@ import com.petwalkapp.backend.security.exceptions.BaseServerException;
 public class InvalidImageFileException extends BaseServerException
 {
 
-  public static final String MESSAGE = "Invalid image file";
+  public static final String MESSAGE = "Nieprawidłowy plik";
 
   public InvalidImageFileException()
   {

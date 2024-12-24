@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import {
-  green,
+  black,
   lightGreen,
   white,
   backgroundGrey,
@@ -15,12 +15,12 @@ export const formStyles = StyleSheet.create({
   },
 
   topSection: {
-    flex: 1.5
+    height: 150
     // grafika PetWalk
   },
 
   middleSection: {
-    flex: 6,
+    flex: 1,
     padding: 40,
     alignContent: 'center',
     justifyContent: 'flex-start',
@@ -36,12 +36,6 @@ export const formStyles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: backgroundGrey
-  },
-
-  bottomSection: {
-    // tu będą przyciski
-    flex: 0.5,
-    backgroundColor: white,
   },
 
   h1: {
@@ -154,8 +148,16 @@ export const formStyles = StyleSheet.create({
     textAlignVertical: "top"
   },
 
+  label: {
+    position: 'absolute',
+    left: 2,
+    top: 1,
+    fontSize: 12,
+    color: darkGrey,
+  },
+
   inputText: { 
-    color: darkGrey
+    color: black,
   },
 
   button: {

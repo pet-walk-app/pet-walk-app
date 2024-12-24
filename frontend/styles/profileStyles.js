@@ -93,7 +93,7 @@ export const profileStyles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         backgroundColor: white,
-        borderRadius: 20,
+        borderRadius: 10,
         width: 170,
         height: 170
     },
@@ -106,12 +106,17 @@ export const profileStyles = StyleSheet.create({
     },
     
     petCarousel: {
+        marginRight: -40,
+    },
+
+    petCarouselWrapper: {
         flexDirection: 'row',
+        paddingRight: 20,
     },
 
     petImageContainer: {
-        width: 80,
-        height: 80, 
+        width: 100,
+        height: 100,
         borderRadius: 20,
         overflow: 'hidden',
         justifyContent: 'center',
@@ -119,8 +124,7 @@ export const profileStyles = StyleSheet.create({
         backgroundColor: white,
         marginHorizontal: 6,
         alignSelf: 'center',
-        position: 'relative'
-      },
+    },
       
       petImage: {
         width: '80%',

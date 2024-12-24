@@ -4,7 +4,7 @@ import WalkOfferPreview from '../components/WalkOfferPreview';
 import NoStatusBarView from '../components/NoStatusBarView';
 import OfferListFilter from '../components/OfferListFilter';
 import BottomMenu from '../components/BottomMenu';
-import { fetchOffers } from '../services/offersApi';
+import {fetchOffers} from '../services/offersApi';
 import { minsToHours } from '../utils/commonUtils';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
@@ -64,6 +64,19 @@ export default function OffersListScreen({ navigation }) {
     }
   };
 
+  const updateOfferFromResponse = (updatedOffer) => {
+    const updatedOffers = offers.map((offer) => {
+      if (offer.id === updatedOffer.id) {
+        return {
+          ...offer,
+          ...updatedOffer,
+        };
+      }
+      return offer;
+    });
+    setOffers(updatedOffers);
+  }
+
   useEffect(() => {
     setPage(0);
     setHasMore(true);
@@ -88,7 +101,7 @@ export default function OffersListScreen({ navigation }) {
           data={offers}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <Pressable onPress={() => navigation.navigate('Walk Offer', { walkData: item })}>
+            <Pressable onPress={() => navigation.navigate('Walk Offer', { walkData: item, onWalkOfferUpdate: updateOfferFromResponse })}>
               <WalkOfferPreview
                 animalName={item.pets[0]?.name || 'Brak nazwy'}
                 breed={item.pets[0]?.breed || 'Nieznana rasa'}

@@ -12,7 +12,7 @@ import {PlacePickerSection} from "../components/PlacePickerSection";
 
 export default function EditOfferScreen({ navigation, route}) {
   const [offer, setOffer] = useState(null); 
-  const { id } = route.params;
+  const { id, onWalkOfferUpdate } = route.params;
 
   const {
     control,
@@ -69,8 +69,9 @@ export default function EditOfferScreen({ navigation, route}) {
         longitude: data.place.longitude,
       };
 
-      await updateOffer(body, id);
+      const updatedOffer = await updateOffer(body, id);
       Alert.alert("Sukces", "Dane oferty zostały zaktualizowane.");
+      onWalkOfferUpdate(updatedOffer);
       navigation.goBack();
     } catch (error) {
       Alert.alert("Błąd", "Wystąpił problem podczas edycji oferty: " + error.message);
@@ -90,6 +91,7 @@ export default function EditOfferScreen({ navigation, route}) {
             rules={{ required: "Data spaceru jest wymagana" }}
             render={({ field: { onChange, value } }) => (
               <DatePicker
+                label={'Data spaceru'}
                 date={value}
                 setDate={onChange}
                 errorMessage={errors.walkDate?.message}

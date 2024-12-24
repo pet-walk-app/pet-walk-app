@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 public class InvalidFileExtensionException extends BaseServerException
 {
 
-  private static final String message = "File extension is invalid, allows extensions are: "
+  private static final String message = "Nieprawidłowe rozszerzenie pliku, prawidłowe: "
       + String.join(", ", ALLOWED_EXTENSIONS);
 
   public InvalidFileExtensionException()

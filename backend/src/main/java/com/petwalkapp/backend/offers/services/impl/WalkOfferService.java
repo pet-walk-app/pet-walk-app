@@ -90,13 +90,14 @@ public class WalkOfferService implements IWalkOfferService
   }
 
   @Override
-  public PageDto<WalkOfferCreatorViewDto> getUserWalkOffers(Integer page, Integer pageSize)
+  public PageDto<WalkOfferCreatorViewDto> getUserWalkOffers(Integer page, Integer pageSize,
+      Boolean displayOldOffers)
   {
     PetOwner petOwner = petService.getCurrentPetOwnerOrThrow();
     Pageable pageable = getDefaultPageable(page, pageSize);
 
     return walkOfferCreatorViewDtoMapper.toPageDto(
-        walkOfferRepository.findWalkOfferByPetOwner(petOwner, pageable));
+        walkOfferRepository.findWalkOfferByPetOwner(petOwner, displayOldOffers, pageable));
   }
 
   @Override
@@ -229,11 +230,12 @@ public class WalkOfferService implements IWalkOfferService
 
   @Override
   public PageDto<WalkOfferAcceptedViewDto> getAcceptedOffers(Integer page, Integer pageSize,
-      Double latitude, Double longitude)
+      Double latitude, Double longitude, Boolean displayOldOffers)
   {
     Pageable pageable = getDefaultPageable(page, pageSize);
     Caregiver caregiver = caregiverService.getCurrentCaregiverOrThrow();
-    Page<WalkOffer> walkOffers = walkOfferRepository.findAcceptedWalkOffers(caregiver, pageable);
+    Page<WalkOffer> walkOffers = walkOfferRepository.findAcceptedWalkOffers(caregiver,
+        displayOldOffers, pageable);
 
     return walkOfferAcceptedViewDtoMapper.toPageDto(walkOffers, CaregiverMappingContext.builder()
         .longitude(longitude)

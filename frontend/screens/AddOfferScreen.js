@@ -110,6 +110,7 @@ export default function AddOfferScreen({ navigation }) {
               rules={{ required: "Data spaceru jest wymagana" }}
               render={({ field: { onChange, value } }) => (
                 <DatePicker
+                label={'Data spaceru'}
                 date={value}
                 setDate={onChange}
                 dateMax={getFutureDate(0, 6, 0)}

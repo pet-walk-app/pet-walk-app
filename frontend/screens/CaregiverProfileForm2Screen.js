@@ -10,11 +10,12 @@ import * as ImagePicker from 'expo-image-picker';
 import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
 
-export default function CaregiverProfileForm2({navigation}) {
+export default function CaregiverProfileForm2({route, navigation}) {
   const img = require("../assets/plus.png");
   const trashIcon = require("../assets/icons/trash.png");
   const [formTitle, setFormTitle] = useState('');
   const [images, setImages] = useState([null, null, null, null]);
+  const [editingProfile, setEditProfile] = useState(route.params.edit ?? false);
 
   useFocusEffect(
     useCallback(() => {
@@ -59,7 +60,12 @@ export default function CaregiverProfileForm2({navigation}) {
   const onSubmit = async () => {
     try {
       await saveCaregiverPhoto(images);
-      navigation.navigate('Offers List');
+      if (editingProfile) {
+        navigation.goBack();
+        navigation.goBack();
+      } else {
+        navigation.navigate('Offers List');
+      }
     } catch (error) {
       Alert.alert("Błąd tworzenia profilu", error.message || "Wystąpił błąd podczas tworzenia profilu.");
     }

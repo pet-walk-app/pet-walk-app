@@ -15,6 +15,4 @@ public class ConfigProperties
   private String jwtSecret;
 
   private long expirationTime;
-
-  private String googleMapsApiKey;
 }

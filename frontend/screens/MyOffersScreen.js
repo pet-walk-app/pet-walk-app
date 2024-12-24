@@ -109,6 +109,22 @@ export default function MyOffersScreen({ navigation }) {
     }, [])
   );
 
+  const updateOfferFromResponse = (updatedOffer) => {
+    const updatedOffers = offers.map((offer) => {
+      if (offer.data.id === updatedOffer.id) {
+        return {
+            ...offer,
+            data: {
+              ...offer.data,
+              updatedOffer
+            },
+        }
+      }
+      return offer;
+    });
+    setOffers(updatedOffers);
+  }
+
   return (
     <NoStatusBarView padding={20}>
       <MyOffersFilter
@@ -120,7 +136,7 @@ export default function MyOffersScreen({ navigation }) {
         {filteredOffers.map((offer, index) => (
           <MyOfferPreview
             walkData = {offer.data}
-            key={index}
+            key={offer.data.id}
             selectedCaregiver={offer.selectedCaregiver}
             myOffer={offer.myOffer}
             animalName={offer.animalName}
@@ -128,6 +144,7 @@ export default function MyOffersScreen({ navigation }) {
             found={offer.found}
             status={offer.status}
             imageUrl={offer.imageUrl}
+            updateOfferFromResponse={updateOfferFromResponse}
           />
         ))}
       </ScrollView>

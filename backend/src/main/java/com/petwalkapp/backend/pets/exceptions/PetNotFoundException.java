@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 public class PetNotFoundException extends BaseServerException
 {
 
-  private static final String message = "Pet was not found";
+  private static final String message = "Zwierze nie zostało znalezione";
 
   public PetNotFoundException()
   {

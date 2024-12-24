@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 public class UnsuccessfulUploadException extends BaseServerException
 {
 
-  private static final String message = "File could not be uploaded, please try again";
+  private static final String message = "Bład zapisu pliku, spróbuj ponownie";
 
   public UnsuccessfulUploadException()
   {

@@ -121,6 +121,7 @@ export default function FirstVisitFormScreen({ navigation }) {
             rules={{ required: "Data jest wymagana" }}
             render={({ field: { onChange, value } }) => (
               <DatePicker
+                label={'Data urodzenia'}
                 date={value}
                 setDate={onChange}
                 dateMin={new Date(1990, 1, 1)}

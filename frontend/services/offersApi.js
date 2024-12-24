@@ -75,7 +75,7 @@ export const updateOffer = async (body, offerId) => {
     const url = `${apiUrls.offers.all}/${offerId}`;
 
     try {
-        await updateData(url, body, true);
+        return await updateData(url, body, true);
     } catch (error) {
         console.error('Edit offer error:', error.message);
         throw error;

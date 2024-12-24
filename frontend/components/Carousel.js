@@ -6,12 +6,12 @@ const DATA = [
   {
     id: '1',
     image: require('../assets/carousel/dog-on-leash.png'),
-    text: 'Umów spacer lub opiekę dla swojego pupila w kilka minut',
+    text: 'Umów spacer dla swojego pupila w kilka minut',
   },
   {
     id: '2',
     image: require('../assets/carousel/girl-walking-the-dog.png'),
-    text: 'Zarabiaj, wyprowadzając zwierzaki w swojej okolicy, kiedy tylko chcesz',
+    text: 'Zarabiaj, wyprowadzając psy w swojej okolicy, kiedy tylko chcesz',
   },
   {
     id: '3',

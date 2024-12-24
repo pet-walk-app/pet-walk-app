@@ -35,27 +35,31 @@ export const carouselStyles = StyleSheet.create({
     borderRadius: 15,
     borderColor: borderGrey,
     borderWidth: 1.5,
-    flex: 1,
+    marginTop: 20,
+    marginBottom: 20,
+    height: 150,
     flexDirection: 'row',
-    marginBottom: 10
   },
 
   leftContainer: {
     width: '75%',
-    position: 'relative',
     paddingBottom: 15,
+    alignItems: 'center',
   },
 
   rightContainer: {
     width: '25%',
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center'
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
   },
 
   textContainer: {
     justifyContent: 'center',
-    padding: 15
+    padding: 15,
+    marginBottom: 'auto',
+    marginTop: 'auto',
   },
 
   imageContainer: {

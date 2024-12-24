@@ -12,8 +12,8 @@ import FormInput from "../components/FormInput";
 import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
 
-export default function CaregiverProfileForm({ navigation }) {
-  const [editingProfile, setEditProfile] = useState(false);
+export default function CaregiverProfileForm({ route, navigation }) {
+  const [editingProfile, setEditProfile] = useState(route.params.edit ?? false);
   const [formTitle, setFormTitle] = useState('');
 
   const { control, handleSubmit, setValue, formState: { errors } } = useForm({
@@ -52,14 +52,16 @@ export default function CaregiverProfileForm({ navigation }) {
   const onSubmit = async (data) => {
     try {
       await saveCaregiver(data);
-      navigation.navigate('Caregiver Profile Form 2');
+      navigation.navigate('Caregiver Profile Form 2', {
+        edit: editingProfile,
+      });
     } catch (error) {
       Alert.alert("Błąd tworzenia profilu", error.message || "Wystąpił błąd podczas tworzenia profilu.");
     }
   };
 
   return (
-    <NoStatusBarView style={{ flex: 1 }} behavior="position">
+    <NoStatusBarView>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         <View style={formStyles.container}>
           <View style={[formStyles.middleSection, { justifyContent: "none" }]}>
