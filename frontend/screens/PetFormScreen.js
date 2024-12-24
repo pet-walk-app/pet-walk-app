@@ -92,7 +92,7 @@ return (
                 <FormBigInput
                   value={value}
                   setValue={onChange}
-                  placeholder={'Opis. Nie zapomnij o charakterze pupila i przyjmowanych lekach.'}
+                  placeholder={'Opis'}
                   height={270}
                   errorMessage={errors.description?.message}/>
                 )}

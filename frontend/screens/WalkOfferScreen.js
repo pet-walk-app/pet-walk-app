@@ -41,6 +41,7 @@ export default function WalkOffer({ route }) {
 
   useEffect(() => {
     const fetchProfileAndSetup = async () => {
+      //TODO dodać opis i psa i spaceru
       try {
         const profile = await getProfile();
         setUserHasCaregiverAccount(profile.caregiver != null);
@@ -161,8 +162,8 @@ export default function WalkOffer({ route }) {
               <Text>
                 <Text style={{ fontWeight: "bold" }}>Spacer: </Text> {"\n"}
                 Data: {walkDate} {"\n"}
-                Czas trwania: {walkLength} {"\n"}
-                Budżet: {price}
+                Czas trwania: {walkLength} minut {"\n"}
+                Budżet: {price} zł
               </Text>
             </View>
           </View>

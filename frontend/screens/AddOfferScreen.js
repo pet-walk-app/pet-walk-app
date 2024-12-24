@@ -5,6 +5,7 @@ import { addOffer } from "../services/offersApi";
 import { getUserPets } from "../services/petApi";
 import DatePicker from "../components/DatePicker";
 import FormInput from "../components/FormInput";
+import FormBigInput from "../components/FormBigInput";
 import CustomButton from "../components/CustomButton";
 import { formStyles } from "../styles/formStyles";
 import NoStatusBarView from "../components/NoStatusBarView";
@@ -135,11 +136,12 @@ export default function AddOfferScreen({ navigation }) {
               name="description"
               rules={{ required: "Opis spaceru jest wymagany" }}
               render={({ field: { onChange, value } }) => (
-                <FormInput
+                <FormBigInput
                   value={value}
                   setValue={onChange}
                   placeholder="Opis spaceru"
                   errorMessage={errors.description?.message}
+                  height={160}
                 />
               )}
             />

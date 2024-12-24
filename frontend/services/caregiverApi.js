@@ -16,7 +16,6 @@ export const saveCaregiver = async (data) => {
 //TODO: fix adding photo
 export const saveCaregiverPhoto = async (data) => {
   await deleteData(apiUrls.caregiver.deleteAllPhotos, true);
-
   const responses = [];
   for (let i = 0; i < data.length; i++) {
       if (data[i] !== null) {

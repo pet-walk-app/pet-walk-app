@@ -11,7 +11,7 @@ const WalkOfferPreview = ({ animalName, breed, distance, date, length, price, im
             source={
               imageUrl
                 ? { uri: imageUrl }
-                : require('../assets/grazynka.png')
+                : require('../assets/default_dog_picture.png')
             }
             style={walkOfferPreviewStyles.profileImage}
           />

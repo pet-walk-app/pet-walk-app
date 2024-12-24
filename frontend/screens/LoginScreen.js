@@ -51,7 +51,7 @@ export default function LoginScreen({navigation}) {
       <View style={formStyles.topSection}></View>
       <View style={formStyles.middleSection}>
   
-        <Text style={formStyles.h1}>Aby przejść dalej, zaloguj się{"\n"}na konto</Text>
+        <Text style={formStyles.h1}>Aby przejść dalej, zaloguj się na konto</Text>
         <View style={loginStyles.formContainer}>
           
           <Controller
