@@ -22,6 +22,7 @@ export default function EditUserScreen({ navigation }) {
     },
   });
 
+  const trashIcon = require("../assets/icons/trash.png");
   const [image, setImage] = useState(null);
   const [hasPhoto, setHasPhoto] = useState(false);
 
@@ -123,9 +124,17 @@ export default function EditUserScreen({ navigation }) {
               )}
             </Pressable>
             {hasPhoto && (
-                <Pressable onPress={deleteImage} style={{ marginTop: 10 }}>
-                  <Text style={{ color: "red" }}>Usuń zdjęcie</Text>
-                </Pressable>
+              <Pressable
+                onPress={deleteImage}
+                style={{
+                  position: 'absolute',
+                  top: -10,
+                  right: -15,
+                  zIndex: 10,
+                }}
+              >
+                <Image source={trashIcon} style={{ width: 35, height: 35 }} />
+              </Pressable>
             )}
           </View>
 

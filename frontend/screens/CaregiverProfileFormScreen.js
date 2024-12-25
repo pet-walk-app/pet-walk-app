@@ -13,7 +13,7 @@ import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
 
 export default function CaregiverProfileForm({ route, navigation }) {
-  const [editingProfile, setEditProfile] = useState(route.params.edit ?? false);
+  const [editingProfile, setEditProfile] = useState(route?.params?.edit ?? false);
   const [formTitle, setFormTitle] = useState('');
 
   const { control, handleSubmit, setValue, formState: { errors } } = useForm({

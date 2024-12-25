@@ -16,7 +16,8 @@ export default function CreateProfileButton({action, title, description, image})
         <Text style={createProfileButtonStyles.descriptionText}>{description}</Text>
       </View>
 
-      <Pressable style={createProfileButtonStyles.iconContainer}>
+      <Pressable style={createProfileButtonStyles.iconContainer}
+        onPress={action}>
         <Image source={require('../assets/icons/plus-icon.png')} style={createProfileButtonStyles.image} />
       </Pressable>
 

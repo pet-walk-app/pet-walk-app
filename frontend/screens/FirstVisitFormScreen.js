@@ -21,6 +21,7 @@ export default function FirstVisitFormScreen({ navigation }) {
 
   const [image, setImage] = useState(null);
   const [hasPhoto, setHasPhoto] = useState(false);
+  const trashIcon = require("../assets/icons/trash.png");
 
   const pickImage = async () => {
     try {
@@ -136,18 +137,26 @@ export default function FirstVisitFormScreen({ navigation }) {
               {hasPhoto ? (
                 <Image
                   source={{ uri: image }}
-                  style={[formStyles.image, { width: 100, height: 100 }]}
+                  style={[formStyles.image, { width: 130, height: 130 }]}
                 />
               ) : (
                 <Image
                   source={require("../assets/plus.png")}
-                  style={[formStyles.image, { width: 100, height: 100 }]}
+                  style={[formStyles.image, { width: 130, height: 130 }]}
                 />
               )}
             </Pressable>
             {hasPhoto && (
-              <Pressable onPress={deleteImage} style={{ marginTop: 10 }}>
-                <Text style={{ color: "red" }}>Usuń zdjęcie</Text>
+              <Pressable
+                onPress={deleteImage}
+                style={{
+                  position: 'absolute',
+                  top: -10,
+                  right: 80,
+                  zIndex: 10,
+                }}
+              >
+                <Image source={trashIcon} style={{ width: 40, height: 40 }} />
               </Pressable>
             )}
           </View>

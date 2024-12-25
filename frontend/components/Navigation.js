@@ -30,7 +30,7 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-        initialRouteName='Offers List'
+        initialRouteName='Home'
         screenOptions={{
             headerStyle: { backgroundColor: green },
             headerTintColor: white
