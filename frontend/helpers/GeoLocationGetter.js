@@ -1,4 +1,5 @@
 import * as Location from 'expo-location';
+import {LocationAccuracy} from "expo-location/src/Location.types";
 
 export const getGeoLocation = async () => {
     const requestLocationPermission = async () => {
@@ -13,7 +14,10 @@ export const getGeoLocation = async () => {
         throw new Error('Location permission denied');
     }
 
-    const location = await Location.getCurrentPositionAsync();
+    const location = await Location.getCurrentPositionAsync({
+        accuracy: LocationAccuracy.Highest,
+        distanceInterval: 100,
+    });
 
     const {coords: {latitude, longitude}} = location;
     return {latitude, longitude};

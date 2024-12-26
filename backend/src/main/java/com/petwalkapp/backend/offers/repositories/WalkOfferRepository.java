@@ -27,8 +27,7 @@ public interface WalkOfferRepository extends JpaRepository<WalkOffer, Long>
       + "AND (:walkDateFrom IS NULL OR walk_date >= :walkDateFrom) "
       + "AND (:walkDateTo IS NULL OR walk_date <= :walkDateTo) "
       + "AND (:minTime IS NULL OR walk_length >= :minTime) "
-      + "AND (:maxTime IS NULL OR walk_length <= :maxTime)", countQuery =
-      "SELECT count(*) FROM walk_offer WHERE status = 0 "
+      + "AND (:maxTime IS NULL OR walk_length <= :maxTime)", countQuery = "SELECT count(*) FROM walk_offer WHERE status = 0 "
           + "AND (:radius IS NULL OR ST_Distance_Sphere(zip_code_location, "
           + "ST_GeomFromText(CONCAT('POINT(', :longitude, ' ', :latitude, ')'))) <= :radius) "
           + "AND (:priceFrom IS NULL OR price >= :priceFrom) "
@@ -46,8 +45,8 @@ public interface WalkOfferRepository extends JpaRepository<WalkOffer, Long>
   Optional<WalkOffer> findWalkOfferById(Long id);
 
   @Query("""
-        SELECT wo 
-        FROM WalkOffer wo 
+        SELECT wo
+        FROM WalkOffer wo
         WHERE wo.petOwner = :petOwner
           AND (:displayOldOffers = true AND wo.walkDate < CURRENT_DATE
                OR :displayOldOffers = false AND wo.walkDate >= CURRENT_DATE)
@@ -62,9 +61,9 @@ public interface WalkOfferRepository extends JpaRepository<WalkOffer, Long>
       @Param("walkDateFrom") LocalDate walkDateFrom, Pageable pageable);
 
   @Query("""
-        SELECT wo 
-        FROM WalkOffer wo 
-        WHERE wo.selectedCaregiver = :currentCaregiver 
+        SELECT wo
+        FROM WalkOffer wo
+        WHERE wo.selectedCaregiver = :currentCaregiver
           AND (:displayOldOffers = true AND wo.walkDate < CURRENT_DATE
                OR :displayOldOffers = false AND wo.walkDate >= CURRENT_DATE)
       """)

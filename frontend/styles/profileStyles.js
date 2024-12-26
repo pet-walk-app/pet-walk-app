@@ -93,7 +93,7 @@ export const profileStyles = StyleSheet.create({
         alignContent: 'center',
         justifyContent: 'center',
         backgroundColor: white,
-        borderRadius: 10,
+        borderRadius: 20,
         width: 170,
         height: 170
     },
@@ -101,8 +101,8 @@ export const profileStyles = StyleSheet.create({
     profileImage: {
         alignSelf: 'center',
         borderRadius: 20,
-        width: '80%',
-        height: '80%'
+        width: '85%',
+        height: '85%'
     },
     
     petCarousel: {
