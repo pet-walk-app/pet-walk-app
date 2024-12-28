@@ -30,10 +30,11 @@ export default function Navigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-        initialRouteName='Home'
+        initialRouteName='Login Screen'
         screenOptions={{
             headerStyle: { backgroundColor: green },
-            headerTintColor: white
+            headerTintColor: white,
+            headerTitle: ''
         }}
       >
         <Stack.Screen name = 'Home' component={HomeScreen}/>

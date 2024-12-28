@@ -122,7 +122,14 @@ export default function AddOfferScreen({ navigation }) {
             <Controller
               control={control}
               name="walkLength"
-              rules={{ required: "Długość spaceru jest wymagana" }}
+              rules={{
+                required: "Długość spaceru jest wymagana",
+                pattern: {
+                  value: /^[1-9][0-9]*$/,
+                  message: "Długość spaceru powinna być wyrażona w minutach"
+                }
+              }}
+              
               render={({ field: { onChange, value } }) => (
                 <FormInput
                   value={value}

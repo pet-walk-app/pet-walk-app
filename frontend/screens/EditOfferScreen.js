@@ -2,16 +2,22 @@ import React, { useEffect, useState } from "react";
 import { ScrollView, View, Text, Alert } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { getOfferById, updateOffer } from "../services/offersApi";
+import { getUserPets } from "../services/petApi";
 import DatePicker from "../components/DatePicker";
 import FormInput from "../components/FormInput";
+import FormBigInput from "../components/FormBigInput";
 import { formStyles } from "../styles/formStyles";
 import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
+import { Picker } from "@react-native-picker/picker";
 import { formatDate } from "../utils/commonUtils";
-import {PlacePickerSection} from "../components/PlacePickerSection";
+import { PlacePickerSection } from "../components/PlacePickerSection";
+import { getFutureDate } from "../utils/commonUtils";
 
-export default function EditOfferScreen({ navigation, route}) {
-  const [offer, setOffer] = useState(null); 
+export default function EditOfferScreen({ navigation, route }) {
+  const [offer, setOffer] = useState(null);
+  const [pets, setPets] = useState([]);
+  const [selectedPetId, setSelectedPetId] = useState(null);
   const { id, onWalkOfferUpdate } = route.params;
 
   const {
@@ -24,34 +30,49 @@ export default function EditOfferScreen({ navigation, route}) {
       street: "",
       zipCode: "",
       city: "",
-      walkDate: new Date(1990, 1, 1),
-      walkTime: new Date(1990, 1, 1),
+      walkDate: new Date(),
+      walkTime: new Date(),
       walkLength: "",
+      description: "",
+      price: "",
     },
   });
 
   useEffect(() => {
     const loadOfferData = async () => {
       try {
-        const fetchedOffer = await getOfferById(id); 
+        const fetchedOffer = await getOfferById(id);
         setOffer(fetchedOffer);
 
         setValue("place", {
           formattedAddress: fetchedOffer.address,
-            postalCode: fetchedOffer.zipCode,
-            city: fetchedOffer.city,
-            latitude: fetchedOffer.latitude,
-            longitude: fetchedOffer.longitude,
-        })
+          postalCode: fetchedOffer.zipCode,
+          city: fetchedOffer.city,
+          latitude: fetchedOffer.latitude,
+          longitude: fetchedOffer.longitude,
+        });
         setValue("walkDate", fetchedOffer.walkDate ? new Date(fetchedOffer.walkDate) : new Date());
         setValue("walkTime", fetchedOffer.walkTime ? new Date(fetchedOffer.walkTime) : new Date());
         setValue("walkLength", fetchedOffer.walkLength?.toString() || "");
+        setValue("description", fetchedOffer.description || "");
+        setValue("price", fetchedOffer.price?.toString() || "");
+        setSelectedPetId(fetchedOffer.pets[0]?.id);
       } catch (error) {
         console.error("Błąd podczas ładowania danych oferty:", error.message);
       }
     };
 
+    const loadPets = async () => {
+      try {
+        const fetchedPets = await getUserPets();
+        setPets(fetchedPets);
+      } catch (error) {
+        console.error("Błąd podczas pobierania zwierzaków:", error.message);
+      }
+    };
+
     loadOfferData();
+    loadPets();
   }, [setValue]);
 
   const onSubmit = async (data) => {
@@ -59,11 +80,12 @@ export default function EditOfferScreen({ navigation, route}) {
       const body = {
         address: data.place.formattedAddress,
         city: data.place.city,
-        description: offer.description,
-        petIds: offer.pets ? offer.pets.map((pet) => pet.id) : [], 
-        price: offer.price,
-        walkDate: formatDate(data.walkDate || offer.walkDate, "-", true),
-        walkLength: parseInt(data.walkLength || offer.walkLength, 10),
+        description: data.description,
+        petIds: [selectedPetId],
+        price: parseFloat(data.price),
+        walkDate: formatDate(data.walkDate, "-", true),
+        walkTime: formatDate(data.walkTime, ":", false),
+        walkLength: parseInt(data.walkLength, 10),
         zipCode: data.place.postalCode,
         latitude: data.place.latitude,
         longitude: data.place.longitude,
@@ -84,34 +106,81 @@ export default function EditOfferScreen({ navigation, route}) {
 
       <ScrollView>
         <View style={formStyles.formContainer}>
-          <PlacePickerSection errors={errors} control={control} navigation={navigation} />
-          <Controller
-            control={control}
-            name="walkDate"
-            rules={{ required: "Data spaceru jest wymagana" }}
-            render={({ field: { onChange, value } }) => (
-              <DatePicker
-                label={'Data spaceru'}
-                date={value}
-                setDate={onChange}
-                errorMessage={errors.walkDate?.message}
-              />
-            )}
-          />
+          <View style={formStyles.formSection}>
+            <Text style={formStyles.sectionHeader}>Wybierz zwierzaka</Text>
+            <View style={formStyles.formInput}>
+              <Picker
+                selectedValue={selectedPetId}
+                onValueChange={(itemValue) => setSelectedPetId(itemValue)}
+              >
+                {pets.map((pet) => (
+                  <Picker.Item key={pet.id} label={pet.name} value={pet.id} />
+                ))}
+              </Picker>
+            </View>
+          </View>
 
-          <Controller
-            control={control}
-            name="walkLength"
-            rules={{ required: "Długość spaceru jest wymagana" }}
-            render={({ field: { onChange, value } }) => (
-              <FormInput
-                value={value}
-                setValue={onChange}
-                placeholder="Długość spaceru (w minutach)"
-                errorMessage={errors.walkLength?.message}
-              />
-            )}
-          />
+          <PlacePickerSection errors={errors} control={control} navigation={navigation} />
+          <View style={formStyles.formSection}>
+            <Text style={formStyles.sectionHeader}>Dane spaceru</Text>
+            <Controller
+              control={control}
+              name="walkDate"
+              rules={{ required: "Data spaceru jest wymagana" }}
+              render={({ field: { onChange, value } }) => (
+                <DatePicker
+                  label={'Data spaceru'}
+                  date={value}
+                  setDate={onChange}
+                  dateMax={getFutureDate(0, 6, 0)}
+                  errorMessage={errors.walkDate?.message}
+                />
+              )}
+            />
+            
+            <Controller
+              control={control}
+              name="walkLength"
+              rules={{ required: "Długość spaceru jest wymagana" }}
+              render={({ field: { onChange, value } }) => (
+                <FormInput
+                  value={value}
+                  setValue={onChange}
+                  placeholder="Długość spaceru (w minutach)"
+                  errorMessage={errors.walkLength?.message}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="description"
+              rules={{ required: "Opis spaceru jest wymagany" }}
+              render={({ field: { onChange, value } }) => (
+                <FormBigInput
+                  value={value}
+                  setValue={onChange}
+                  placeholder="Opis spaceru"
+                  errorMessage={errors.description?.message}
+                  height={160}
+                />
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="price"
+              rules={{ required: "Cena jest wymagana" }}
+              render={({ field: { onChange, value } }) => (
+                <FormInput
+                  value={value}
+                  setValue={onChange}
+                  placeholder="Cena (w zł)"
+                  errorMessage={errors.price?.message}
+                />
+              )}
+            />
+          </View>
         </View>
 
         <CustomButton

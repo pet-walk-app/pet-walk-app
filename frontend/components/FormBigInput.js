@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { TextInput, View, Animated, Easing } from 'react-native';
+import { TextInput, View, Animated, Easing, Text } from 'react-native';
 import { formStyles } from '../styles/formStyles';
 import { darkGrey } from '../consts/colors';
 

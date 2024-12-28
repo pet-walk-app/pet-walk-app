@@ -5,6 +5,7 @@ import { red, lightGreen, beige, green, white } from "../consts/colors";
 import {applyToOffer, deleteApplyToOffer, deleteOffer, updateOffer} from "../services/offersApi";
 import { getProfile } from "../services/userApi";
 import { useNavigation  } from '@react-navigation/native';
+import { minsToHours } from "../utils/commonUtils";
 
 import CustomButton from "../components/CustomButton";
 import NoStatusBarView from "../components/NoStatusBarView";
@@ -169,7 +170,7 @@ export default function WalkOffer({ route }) {
               <Text>
                 <Text style={{ fontWeight: "bold" }}>Spacer: </Text> {"\n"}
                 Data: {walkDate} {"\n"}
-                Czas trwania: {walkLength} minut {"\n"}
+                Czas trwania: {minsToHours(walkLength)}{"\n"}
                 Budżet: {price} zł
               </Text>
             </View>

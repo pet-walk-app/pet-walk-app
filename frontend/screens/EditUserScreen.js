@@ -5,6 +5,7 @@ import * as ImagePicker from "expo-image-picker";
 import { fetchUserData, editUser, saveUserPhoto, deleteUserPhoto } from "../services/userApi";
 import { green, white } from "../consts/colors";
 import { formStyles } from "../styles/formStyles";
+import { profileStyles } from "../styles/profileStyles";
 
 import FormInput from "../components/FormInput";
 import CustomButton from "../components/CustomButton";
@@ -109,12 +110,12 @@ export default function EditUserScreen({ navigation }) {
       <ScrollView>
         <View style={formStyles.middleSection}>
           <Text style={formStyles.h1}>Edytuj swój profil użytkownika</Text>
-          <View style={formStyles.profileImageContainer}>
-            <Pressable onPress={pickImage}>
+          <View>
+            <Pressable style={profileStyles.profileImageContainer} onPress={pickImage}>
               {hasPhoto ? (
                   <Image
                       source={{ uri: image }}
-                      style={[formStyles.image, { width: 100, height: 100 }]}
+                      style={[profileStyles.profileImage, { width: 100, height: 100 }]}
                   />
               ) : (
                   <Image
@@ -198,9 +199,10 @@ export default function EditUserScreen({ navigation }) {
                 control={control}
                 name="newPassword"
                 rules={{
+                  required: "Hasło jest wymagane",
                   minLength: {
-                    value: 5,
-                    message: "Hasło musi mieć co najmniej 5 znaków",
+                    value: 6,
+                    message: "Hasło musi mieć co najmniej 6 znaków",
                   },
                   maxLength: {
                     value: 64,
