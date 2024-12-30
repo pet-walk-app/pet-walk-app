@@ -17,10 +17,10 @@ import org.springframework.stereotype.Repository;
 public interface WalkOfferRepository extends JpaRepository<WalkOffer, Long>
 {
 
-  @Query(value = "SELECT *, ST_Distance_Sphere(zip_code_location, "
+  @Query(value = "SELECT *, ST_Distance_Sphere(location, "
       + "ST_GeomFromText(CONCAT('POINT(', :longitude, ' ', :latitude, ')'))) AS distance "
       + "FROM walk_offer WHERE status = 0 "
-      + "AND (:radius IS NULL OR ST_Distance_Sphere(zip_code_location, "
+      + "AND (:radius IS NULL OR ST_Distance_Sphere(location, "
       + "ST_GeomFromText(CONCAT('POINT(', :longitude, ' ', :latitude, ')'))) <= :radius) "
       + "AND (:priceFrom IS NULL OR price >= :priceFrom) "
       + "AND (:priceTo IS NULL OR price <= :priceTo) "
@@ -29,7 +29,7 @@ public interface WalkOfferRepository extends JpaRepository<WalkOffer, Long>
       + "AND (:minTime IS NULL OR walk_length >= :minTime) "
       + "AND (:maxTime IS NULL OR walk_length <= :maxTime)", countQuery =
       "SELECT count(*) FROM walk_offer WHERE status = 0 "
-          + "AND (:radius IS NULL OR ST_Distance_Sphere(zip_code_location, "
+          + "AND (:radius IS NULL OR ST_Distance_Sphere(location, "
           + "ST_GeomFromText(CONCAT('POINT(', :longitude, ' ', :latitude, ')'))) <= :radius) "
           + "AND (:priceFrom IS NULL OR price >= :priceFrom) "
           + "AND (:priceTo IS NULL OR price <= :priceTo) "

@@ -37,9 +37,9 @@ public interface WalkOfferSearchViewDtoMapper
       return null;
     }
 
-    Point zipCodeLocation = walkOffer.getZipCodeLocation();
+    Point location = walkOffer.getLocation();
 
-    return DistanceCalculator.calculateDistance(zipCodeLocation.getY(), zipCodeLocation.getX(),
+    return DistanceCalculator.calculateDistance(location.getY(), location.getX(),
         context.getLatitude(), context.getLongitude());
   }
 }

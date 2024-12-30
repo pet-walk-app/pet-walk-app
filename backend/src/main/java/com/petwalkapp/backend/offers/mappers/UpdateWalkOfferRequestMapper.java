@@ -22,7 +22,7 @@ public abstract class UpdateWalkOfferRequestMapper
 
   @Mapping(target = "updatedAt", expression = "java(LocalDateTime.now())")
   @Mapping(target = "pets", expression = "java(petService.getUserPetsByIds(request.getPetIds()))")
-  @Mapping(target = "zipCodeLocation", expression = "java(toPoint(request))")
+  @Mapping(target = "location", expression = "java(toPoint(request))")
   public abstract void updateWalkOfferFromDto(UpdateWalkOfferRequest request,
       @MappingTarget WalkOffer walkOffer, @Context IPetService petService);
 

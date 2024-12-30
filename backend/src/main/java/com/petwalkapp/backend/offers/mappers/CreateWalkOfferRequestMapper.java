@@ -27,7 +27,7 @@ public abstract class CreateWalkOfferRequestMapper
   @Mapping(target = "status", expression = "java(WalkOfferStatus.OPEN)")
   @Mapping(target = "pets", expression = "java(petService.getUserPetsByIds(request.getPetIds()))")
   @Mapping(target = "petOwner", expression = "java(petService.getCurrentPetOwnerOrThrow())")
-  @Mapping(target = "zipCodeLocation", expression = "java(toPoint(request))")
+  @Mapping(target = "location", expression = "java(toPoint(request))")
   @Mapping(target = "createdAt", expression = "java(LocalDateTime.now())")
   @Mapping(target = "id", ignore = true)
   @Mapping(target = "walkOfferApplications", ignore = true)
