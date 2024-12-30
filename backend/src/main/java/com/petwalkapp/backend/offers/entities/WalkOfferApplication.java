@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -31,9 +32,11 @@ public class WalkOfferApplication
   private Caregiver caregiver;
 
   @ManyToOne(optional = false)
+  @JoinColumn(name = "walk_offer_id")
   private WalkOffer walkOffer;
 
-  @NotNull private LocalDateTime applicationDate;
+  @NotNull
+  private LocalDateTime applicationDate;
 
   private boolean isRejected;
 }

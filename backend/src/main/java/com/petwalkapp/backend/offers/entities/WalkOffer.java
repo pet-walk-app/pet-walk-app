@@ -11,6 +11,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
@@ -82,6 +83,7 @@ public class WalkOffer
   private WalkOfferStatus status;
 
   @OneToMany(orphanRemoval = true, cascade = {CascadeType.ALL})
+  @JoinColumn(name = "walk_offer_id")
   private List<WalkOfferApplication> walkOfferApplications;
 
   @NotNull
