@@ -146,8 +146,8 @@ export default function EditUserScreen({ navigation }) {
                 rules={{
                   required: "Imię jest wymagane",
                   pattern: {
-                    value: /^[a-zA-Z0-9_-]+$/,
-                    message: "Imię może zawierać cyfry, litery, -, _",
+                    value: /^(?!.*\d).+$/,
+                    message: "Nazwa nie może zawierać cyfr",
                   },
                 }}
                 render={({ field: { onChange, value } }) => (
