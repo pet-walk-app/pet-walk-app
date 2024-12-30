@@ -54,8 +54,6 @@ export default function MyOffersScreen({ navigation }) {
         try {
           const response = await fetchPendingOffers(0, 10);
           const offers = response.content;
-          console.log("offers pending")
-          console.log(offers)
           if (offers == null) return;
   
           const newOffers = offers.map((offer) => ({
@@ -77,8 +75,6 @@ export default function MyOffersScreen({ navigation }) {
         try {
           const response = await fetchAcceptedOffers(0, 10);
           const offers = response.content;
-          console.log("offers accepted")
-          console.log(offers)
           if (offers == null) return;
           
   

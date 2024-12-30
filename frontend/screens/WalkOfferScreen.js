@@ -39,11 +39,11 @@ export default function WalkOffer({ route }) {
   const [price, setPrice] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [petOwnerName, setPetOwnerName] = useState('')
+  const [walkDescription, setWalkDescription] = useState('')
 
 
   useEffect(() => {
     const fetchProfileAndSetup = async () => {
-      //TODO dodać opis i psa i spaceru
       try {
         const profile = await getProfile();
         setUserHasCaregiverAccount(profile.caregiver != null);
@@ -76,6 +76,7 @@ export default function WalkOffer({ route }) {
         setPetDescription(currentWalkData.pets[0]?.description || "Brak opisu");
         setWalkLength(currentWalkData.walkLength);
         setPrice(currentWalkData.price);
+        setWalkDescription(currentWalkData.description)
         setPetOwnerName(currentWalkData.offerCreator?.name ?? null);
         setPhoneNumber(currentWalkData.offerCreator?.phone ?? null);
 
@@ -171,7 +172,8 @@ export default function WalkOffer({ route }) {
                 <Text style={{ fontWeight: "bold" }}>Spacer: </Text> {"\n"}
                 Data: {walkDate} {"\n"}
                 Czas trwania: {minsToHours(walkLength)}{"\n"}
-                Budżet: {price} zł
+                Budżet: {price} zł{"\n"}
+                Opis: {walkDescription}
               </Text>
             </View>
           </View>

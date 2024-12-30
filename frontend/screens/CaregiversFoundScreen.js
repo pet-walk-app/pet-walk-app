@@ -1,7 +1,6 @@
 import NoStatusBarView from "../components/NoStatusBarView";
 import CaregiverFound from "../components/CaregiverFound";
 
-import { useEffect } from "react";
 import { ScrollView } from "react-native";
 
 export default function CaregiversFound({ route, navigation }) {

@@ -1,14 +1,7 @@
-import { Pressable, Text, View, Image, ScrollView } from "react-native";
+import { Text, View, Image, ScrollView } from "react-native";
 import { profileStyles } from "../styles/profileStyles.js";
 import NoStatusBarView from "../components/NoStatusBarView.js";
-import { fetchUserData } from "../services/userApi.js";
-import { useState, useEffect, use } from "react";
-import CustomButton from "../components/CustomButton.js";
-import { green, white } from "../consts/colors.js";
-import { logoutUser } from "../services/authorizationApi.js";
-import { useFocusEffect } from "@react-navigation/native";
 import React from "react";
-import BottomMenu from "../components/BottomMenu.js";
 
 
 export default function CaregiverProfile({ route, navigation }) {

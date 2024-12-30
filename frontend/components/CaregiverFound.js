@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import { useNavigation  } from '@react-navigation/native';
 import { View, Text, Image, Pressable } from 'react-native';
@@ -11,7 +11,6 @@ const CaregiverFound = ({caregiverData, offerId, caregiverId }) => {
 
   const caregiverName = caregiverData?.name || "Nieznane imię";
   const phone = caregiverData?.phone || "Brak numeru";
-  const images = caregiverData.imageUrl || ownerDefaultPhoto;
 
   const handleAccept = () => {
     console.log("Accept button clicked");
@@ -20,38 +19,45 @@ const CaregiverFound = ({caregiverData, offerId, caregiverId }) => {
   };
 
   return (
-    <View style={caregiverFoundStyles.container}>
-      <View style={caregiverFoundStyles.leftSection}>
-        <View style={caregiverFoundStyles.profileImageContainer}>
+    <Pressable
+      onPress={() => navigation.navigate('Caregiver Profile', { caregiverData: caregiverData })}>
+      <View style={caregiverFoundStyles.container}>
+        <View style={caregiverFoundStyles.leftSection}>
+          <View style={caregiverFoundStyles.profileImageContainer}>
           <Image 
-            source={images ? { uri: images } : ownerDefaultPhoto} 
+            source={
+              caregiverData.imageUrl !== null 
+                ? { uri: caregiverData.imageUrl } 
+                : ownerDefaultPhoto
+            }
             style={caregiverFoundStyles.profileImage} 
           />
-        </View>
-        <Pressable 
-          style={caregiverFoundStyles.button}
-          onPress={() => navigation.navigate('Caregiver Profile', { caregiverData })}>
-          <Text style={caregiverFoundStyles.buttonText}>Profil</Text>
-        </Pressable>
-      </View>
-
-      <View style={caregiverFoundStyles.middleSection}>
-        <Text 
-          style={caregiverFoundStyles.name}>{caregiverName}
-        </Text>
-        <Text 
-          style={caregiverFoundStyles.price}>
-          Telefon: {phone}
-        </Text>
-        <View style={caregiverFoundStyles.buttonsContainer}>
+          </View>
           <Pressable 
-            onPress={() => handleAccept()}
-            style={caregiverFoundStyles.iconContainer}>
-            <Image source={require('../assets/icons/accept.png')} style={caregiverFoundStyles.image} />
+            style={caregiverFoundStyles.button}
+            onPress={() => navigation.navigate('Caregiver Profile', { caregiverData })}>
+            <Text style={caregiverFoundStyles.buttonText}>Profil</Text>
           </Pressable>
         </View>
+
+        <View style={caregiverFoundStyles.middleSection}>
+          <Text 
+            style={caregiverFoundStyles.name}>{caregiverName}
+          </Text>
+          <Text 
+            style={caregiverFoundStyles.price}>
+            Telefon: {phone}
+          </Text>
+          <View style={caregiverFoundStyles.buttonsContainer}>
+            <Pressable 
+              onPress={() => handleAccept()}
+              style={caregiverFoundStyles.iconContainer}>
+              <Image source={require('../assets/icons/accept.png')} style={caregiverFoundStyles.image} />
+            </Pressable>
+          </View>
+        </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 

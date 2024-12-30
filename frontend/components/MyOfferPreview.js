@@ -24,8 +24,7 @@ const MyOfferPreview = ({ walkData, myOffer, selectedCaregiver = null, animalNam
 
   const handleGoToCaregiverProfile = () => {
     console.log("Go to selected caregiver profile")
-    //TODO: naciśnięcie powinno prowadzić do podglądu profilu opiekuna. Należy przekazywać zmienną selectedCaregiver
-    //navigation.navigate('Caregivers Found', { walkData: selectedCaregiver });
+    navigation.navigate('Caregiver Profile', { caregiverData: selectedCaregiver });
   };
 
   const onClick = () => {
