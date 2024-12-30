@@ -142,7 +142,7 @@ export const formStyles = StyleSheet.create({
     fontSize: 15,
     backgroundColor: white,
     paddingVertical: 25,
-    paddingHorizontal: 25,
+    paddingHorizontal: 40,
     alignContent: 'center',
     justifyContent: 'center',
     textAlignVertical: "top"

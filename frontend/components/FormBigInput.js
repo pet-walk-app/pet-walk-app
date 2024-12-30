@@ -24,7 +24,7 @@ export default function FormBigInput({
 
   const labelStyle = {
     position: 'absolute',
-    left: 35,
+    left: 38,
     
     fontSize: animatedLabelPosition.interpolate({
       inputRange: [0, 1],
