@@ -40,6 +40,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -189,7 +190,7 @@ public class GlobalExceptionHandler
   }
 
   @ExceptionHandler({MissingServletRequestPartException.class, MultipartException.class,
-      MethodArgumentTypeMismatchException.class})
+      MethodArgumentTypeMismatchException.class, MissingRequestHeaderException.class})
   public ResponseEntity<ErrorResponse> handleMissingServletRequestPartException(Exception exception)
   {
     log.warn("Invalid request: ", exception);

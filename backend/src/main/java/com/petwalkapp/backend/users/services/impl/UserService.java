@@ -3,14 +3,12 @@ package com.petwalkapp.backend.users.services.impl;
 import com.petwalkapp.backend.images.services.IImageService;
 import com.petwalkapp.backend.users.adapters.UserDetailsImpl;
 import com.petwalkapp.backend.users.dtos.CurrentUserProfileDto;
-import com.petwalkapp.backend.users.dtos.UserProfileDto;
 import com.petwalkapp.backend.users.dtos.UserUpdateRequest;
 import com.petwalkapp.backend.users.entities.User;
 import com.petwalkapp.backend.users.exceptions.EmailNotAvailableException;
 import com.petwalkapp.backend.users.exceptions.UserNotFoundException;
 import com.petwalkapp.backend.users.exceptions.UserNotPresentInSessionException;
 import com.petwalkapp.backend.users.mappers.CurrentUserProfileDtoMapper;
-import com.petwalkapp.backend.users.mappers.UserProfileDtoMapper;
 import com.petwalkapp.backend.users.mappers.UserUpdateRequestMapper;
 import com.petwalkapp.backend.users.repositories.UserRepository;
 import com.petwalkapp.backend.users.services.IUserService;
@@ -33,7 +31,6 @@ public class UserService implements UserDetailsService, IUserService
 
   private final UserRepository userRepository;
   private final CurrentUserProfileDtoMapper currentUserProfileDtoMapper;
-  private final UserProfileDtoMapper userProfileDtoMapper;
   private final UserUpdateRequestMapper userUpdateRequestMapper;
   private final IImageService imageService;
   private final PasswordEncoder passwordEncoder;
@@ -100,14 +97,6 @@ public class UserService implements UserDetailsService, IUserService
   {
     User currentUser = getCurrentUser();
     return currentUserProfileDtoMapper.toCurrentUserProfile(currentUser);
-  }
-
-  @Override
-  public UserProfileDto getUserProfileByUserId(Long id)
-  {
-    User user = userRepository.getUserById(id).orElseThrow(UserNotFoundException::new);
-
-    return userProfileDtoMapper.toUserProfile(user);
   }
 
   @Override

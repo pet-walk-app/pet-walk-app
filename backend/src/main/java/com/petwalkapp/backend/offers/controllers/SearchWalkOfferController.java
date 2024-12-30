@@ -31,8 +31,8 @@ public class SearchWalkOfferController
       @RequestParam(name = "page_size", required = false, defaultValue = "10") Integer pageSize,
       @RequestParam(name = "sort_by", required = false) SearchWalkOfferSortByType sortBy,
       @RequestParam(name = "sort_direction", required = false) SortDirectionType sortDirection,
-      @RequestHeader(name = "latitude", required = false) Double latitude,
-      @RequestHeader(name = "longitude", required = false) Double longitude)
+      @RequestHeader(name = "latitude") Double latitude,
+      @RequestHeader(name = "longitude") Double longitude)
   {
     return ResponseEntity.ok(
         walkOfferService.searchWalkOffers(searchRequest, page, pageSize, sortBy, sortDirection,

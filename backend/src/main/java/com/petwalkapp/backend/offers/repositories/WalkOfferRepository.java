@@ -27,7 +27,8 @@ public interface WalkOfferRepository extends JpaRepository<WalkOffer, Long>
       + "AND (:walkDateFrom IS NULL OR walk_date >= :walkDateFrom) "
       + "AND (:walkDateTo IS NULL OR walk_date <= :walkDateTo) "
       + "AND (:minTime IS NULL OR walk_length >= :minTime) "
-      + "AND (:maxTime IS NULL OR walk_length <= :maxTime)", countQuery = "SELECT count(*) FROM walk_offer WHERE status = 0 "
+      + "AND (:maxTime IS NULL OR walk_length <= :maxTime)", countQuery =
+      "SELECT count(*) FROM walk_offer WHERE status = 0 "
           + "AND (:radius IS NULL OR ST_Distance_Sphere(zip_code_location, "
           + "ST_GeomFromText(CONCAT('POINT(', :longitude, ' ', :latitude, ')'))) <= :radius) "
           + "AND (:priceFrom IS NULL OR price >= :priceFrom) "
@@ -36,8 +37,8 @@ public interface WalkOfferRepository extends JpaRepository<WalkOffer, Long>
           + "AND (:walkDateTo IS NULL OR walk_date <= :walkDateTo) "
           + "AND (:minTime IS NULL OR walk_length >= :minTime) "
           + "AND (:maxTime IS NULL OR walk_length <= :maxTime)", nativeQuery = true)
-  Page<WalkOffer> findByLocationWithinRadiusAndFilters(@Param("longitude") double longitude,
-      @Param("latitude") double latitude, @Param("radius") Double radius,
+  Page<WalkOffer> findByLocationWithinRadiusAndFilters(@Param("longitude") Double longitude,
+      @Param("latitude") Double latitude, @Param("radius") Double radius,
       @Param("priceFrom") BigDecimal priceFrom, @Param("priceTo") BigDecimal priceTo,
       @Param("walkDateFrom") LocalDate walkDateFrom, @Param("walkDateTo") LocalDate walkDateTo,
       @Param("minTime") Double minTime, @Param("maxTime") Double maxTime, Pageable pageable);
