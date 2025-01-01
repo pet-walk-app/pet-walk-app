@@ -13,12 +13,24 @@ export const saveCaregiver = async (data) => {
   }
 };
 
-//TODO: fix adding photo
+
+export const deleteCaregiverPhoto = async (id) => {
+    try {
+        const url = apiUrls.caregiver.deletePhoto + "/" + id;
+        const response = await deleteData(url, true);
+  
+        return response;
+    } catch (error) {
+        console.error("Deleting caregiver photo error:", error.message || error);
+        throw error;
+    }
+};
+
+
 export const saveCaregiverPhoto = async (data) => {
-  await deleteData(apiUrls.caregiver.deleteAllPhotos, true);
   const responses = [];
   for (let i = 0; i < data.length; i++) {
-      if (data[i] !== null) {
+      if (data[i] !== null && !data[i].startsWith("http")) {
           const formData = new FormData();
           formData.append('files', {
               uri: data[i],
@@ -33,7 +45,6 @@ export const saveCaregiverPhoto = async (data) => {
               console.error(`Error uploading photo ${i + 1}:`, error.message || error);
           }
       }
-
   }
 
   return responses;

@@ -34,7 +34,10 @@ const MyOfferPreview = ({ walkData, myOffer, selectedCaregiver = null, animalNam
   useEffect(() => {
     if (myOffer) {
       setTitle("Moja oferta");
-      setBottomLine(`Znaleziono chętnych: ${found}`);
+      if (selectedCaregiver == null)
+      {
+        setBottomLine(`Znaleziono chętnych: ${found}`);
+      }
     } else {
       setTitle("Oferta");
       switch (status) {

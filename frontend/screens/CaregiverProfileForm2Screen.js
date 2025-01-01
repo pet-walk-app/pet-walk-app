@@ -4,7 +4,7 @@ import { formStyles } from "../styles/formStyles";
 import { green, white } from "../consts/colors";
 import { Pressable, Image, View, Text, Alert } from 'react-native';
 import { getProfile } from "../services/userApi";
-import { saveCaregiverPhoto } from "../services/caregiverApi";
+import { saveCaregiverPhoto, deleteCaregiverPhoto } from "../services/caregiverApi";
 
 import * as ImagePicker from 'expo-image-picker';
 import CustomButton from "../components/CustomButton";
@@ -15,6 +15,7 @@ export default function CaregiverProfileForm2({route, navigation}) {
   const trashIcon = require("../assets/icons/trash.png");
   const [formTitle, setFormTitle] = useState('');
   const [images, setImages] = useState([null, null, null, null]);
+  const [imagesId, setImagesId] = useState([null, null, null, null]);
   const [editingProfile, setEditProfile] = useState(route.params.edit ?? false);
 
   useFocusEffect(
@@ -22,9 +23,9 @@ export default function CaregiverProfileForm2({route, navigation}) {
       const fetchProfile = async () => {
         try {
           const profile = await getProfile();
-          console.log(profile)
           if (profile.caregiver == null) {
             setImages([null, null, null, null]);
+            setImagesId([null, null, null, null]);
             return;
           }
   
@@ -34,8 +35,16 @@ export default function CaregiverProfileForm2({route, navigation}) {
             while (imagesFromProfile.length < 4) {
               imagesFromProfile.push(null);
             }
-  
             setImages(imagesFromProfile);
+
+
+            const idsFromProfile = profile.caregiver.images.map(image => image.id || null);
+  
+            while (imagesFromProfile.length < 4) {
+              idsFromProfile.push(null);
+            }
+            
+            setImagesId(idsFromProfile);
           } 
 
           if (profile.caregiver.images.length === 0)
@@ -49,6 +58,7 @@ export default function CaregiverProfileForm2({route, navigation}) {
         } catch (error) {
           console.error("Error fetching profile:", error);
           setImages([null, null, null, null]); // Domyślnie ustaw na 4 x null w razie błędu
+          setImagesId([null, null, null, null]);
         }
       };
   
@@ -90,6 +100,8 @@ export default function CaregiverProfileForm2({route, navigation}) {
     const updatedImages = [...images];
     updatedImages[index] = null;
     setImages(updatedImages);
+
+    deleteCaregiverPhoto(imagesId[index])
   };
 
   return (
