@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, FlatList, ActivityIndicator, Pressable } from 'react-native';
+import { StatusBar, View, FlatList, ActivityIndicator, Pressable, KeyboardAvoidingView } from 'react-native';
 import WalkOfferPreview from '../components/WalkOfferPreview';
 import NoStatusBarView from '../components/NoStatusBarView';
 import OfferListFilter from '../components/OfferListFilter';
@@ -8,6 +8,7 @@ import {fetchOffers} from '../services/offersApi';
 import { minsToHours } from '../utils/commonUtils';
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
+import { formStyles } from '../styles/formStyles';
 
 
 export default function OffersListScreen({ navigation }) {
@@ -92,7 +93,8 @@ export default function OffersListScreen({ navigation }) {
   );
    
   return (
-    <NoStatusBarView>
+    <KeyboardAvoidingView style={[formStyles.container]}>
+      <StatusBar hidden={true} />
       <OfferListFilter filters={filters} setFilters={setFilters} onSubmit={loadOffers} />
       {isLoading && page === 0 ? (
         <ActivityIndicator size="large" color="#0000ff" />
@@ -121,6 +123,6 @@ export default function OffersListScreen({ navigation }) {
         />
       )}
       <BottomMenu navigation={navigation} />
-    </NoStatusBarView>
+    </KeyboardAvoidingView>
   );
 }
