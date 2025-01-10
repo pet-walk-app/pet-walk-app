@@ -10,7 +10,6 @@ import com.petwalkapp.backend.offers.contexts.CaregiverMappingContext;
 import com.petwalkapp.backend.offers.contexts.SearchMappingContext;
 import com.petwalkapp.backend.offers.dtos.WalkOfferAcceptedViewDto;
 import com.petwalkapp.backend.offers.dtos.WalkOfferCreatorViewDto;
-import com.petwalkapp.backend.offers.dtos.WalkOfferPendingViewDto;
 import com.petwalkapp.backend.offers.dtos.WalkOfferSearchViewDto;
 import com.petwalkapp.backend.offers.entities.WalkOffer;
 import com.petwalkapp.backend.offers.entities.WalkOfferApplication;
@@ -22,7 +21,6 @@ import com.petwalkapp.backend.offers.mappers.CreateWalkOfferRequestMapper;
 import com.petwalkapp.backend.offers.mappers.UpdateWalkOfferRequestMapper;
 import com.petwalkapp.backend.offers.mappers.WalkOfferAcceptedViewDtoMapper;
 import com.petwalkapp.backend.offers.mappers.WalkOfferCreatorViewDtoMapper;
-import com.petwalkapp.backend.offers.mappers.WalkOfferPendingViewDtoMapper;
 import com.petwalkapp.backend.offers.mappers.WalkOfferSearchViewDtoMapper;
 import com.petwalkapp.backend.offers.repositories.WalkOfferRepository;
 import com.petwalkapp.backend.offers.requests.CreateWalkOfferRequest;
@@ -58,7 +56,6 @@ public class WalkOfferService implements IWalkOfferService
   private final CreateWalkOfferRequestMapper createWalkOfferRequestMapper;
   private final UpdateWalkOfferRequestMapper updateWalkOfferRequestMapper;
   private final WalkOfferCreatorViewDtoMapper walkOfferCreatorViewDtoMapper;
-  private final WalkOfferPendingViewDtoMapper walkOfferPendingViewDtoMapper;
   private final WalkOfferSearchViewDtoMapper walkOfferSearchViewDtoMapper;
   private final WalkOfferAcceptedViewDtoMapper walkOfferAcceptedViewDtoMapper;
   private final IPetService petService;
@@ -163,7 +160,6 @@ public class WalkOfferService implements IWalkOfferService
 
     Caregiver currentCaregiver = caregiverService.getCurrentCaregiver();
     return walkOfferSearchViewDtoMapper.toPageDto(walkOffers, SearchMappingContext.builder()
-        .searchRequest(searchRequest)
         .currentCaregiver(currentCaregiver)
         .latitude(latitude)
         .longitude(longitude)
@@ -171,7 +167,7 @@ public class WalkOfferService implements IWalkOfferService
   }
 
   @Override
-  public WalkOfferPendingViewDto getPendingOffer(Long offerId, Double latitude, Double longitude)
+  public WalkOfferSearchViewDto getPendingOffer(Long offerId, Double latitude, Double longitude)
   {
     Caregiver caregiver = caregiverService.getCurrentCaregiverOrThrow();
     WalkOffer walkOffer = walkOfferRepository.findWalkOfferById(offerId)
@@ -182,11 +178,11 @@ public class WalkOfferService implements IWalkOfferService
 
     if (Objects.isNull(matchingOfferApplication) || matchingOfferApplication.isRejected()
         || walkOffer.getStatus() != WalkOfferStatus.OPEN || walkOffer.getWalkDate()
-            .isBefore(ChronoLocalDate.from(LocalDateTime.now()))) {
+        .isBefore(ChronoLocalDate.from(LocalDateTime.now()))) {
       throw new NotAllowedException();
     }
 
-    return walkOfferPendingViewDtoMapper.toDto(walkOffer, CaregiverMappingContext.builder()
+    return walkOfferSearchViewDtoMapper.toDto(walkOffer, SearchMappingContext.builder()
         .longitude(longitude)
         .latitude(latitude)
         .currentCaregiver(caregiver)
@@ -194,7 +190,7 @@ public class WalkOfferService implements IWalkOfferService
   }
 
   @Override
-  public PageDto<WalkOfferPendingViewDto> getPendingOffers(Integer page, Integer pageSize,
+  public PageDto<WalkOfferSearchViewDto> getPendingOffers(Integer page, Integer pageSize,
       Double latitude, Double longitude)
   {
     Pageable pageable = getDefaultPageable(page, pageSize);
@@ -202,7 +198,7 @@ public class WalkOfferService implements IWalkOfferService
     Page<WalkOffer> walkOffers = walkOfferRepository.findPendingWalkOffers(caregiver,
         LocalDate.now(), pageable);
 
-    return walkOfferPendingViewDtoMapper.toPageDto(walkOffers, CaregiverMappingContext.builder()
+    return walkOfferSearchViewDtoMapper.toPageDto(walkOffers, SearchMappingContext.builder()
         .longitude(longitude)
         .latitude(latitude)
         .currentCaregiver(caregiver)
@@ -356,7 +352,7 @@ public class WalkOfferService implements IWalkOfferService
     validateOfferCanBeUpdated(walkOffer, petOwner);
 
     WalkOfferApplication walkOfferApplication = Optional.ofNullable(
-        walkOffer.getWalkOfferApplications())
+            walkOffer.getWalkOfferApplications())
         .orElseGet(ArrayList::new)
         .stream()
         .filter(application -> application.getId().equals(applicationId))
@@ -377,7 +373,7 @@ public class WalkOfferService implements IWalkOfferService
     validateOfferCanBeUpdated(walkOffer, petOwner);
 
     WalkOfferApplication walkOfferApplication = Optional.ofNullable(
-        walkOffer.getWalkOfferApplications())
+            walkOffer.getWalkOfferApplications())
         .orElseGet(ArrayList::new)
         .stream()
         .filter(Objects::nonNull)

@@ -2,7 +2,7 @@ package com.petwalkapp.backend.offers.controllers;
 
 import com.petwalkapp.backend.common.dtos.PageDto;
 import com.petwalkapp.backend.offers.dtos.WalkOfferAcceptedViewDto;
-import com.petwalkapp.backend.offers.dtos.WalkOfferPendingViewDto;
+import com.petwalkapp.backend.offers.dtos.WalkOfferSearchViewDto;
 import com.petwalkapp.backend.offers.services.IWalkOfferService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +44,7 @@ public class CaregiverWalkOfferController
   }
 
   @GetMapping("/pending")
-  public ResponseEntity<PageDto<WalkOfferPendingViewDto>> displayPendingOffers(
+  public ResponseEntity<PageDto<WalkOfferSearchViewDto>> displayPendingOffers(
       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(name = "page_size", required = false, defaultValue = "10") Integer pageSize,
       @RequestHeader(name = "latitude", required = false) Double latitude,
@@ -56,7 +56,7 @@ public class CaregiverWalkOfferController
   }
 
   @GetMapping("/pending/{id}")
-  public ResponseEntity<WalkOfferPendingViewDto> displayPendingOffer(
+  public ResponseEntity<WalkOfferSearchViewDto> displayPendingOffer(
       @PathVariable("id") Long offerId,
       @RequestHeader(name = "latitude", required = false) Double latitude,
       @RequestHeader(name = "longitude", required = false) Double longitude

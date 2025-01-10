@@ -35,8 +35,7 @@ public class WalkOfferApplication
   @JoinColumn(name = "walk_offer_id")
   private WalkOffer walkOffer;
 
-  @NotNull
-  private LocalDateTime applicationDate;
+  @NotNull private LocalDateTime applicationDate;
 
   private boolean isRejected;
 }

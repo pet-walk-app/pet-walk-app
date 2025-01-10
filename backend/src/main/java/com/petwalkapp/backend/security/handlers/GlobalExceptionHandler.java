@@ -11,6 +11,7 @@ import static com.petwalkapp.backend.security.constants.ErrorConstants.INVALID_V
 import static com.petwalkapp.backend.security.constants.ErrorConstants.MAX_FILE_SIZE_EXCEEDED;
 import static com.petwalkapp.backend.security.constants.ErrorConstants.MESSAGE_NOT_READABLE;
 import static com.petwalkapp.backend.security.constants.ErrorConstants.METHOD_NOT_ALLOWED;
+import static com.petwalkapp.backend.security.constants.ErrorConstants.MISSING_REQUEST_ARGUMENTS;
 import static com.petwalkapp.backend.security.constants.ErrorConstants.RESOURCE_NOT_FOUND;
 import static com.petwalkapp.backend.security.constants.ErrorConstants.UNSUPPORTED_MEDIA_TYPE;
 
@@ -190,12 +191,22 @@ public class GlobalExceptionHandler
   }
 
   @ExceptionHandler({MissingServletRequestPartException.class, MultipartException.class,
-      MethodArgumentTypeMismatchException.class, MissingRequestHeaderException.class})
+      MethodArgumentTypeMismatchException.class})
   public ResponseEntity<ErrorResponse> handleMissingServletRequestPartException(Exception exception)
   {
     log.warn("Invalid request: ", exception);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
         .body(ErrorResponse.builder().message(INVALID_REQUEST_ARGUMENTS).build());
+  }
+
+  @ExceptionHandler({MissingRequestHeaderException.class})
+  public ResponseEntity<ErrorResponse> handleMissingServletRequestPartException(
+      MissingRequestHeaderException exception)
+  {
+    log.warn("Invalid request: ", exception);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(ErrorResponse.builder().message(MISSING_REQUEST_ARGUMENTS + ": " +
+            exception.getHeaderName()).build());
   }
 
   @ExceptionHandler({Exception.class})

@@ -5,6 +5,7 @@ public class ErrorConstants
 
   public static final String RESOURCE_NOT_FOUND = "Nie odnaleziono zasobu";
   public static final String INVALID_REQUEST_ARGUMENTS = "Niepoprawne argumenty żądania";
+  public static final String MISSING_REQUEST_ARGUMENTS = "Brakujące argumenty żądania";
   public static final String METHOD_NOT_ALLOWED = "Metoda HTTP nie jest obsługiwana";
   public static final String UNSUPPORTED_MEDIA_TYPE = "Nieobsługiwany typ danych";
   public static final String CONSTRAINT_VIOLATION = "Naruszenie ograniczenia";

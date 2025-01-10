@@ -4,7 +4,6 @@ import com.petwalkapp.backend.common.dtos.PageDto;
 import com.petwalkapp.backend.common.requests.SortDirectionType;
 import com.petwalkapp.backend.offers.dtos.WalkOfferAcceptedViewDto;
 import com.petwalkapp.backend.offers.dtos.WalkOfferCreatorViewDto;
-import com.petwalkapp.backend.offers.dtos.WalkOfferPendingViewDto;
 import com.petwalkapp.backend.offers.dtos.WalkOfferSearchViewDto;
 import com.petwalkapp.backend.offers.requests.CreateWalkOfferRequest;
 import com.petwalkapp.backend.offers.requests.SearchWalkOfferSortByType;
@@ -27,11 +26,11 @@ public interface IWalkOfferService
 
   WalkOfferCreatorViewDto deleteUserWalkOffer(Long id);
 
-  WalkOfferPendingViewDto getPendingOffer(Long offerId, Double latitude, Double longitude);
+  WalkOfferSearchViewDto getPendingOffer(Long offerId, Double latitude, Double longitude);
 
   WalkOfferAcceptedViewDto getAcceptedOffer(Long offerId, Double latitude, Double longitude);
 
-  PageDto<WalkOfferPendingViewDto> getPendingOffers(Integer page, Integer pageSize, Double latitude,
+  PageDto<WalkOfferSearchViewDto> getPendingOffers(Integer page, Integer pageSize, Double latitude,
       Double longitude);
 
   PageDto<WalkOfferAcceptedViewDto> getAcceptedOffers(Integer page, Integer pageSize,

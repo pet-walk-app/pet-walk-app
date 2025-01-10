@@ -51,18 +51,15 @@ public class WalkOffer
   @NotEmpty
   private List<Pet> pets;
 
-  @NotNull
-  private LocalDate walkDate;
+  @NotNull private LocalDate walkDate;
 
   @NotBlank
   @Lob
   private String description;
 
-  @NotNull
-  private Long walkLength;
+  @NotNull private Long walkLength;
 
-  @NotNull
-  @Column(precision = 19, scale = 2)
+  @NotNull @Column(precision = 19, scale = 2)
   private BigDecimal price;
 
   @NotBlank
@@ -72,22 +69,19 @@ public class WalkOffer
   private String zipCode;
 
   @Column(columnDefinition = "POINT")
-  @NotNull
-  private Point location;
+  @NotNull private Point location;
 
   @NotBlank
   private String city;
 
   @Enumerated(EnumType.ORDINAL)
-  @NotNull
-  private WalkOfferStatus status;
+  @NotNull private WalkOfferStatus status;
 
   @OneToMany(orphanRemoval = true, cascade = {CascadeType.ALL})
   @JoinColumn(name = "walk_offer_id")
   private List<WalkOfferApplication> walkOfferApplications;
 
-  @NotNull
-  private LocalDateTime createdAt;
+  @NotNull private LocalDateTime createdAt;
 
   private LocalDateTime updatedAt;
 }

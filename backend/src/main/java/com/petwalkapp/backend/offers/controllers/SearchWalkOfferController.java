@@ -6,7 +6,6 @@ import com.petwalkapp.backend.offers.dtos.WalkOfferSearchViewDto;
 import com.petwalkapp.backend.offers.requests.SearchWalkOfferSortByType;
 import com.petwalkapp.backend.offers.requests.SearchWalkOffersRequest;
 import com.petwalkapp.backend.offers.services.IWalkOfferService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +25,7 @@ public class SearchWalkOfferController
 
   @PostMapping
   public ResponseEntity<PageDto<WalkOfferSearchViewDto>> searchWalkOffers(
-      @Valid @RequestBody SearchWalkOffersRequest searchRequest,
+      @RequestBody(required = false) SearchWalkOffersRequest searchRequest,
       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(name = "page_size", required = false, defaultValue = "10") Integer pageSize,
       @RequestParam(name = "sort_by", required = false) SearchWalkOfferSortByType sortBy,

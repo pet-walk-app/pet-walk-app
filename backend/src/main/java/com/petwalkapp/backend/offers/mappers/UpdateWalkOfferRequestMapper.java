@@ -32,4 +32,3 @@ public abstract class UpdateWalkOfferRequestMapper
         new Coordinate(request.getLongitude(), request.getLatitude()));
   }
 }
-// add latitude, longitude
