@@ -205,8 +205,10 @@ public class GlobalExceptionHandler
   {
     log.warn("Invalid request: ", exception);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body(ErrorResponse.builder().message(MISSING_REQUEST_ARGUMENTS + ": " +
-            exception.getHeaderName()).build());
+        .body(ErrorResponse.builder()
+            .message(MISSING_REQUEST_ARGUMENTS + ": " +
+                exception.getHeaderName())
+            .build());
   }
 
   @ExceptionHandler({Exception.class})

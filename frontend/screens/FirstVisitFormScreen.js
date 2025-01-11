@@ -51,9 +51,7 @@ export default function FirstVisitFormScreen({ navigation }) {
       await createProfile(data);
       if (image) {
         await saveUserPhoto(image);
-      } else {
-        await saveUserPhoto(null);
-      }
+      } 
       navigation.navigate("First Visit Profile Choice");
     } catch (error) {
       Alert.alert(
