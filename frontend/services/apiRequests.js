@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import {getGeoLocation} from "../helpers/GeoLocationGetter";
+import {getGeoLocation} from "../utils/GeoLocationGetter";
 
 const fetchMultipartData = async (apiUrl, method, body) => {
 	let token = await AsyncStorage.getItem("jwt_token");
