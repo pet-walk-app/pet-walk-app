@@ -183,6 +183,7 @@ export const formStyles = StyleSheet.create({
     borderRadius: 25,
     width: 250,
     height: 250,
+    alignSelf: 'center'
   },
 
   imageSmall: {
