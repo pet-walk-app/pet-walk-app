@@ -221,6 +221,9 @@ export default function UserProfile({ navigation }) {
               action={handleLogout}
               title={"Wyloguj"}
           ></CustomButton>
+          <Text>
+            {"\n\n\n\n\n\n"}
+          </Text>
         </View>
       </ScrollView>
       <BottomMenu navigation={navigation}/>
